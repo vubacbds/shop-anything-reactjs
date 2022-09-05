@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Checkbox } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import getproduct from "../action/product";
+import getproduct, { getproductcategory } from "../action/product";
 import ProductAPI from "../services/productAPI";
 import { deleteproduct, getproductid } from "../action/product";
 import ProductUpdate from "./productupdate";
@@ -14,6 +14,11 @@ const ProductList = () => {
 
   //Xuất hiện Modal sửa sản phẩm
   const [visibleProductUpdate, setVisibleProductUpdate] = useState(false);
+
+  //Khi commponent bắt đầu render
+  useEffect(() => {
+    dispatch(getproduct());
+  }, []);
 
   //Thông báo
   const ProductAddSuccess = () => {
@@ -97,8 +102,8 @@ const ProductList = () => {
     onChange: (selectedRowKeys, selectedRows) => {
       setSelectedRowKeys(selectedRowKeys);
       if (
-        pageSize == selectedRowKeys.length ||
-        dataProduct.data.length == selectedRowKeys.length
+        pageSize == selectedRowKeys?.length ||
+        dataProduct.length == selectedRowKeys.length
       )
         setIsCheckedAll({
           all: true,

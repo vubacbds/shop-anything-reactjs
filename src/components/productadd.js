@@ -2,12 +2,19 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ProductAPI from "../services/productAPI";
 import { Button, Checkbox, Form, Input, Modal, Select } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addproduct } from "../action/product";
 
 const ProductAdd = (props) => {
+  //Chuyển trang
   const navigate = useNavigate();
+
+  //Dispatch action
   const dispatch = useDispatch();
+
+  //Lấy danh sách danh mục
+  const category = useSelector((state) => state.category.data);
+
   //Thông báo
   const ProductAddSuccess = () => {
     toast.success("Thêm sản phẩm thành công !", {
@@ -21,6 +28,7 @@ const ProductAdd = (props) => {
   };
 
   const onFinish = (values) => {
+    console.log(values);
     values.image =
       "https://st.app1h.com/uploads/images/company72/images/ao-thun-trang-129595.jpg";
     ProductAPI.addproduct(values)
@@ -65,8 +73,13 @@ const ProductAdd = (props) => {
           ]}
         >
           <Select>
-            <Select.Option value="aothun">Áo thun</Select.Option>
-            <Select.Option value="aokhoac">Áo khoác</Select.Option>
+            {category.map((item) => {
+              return (
+                <Select.Option value={item.slug} key={item._id}>
+                  {item.name}
+                </Select.Option>
+              );
+            })}
           </Select>
         </Form.Item>
 

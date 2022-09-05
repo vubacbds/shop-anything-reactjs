@@ -1,4 +1,4 @@
-import axiosProduct from "./api";
+import { axiosProduct } from "./api";
 
 const getproduct = () => {
   return (dispatch) => {
@@ -51,5 +51,16 @@ const getproductid = (id) => ({
   payload: id,
 });
 
+const getproductcategory = (category) => ({
+  type: "GET_PRODUCT_CATEGORY",
+  payload: category,
+});
+
 export default getproduct;
-export { addproduct, updateproduct, deleteproduct, getproductid };
+export {
+  addproduct,
+  updateproduct,
+  deleteproduct,
+  getproductid,
+  getproductcategory,
+};

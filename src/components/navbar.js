@@ -3,18 +3,30 @@ import { Link, NavLink } from "react-router-dom";
 import getDataUser from "../action/user";
 import Login from "./login";
 import ProductAdd from "./productadd";
-
 import { Button, Modal } from "antd";
 import React, { useState } from "react";
 import { SetCookie, GetCookie } from "../util/cookie";
+import getproduct, { getproductcategory } from "../action/product";
+import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = () => {
+  //Thủ thuật cập nhật lại narbar khi login/logout
   const [loadPage, setLoadPage] = useState(false);
+
+  //Lấy dữ liệu user khi login từ cookie
   const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
 
+  //Hiển thị Modal login và add product
   const [visibleLogin, setVisibleLogin] = useState(false);
   const [visibleProductAdd, setVisibleProductAdd] = useState(false);
 
+  //Dispath acction khi chọn vào danh mục
+  const dispatch = useDispatch();
+
+  //Lấy danh sách danh mục
+  const category = useSelector((state) => state.category.data);
+
+  //Hàm xử lý đăng xuất
   const logout = () => {
     document.getElementById("an").classList.remove("show"); //Sửa lỗi đăng xuất nhưng dropdown vẫn hiện
     SetCookie("user", "", -1);
@@ -25,7 +37,13 @@ const Navbar = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top sticky-top">
-      <NavLink className="navbar-brand" to="/">
+      <NavLink
+        className="navbar-brand"
+        to="/"
+        onClick={() => {
+          dispatch(getproductcategory());
+        }}
+      >
         <h2 className="font-home">SHOP</h2>
       </NavLink>
 
@@ -57,17 +75,30 @@ const Navbar = () => {
               Danh mục
             </a>
             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a className="dropdown-item" href="#">
-                Thời trang nam
-              </a>
-              <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="#">
-                Thời trang nữ
-              </a>
-              <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="#">
-                Đồ thể thao
-              </a>
+              {category?.map((item) => {
+                return (
+                  <div key={item._id}>
+                    <Link
+                      className="dropdown-item"
+                      to="/"
+                      onClick={() => dispatch(getproductcategory(item.slug))}
+                    >
+                      {item.name}
+                    </Link>
+                    <div className="dropdown-divider"></div>
+                  </div>
+                );
+              })}
+
+              <Link
+                className="dropdown-item"
+                to="/"
+                onClick={() => {
+                  dispatch(getproductcategory());
+                }}
+              >
+                Tất cả
+              </Link>
             </div>
           </li>
           {userData?.isadmin && (
