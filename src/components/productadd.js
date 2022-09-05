@@ -75,7 +75,7 @@ const ProductAdd = (props) => {
           <Select>
             {category.map((item) => {
               return (
-                <Select.Option value={item.slug} key={item._id}>
+                <Select.Option value={item._id} key={item._id}>
                   {item.name}
                 </Select.Option>
               );

@@ -14,7 +14,7 @@ const getcategory_all = (data) => ({
 });
 
 const getcategory_id = (id) => ({
-  type: "GET_PRODUCT_ID",
+  type: "GET_CATEGORY_ID",
   payload: id,
 });
 
@@ -24,12 +24,12 @@ const addcategory = (data) => ({
 });
 
 const updatecategory = (data) => ({
-  type: "UPDATE_PRODUCT_SUCCESS",
+  type: "UPDATE_CATEGORY_SUCCESS",
   payload: data,
 });
 
 const deletecategory = (id) => ({
-  type: "DELETE_PRODUCT_SUCCESS",
+  type: "DELETE_CATEGORY_SUCCESS",
   payload: id,
 });
 

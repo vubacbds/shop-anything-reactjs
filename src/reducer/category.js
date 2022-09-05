@@ -7,14 +7,15 @@ export const categoryReducer = (state = initialState, action) => {
         data: action.payload,
       };
     }
-    case "GET_PRODUCT_ID": {
-      const categoryId = state.data.find((item) => {
+    case "GET_CATEGORY_ID": {
+      const datacategoryid = state.data.find((item) => {
         return item._id === action.payload;
       });
 
       return {
         ...state,
-        categoryId,
+        catid: action.payload,
+        datacategoryid,
       };
     }
     case "ADD_CATEGORY": {
@@ -23,7 +24,7 @@ export const categoryReducer = (state = initialState, action) => {
         data: [...state.data, action.payload],
       };
     }
-    case "UPDATE_PRODUCT_SUCCESS": {
+    case "UPDATE_CATEGORY_SUCCESS": {
       const newCategory = state.data.filter((item) => {
         return item._id !== action.payload._id;
       });
@@ -32,7 +33,7 @@ export const categoryReducer = (state = initialState, action) => {
         data: [...newCategory, action.payload],
       };
     }
-    case "DELETE_PRODUCT_SUCCESS": {
+    case "DELETE_CATEGORY_SUCCESS": {
       const newState = { ...state };
       const newCategory = newState.data.filter(
         (item) => item._id !== action.payload

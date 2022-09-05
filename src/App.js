@@ -11,6 +11,7 @@ import Notfound from "./components/notfound";
 import ProductDetail from "./components/productdetail";
 import Login from "./components/login";
 import ProductList from "./components/productlist";
+import CategorytList from "./components/categorylist";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,6 +34,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/products/:productId" element={<ProductDetail />} />
         <Route path="/products/admin-product-list" element={<ProductList />} />
+        <Route
+          path="/category/admin-category-list"
+          element={<CategorytList />}
+        />
+
         <Route
           path="/test-lazy"
           element={

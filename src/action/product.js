@@ -51,9 +51,9 @@ const getproductid = (id) => ({
   payload: id,
 });
 
-const getproductcategory = (category) => ({
+const getproductcategory = (categoryid) => ({
   type: "GET_PRODUCT_CATEGORY",
-  payload: category,
+  payload: categoryid,
 });
 
 export default getproduct;

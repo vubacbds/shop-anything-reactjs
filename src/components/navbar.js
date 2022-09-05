@@ -81,7 +81,7 @@ const Navbar = () => {
                     <Link
                       className="dropdown-item"
                       to="/"
-                      onClick={() => dispatch(getproductcategory(item.slug))}
+                      onClick={() => dispatch(getproductcategory(item._id))}
                     >
                       {item.name}
                     </Link>
@@ -130,9 +130,12 @@ const Navbar = () => {
                   Sản phẩm của tôi
                 </Link>
                 <div className="dropdown-divider"></div>
-                <a className="dropdown-item" href="#">
+                <Link
+                  className="dropdown-item"
+                  to="/category/admin-category-list"
+                >
                   Danh mục
-                </a>
+                </Link>
                 <div className="dropdown-divider"></div>
                 <a className="dropdown-item" href="#">
                   Tài khoản người dùng
