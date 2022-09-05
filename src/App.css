@@ -36,3 +36,34 @@
     transform: rotate(360deg);
   }
 }
+
+/* Tự thêm */
+.avt-user {
+  width: 40px;
+  height: 40px;
+  border-radius: 50% ;
+  margin-right: 4px;
+}
+
+
+
+.font-home {
+  font-family: Impact Charcoal;
+}
+
+/* .navbar-fixed-top {
+  position:fixed;
+  width:100%;
+  z-index: 1000000;
+  top:0;
+} */
+
+.inputhien {
+  color: red; 
+  font-size: 10px ;
+  display: block;
+}
+
+.inputan {
+  display: none; 
+}
