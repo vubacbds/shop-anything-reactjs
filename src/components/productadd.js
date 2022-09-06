@@ -1,7 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ProductAPI from "../services/productAPI";
-import { Button, Checkbox, Form, Input, Modal, Select } from "antd";
+import {
+  Button,
+  Checkbox,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Select,
+} from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { addproduct } from "../action/product";
 
@@ -44,6 +52,15 @@ const ProductAdd = (props) => {
       });
   };
 
+  //Định dạng giá bán
+  const { Option } = Select;
+  const prefixSelectorPrice = (
+    <Form.Item name="prefix" noStyle>
+      <Select style={{ width: 30 }} defaultValue={"vnd"}>
+        <Option value="vnd">đ</Option>
+      </Select>
+    </Form.Item>
+  );
   return (
     <>
       <Form
@@ -63,7 +80,7 @@ const ProductAdd = (props) => {
         autoComplete="off"
       >
         <Form.Item
-          label="Category"
+          label="Danh mục"
           name="category"
           rules={[
             {
@@ -84,7 +101,7 @@ const ProductAdd = (props) => {
         </Form.Item>
 
         <Form.Item
-          label="Title"
+          label="Tiêu đề"
           name="title"
           rules={[
             {
@@ -93,11 +110,11 @@ const ProductAdd = (props) => {
             },
           ]}
         >
-          <Input />
+          <Input.TextArea showCount maxLength={50} style={{ height: 50 }} />
         </Form.Item>
 
         <Form.Item
-          label="Description"
+          label="Mô tả"
           name="description"
           rules={[
             {
@@ -106,11 +123,11 @@ const ProductAdd = (props) => {
             },
           ]}
         >
-          <Input />
+          <Input.TextArea showCount maxLength={500} style={{ height: 100 }} />
         </Form.Item>
 
         <Form.Item
-          label="Price"
+          label="Giá"
           name="price"
           rules={[
             {
@@ -119,7 +136,33 @@ const ProductAdd = (props) => {
             },
           ]}
         >
-          <Input />
+          <InputNumber
+            addonAfter={prefixSelectorPrice}
+            min={0}
+            style={{ width: "70%" }}
+            formatter={(value) =>
+              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Số lượng"
+          name="amount"
+          rules={[
+            {
+              required: true,
+              message: "Bạn chưa nhập số lượng!",
+            },
+          ]}
+        >
+          <InputNumber
+            min={0}
+            style={{ width: "40%" }}
+            formatter={(value) =>
+              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
+          />
         </Form.Item>
 
         <Form.Item

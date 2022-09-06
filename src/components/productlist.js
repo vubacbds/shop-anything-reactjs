@@ -38,20 +38,25 @@ const ProductList = () => {
   //Định nghĩa các cột trong table
   const columns = [
     {
-      title: "Title",
+      title: "Tiêu đề",
       dataIndex: "title",
       key: "title",
     },
     Table.EXPAND_COLUMN,
     {
-      title: "Description",
+      title: "Mô tả",
       dataIndex: "description",
       key: "description",
     },
     Table.SELECTION_COLUMN,
     {
-      title: "Price",
+      title: "Giá",
       dataIndex: "price",
+      key: "price",
+    },
+    {
+      title: "Số lượng",
+      dataIndex: "amount",
       key: "price",
     },
     {

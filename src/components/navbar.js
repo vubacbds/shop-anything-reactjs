@@ -181,13 +181,9 @@ const Navbar = () => {
             className="dropdown-menu user-dropdown dropdown-menu-right"
             id="an"
           >
-            <a className="dropdown-item" href="/course/create">
-              Giỏ hàng
-            </a>
-            <div className="dropdown-divider"></div>
-            <a className="dropdown-item" href="/course/create">
+            <Link className="dropdown-item" to="/bill">
               Đơn hàng
-            </a>
+            </Link>
             <div className="dropdown-divider"></div>
             <a className="dropdown-item" href="/me/store/course">
               Tài khoản

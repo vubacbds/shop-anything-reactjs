@@ -67,3 +67,13 @@
 .inputan {
   display: none; 
 }
+
+.product-hover
+{
+     border: 1px solid #ddd;
+     border-radius: 4px;
+     padding: 5px;
+}
+.product-hover:hover {
+  box-shadow: 1px 1px 1px grey;
+}

@@ -1,7 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ProductAPI from "../services/productAPI";
-import { Button, Checkbox, Form, Input, Modal, Select } from "antd";
+import {
+  Button,
+  Checkbox,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Select,
+} from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { addproduct, updateproduct } from "../action/product";
 import { useEffect } from "react";
@@ -46,6 +54,16 @@ const ProductUpdate = (props) => {
       });
   };
 
+  //Định dạng giá bán
+  const { Option } = Select;
+  const prefixSelectorPrice = (
+    <Form.Item name="prefix" noStyle>
+      <Select style={{ width: 30 }} defaultValue={"vnd"}>
+        <Option value="vnd">đ</Option>
+      </Select>
+    </Form.Item>
+  );
+
   return (
     <>
       <Form
@@ -65,6 +83,7 @@ const ProductUpdate = (props) => {
           title: dataProductId.dataproductid?.title,
           description: dataProductId.dataproductid?.description,
           price: dataProductId.dataproductid?.price,
+          amount: dataProductId.dataproductid?.amount,
         }}
         onFinish={onFinish}
         autoComplete="off"
@@ -112,7 +131,7 @@ const ProductUpdate = (props) => {
         </Form.Item>
 
         <Form.Item
-          label="Price"
+          label="Giá"
           name="price"
           rules={[
             {
@@ -121,7 +140,33 @@ const ProductUpdate = (props) => {
             },
           ]}
         >
-          <Input />
+          <InputNumber
+            addonAfter={prefixSelectorPrice}
+            min={0}
+            style={{ width: "80%" }}
+            formatter={(value) =>
+              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Số lượng"
+          name="amount"
+          rules={[
+            {
+              required: true,
+              message: "Bạn chưa nhập số lượng!",
+            },
+          ]}
+        >
+          <InputNumber
+            min={0}
+            style={{ width: "40%" }}
+            formatter={(value) =>
+              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
+          />
         </Form.Item>
 
         <Form.Item
