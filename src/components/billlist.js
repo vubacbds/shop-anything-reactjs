@@ -45,22 +45,12 @@ const BillList = ({ numbertab }) => {
       .catch((err) => console.log(err));
   };
 
-  //Hàm update bill thành đang giao
-  const updateBillDelivering = (record) => {
-    const BillUpdated = { ...record, status: 1 };
+  //Hàm update bill thành đang giao/ đã giao
+  const updateBill = (record, status) => {
+    const BillUpdated = { ...record, status };
     BillAPI.updatebill(BillUpdated._id, BillUpdated).then(() => {
       UpdateBillSuccess();
 
-      dispatch(update_bill(BillUpdated._id, BillUpdated));
-      dispatch(get_bill_user_status(numbertab - 1));
-    });
-  };
-
-  //Hàm update bill thành đã giao
-  const updateBillDelivered = (record) => {
-    const BillUpdated = { ...record, status: 2 };
-    BillAPI.updatebill(BillUpdated._id, BillUpdated).then(() => {
-      UpdateBillSuccess();
       dispatch(update_bill(BillUpdated._id, BillUpdated));
       dispatch(get_bill_user_status(numbertab - 1));
     });
@@ -139,7 +129,7 @@ const BillList = ({ numbertab }) => {
             <span>
               <Popconfirm
                 title="Xác nhận duyệt?"
-                onConfirm={() => updateBillDelivering(record)}
+                onConfirm={() => updateBill(record, 1)}
               >
                 <a href="#">Duyệt</a>
               </Popconfirm>
@@ -170,7 +160,7 @@ const BillList = ({ numbertab }) => {
             <span>
               <Popconfirm
                 title="Xác nhận duyệt?"
-                onConfirm={() => updateBillDelivered(record)}
+                onConfirm={() => updateBill(record, 2)}
               >
                 <a href="#">Đã giao</a>
               </Popconfirm>
@@ -186,23 +176,6 @@ const BillList = ({ numbertab }) => {
             </a>
           </Popconfirm>
         );
-
-        // <Popconfirm
-        //   title="Xác nhận?"
-        //   onConfirm={() => deleteBill(record._id)}
-        // >
-        //   {numbertab == 1 && userData.email == "bac" ? (
-        //     <a href="#">Duyệt</a>
-        //   ) : numbertab == 1 ? (
-        //     <a href="#">
-        //       <DeleteOutlined />
-        //     </a>
-        //   ) : numbertab == 2 && userData.email == "bac" ? (
-        //     <a href="#">Đã giao</a>
-        //   ) : (
-        //     <p></p>
-        //   )}
-        // </Popconfirm>
       },
     },
   ];

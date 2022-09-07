@@ -18,6 +18,8 @@ const ProductUpdate = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const dataProductId = useSelector((state) => state.product); //Lấy product id từ redux
+  //Lấy danh sách danh mục
+  const category = useSelector((state) => state.category.data);
 
   //Thông báo
   const ProductAddSuccess = () => {
@@ -99,8 +101,13 @@ const ProductUpdate = (props) => {
           ]}
         >
           <Select>
-            <Select.Option value="aothun">Áo thun</Select.Option>
-            <Select.Option value="aokhoac">Áo khoác</Select.Option>
+            {category.map((item) => {
+              return (
+                <Select.Option value={item._id} key={item._id}>
+                  {item.name}
+                </Select.Option>
+              );
+            })}
           </Select>
         </Form.Item>
 
@@ -180,7 +187,7 @@ const ProductUpdate = (props) => {
           </Button>
         </Form.Item>
       </Form>
-      <button onClick={() => form.resetFields()}>Reset</button>
+      <Button onClick={() => form.resetFields()}>Reset</Button>
     </>
   );
 };

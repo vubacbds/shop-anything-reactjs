@@ -7,6 +7,7 @@ import getproduct, { getproductcategory } from "../action/product";
 import ProductAPI from "../services/productAPI";
 import { deleteproduct, getproductid } from "../action/product";
 import ProductUpdate from "./productupdate";
+import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
 
 const ProductList = () => {
   const dataProduct = useSelector((state) => state.product.data); //Chú ý state.product là khi gộp các reducer lại
@@ -38,55 +39,65 @@ const ProductList = () => {
   //Định nghĩa các cột trong table
   const columns = [
     {
+      title: "",
+      dataIndex: "image",
+      key: "image",
+      render: (_, record) => {
+        return <img src={record.image} style={{ width: 100, height: 100 }} />;
+      },
+    },
+    {
       title: "Tiêu đề",
       dataIndex: "title",
       key: "title",
     },
     Table.EXPAND_COLUMN,
     {
-      title: "Mô tả",
-      dataIndex: "description",
-      key: "description",
-    },
-    Table.SELECTION_COLUMN,
-    {
-      title: "Giá",
+      title: "Giá tiền",
       dataIndex: "price",
       key: "price",
+      render: (_, record) => {
+        return (
+          <p>
+            {record.price.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}{" "}
+          </p>
+        );
+      },
     },
     {
       title: "Số lượng",
       dataIndex: "amount",
       key: "price",
     },
+    Table.SELECTION_COLUMN,
     {
       title: "",
       dataIndex: "operation",
       render: (_, record) => {
         return (
-          <Popconfirm
-            title="Bạn chắc chắn xóa?"
-            onConfirm={() => deleteProductList(record._id)}
-          >
-            <a>Xóa</a>
-          </Popconfirm>
-        );
-      },
-    },
-    {
-      title: "",
-      dataIndex: "operation",
-      render: (_, record) => {
-        return (
-          <a
-            onClick={() => {
-              dispatch(getproductid(record._id));
-              setVisibleProductUpdate(true);
-            }}
-            href="#"
-          >
-            Sửa
-          </a>
+          <>
+            <Popconfirm
+              title="Bạn chắc chắn xóa?"
+              onConfirm={() => deleteProductList(record._id)}
+            >
+              <a href="#">
+                <DeleteOutlined />
+              </a>
+            </Popconfirm>{" "}
+            &nbsp; &nbsp;
+            <a
+              onClick={() => {
+                dispatch(getproductid(record._id));
+                setVisibleProductUpdate(true);
+              }}
+              href="#"
+            >
+              <FormOutlined />
+            </a>
+          </>
         );
       },
     },
@@ -160,22 +171,24 @@ const ProductList = () => {
 
   return (
     <>
-      <div>
-        <Popconfirm
-          title="Bạn chắc chắn xóa?"
-          onConfirm={() => delProductLists()}
-        >
-          <Button type="primary" danger style={{ marginLeft: 5, width: 68 }}>
-            Xóa tất cả
-          </Button>
-        </Popconfirm>{" "}
-        &nbsp;
+      <div style={{ margin: "10px 20px", float: "right" }}>
         <Checkbox
           checked={isCheckedAll.all}
           indeterminate={isCheckedAll.part}
           disabled
         />
-        <span style={{ width: 40 }}>{` Đã chọn: ${isCheckedAll.amount} `}</span>
+        &nbsp;
+        <span
+          style={{ width: 40, margin: "0px 10px 0px 0px" }}
+        >{` Đã chọn: ${isCheckedAll.amount} `}</span>
+        <Popconfirm
+          title="Bạn chắc chắn xóa?"
+          onConfirm={() => delProductLists()}
+        >
+          <a href="#">
+            <DeleteOutlined style={{ fontSize: 20 }} />
+          </a>
+        </Popconfirm>{" "}
       </div>
       <Table
         columns={columns}
@@ -201,6 +214,7 @@ const ProductList = () => {
           showSizeChanger: true,
         }}
         dataSource={dataProduct}
+        style={{ margin: "0px 20px" }}
       />
       <ModalProductUpdate
         visible={visibleProductUpdate}

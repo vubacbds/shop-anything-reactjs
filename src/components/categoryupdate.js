@@ -95,7 +95,7 @@ const CategorytUpdate = (props) => {
           </Button>
         </Form.Item>
       </Form>
-      <button onClick={() => form.resetFields()}>Reset</button>
+      <Button onClick={() => form.resetFields()}>Reset</Button>
     </>
   );
 };

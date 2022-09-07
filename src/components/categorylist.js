@@ -7,6 +7,7 @@ import CategoryAPI from "../services/categorytAPI";
 import { deletecategory, getcategory_id } from "../action/category";
 import CategorytAdd from "./categoryadd";
 import CategorytUpdate from "./categoryupdate";
+import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
 
 const CategorytList = () => {
   const dataCategory = useSelector((state) => state.category.data);
@@ -45,29 +46,26 @@ const CategorytList = () => {
       dataIndex: "operation",
       render: (_, record) => {
         return (
-          <Popconfirm
-            title="Bạn chắc chắn xóa?"
-            onConfirm={() => deleteCategoryList(record._id)}
-          >
-            <a>Xóa</a>
-          </Popconfirm>
-        );
-      },
-    },
-    {
-      title: "",
-      dataIndex: "operation",
-      render: (_, record) => {
-        return (
-          <a
-            onClick={() => {
-              dispatch(getcategory_id(record._id));
-              setVisibleCategoryUpdate(true);
-            }}
-            href="#"
-          >
-            Sửa
-          </a>
+          <>
+            <Popconfirm
+              title="Bạn chắc chắn xóa?"
+              onConfirm={() => deleteCategoryList(record._id)}
+            >
+              <a href="#">
+                <DeleteOutlined />
+              </a>
+            </Popconfirm>{" "}
+            &nbsp; &nbsp;
+            <a
+              onClick={() => {
+                dispatch(getcategory_id(record._id));
+                setVisibleCategoryUpdate(true);
+              }}
+              href="#"
+            >
+              <FormOutlined />
+            </a>
+          </>
         );
       },
     },
@@ -75,11 +73,18 @@ const CategorytList = () => {
 
   return (
     <>
-      <Button onClick={() => setVisibleCategoryAdd(true)}>Thêm danh mục</Button>
+      <Button
+        onClick={() => setVisibleCategoryAdd(true)}
+        style={{ margin: "10px 20px", fontWeight: "bold", float: "right" }}
+        type="primary"
+      >
+        + Thêm danh mục
+      </Button>
       <Table
         columns={columns}
         rowKey={(record) => record._id}
         dataSource={dataCategory}
+        style={{ margin: "0px 20px" }}
       />
       <ModalCategoryAdd
         visible={visibleCategoryAdd}
