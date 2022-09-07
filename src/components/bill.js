@@ -1,5 +1,5 @@
 import { Tabs } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BillList from "./billlist";
 import getbill, { get_bill_user_status } from "../action/bill";
@@ -21,6 +21,9 @@ const Bill = () => {
     setNumberTab(key);
   };
 
+  //Lấy ra số lượng hóa đơn
+  const dataBill = useSelector((state) => state.bill);
+
   return (
     <>
       <Tabs
@@ -28,13 +31,13 @@ const Bill = () => {
         style={{ margin: "0px 20px" }}
         onChange={onChange}
       >
-        <TabPane tab="Đang chờ duyệt" key="1">
+        <TabPane tab={`Đang chờ duyệt (${dataBill.coutcheck})`} key="1">
           <BillList numbertab={numberTab} />
         </TabPane>
-        <TabPane tab="Đang giao" key="2">
+        <TabPane tab={`Đang giao (${dataBill.coutdelivering})`} key="2">
           <BillList numbertab={numberTab} />
         </TabPane>
-        <TabPane tab="Đã giao" key="3">
+        <TabPane tab={`Đã giao (${dataBill.coutdelivered})`} key="3">
           <BillList numbertab={numberTab} />
         </TabPane>
       </Tabs>

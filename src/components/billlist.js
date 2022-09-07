@@ -50,8 +50,9 @@ const BillList = ({ numbertab }) => {
     const BillUpdated = { ...record, status: 1 };
     BillAPI.updatebill(BillUpdated._id, BillUpdated).then(() => {
       UpdateBillSuccess();
-      console.log(BillUpdated._id);
+
       dispatch(update_bill(BillUpdated._id, BillUpdated));
+      dispatch(get_bill_user_status(numbertab - 1));
     });
   };
 
@@ -61,6 +62,7 @@ const BillList = ({ numbertab }) => {
     BillAPI.updatebill(BillUpdated._id, BillUpdated).then(() => {
       UpdateBillSuccess();
       dispatch(update_bill(BillUpdated._id, BillUpdated));
+      dispatch(get_bill_user_status(numbertab - 1));
     });
   };
 

@@ -4,6 +4,9 @@ import { GetCookie } from "../util/cookie";
 const initialState = {
   data: [],
   olddata: [],
+  coutcheck: 0,
+  coutdelivering: 0,
+  coutdelivered: 0,
 };
 
 export const billReducer = (state = initialState, action) => {
@@ -14,10 +17,22 @@ export const billReducer = (state = initialState, action) => {
         const databill = action.payload.filter((item) => {
           return item.status === 0;
         });
+
+        //Này để đếm số lượng
+        const databill1 = action.payload.filter((item) => {
+          return item.status === 1;
+        });
+        const databill2 = action.payload.filter((item) => {
+          return item.status === 2;
+        });
+        //Đóng đếm số lượng
         return {
           ...state,
           data: databill,
           olddata: action.payload,
+          coutcheck: databill.length,
+          coutdelivering: databill1.length,
+          coutdelivered: databill2.length,
         };
       } else {
         const databill = action.payload.filter((item) => {
@@ -60,6 +75,7 @@ export const billReducer = (state = initialState, action) => {
         ...state,
         data: [...state.data, action.payload],
         olddata: [...state.olddata, action.payload],
+        coutcheck: state.coutcheck + 1,
       };
     }
 
@@ -71,10 +87,30 @@ export const billReducer = (state = initialState, action) => {
       const newBillofOld = newState.olddata.filter((item) => {
         return item._id !== action.payload.id;
       });
+
+      //Này để đếm số lượng
+      const coutBill = newState.data.find((item) => {
+        return item._id === action.payload.id;
+      });
+      let deliveringOrdelivered;
+      if (coutBill.status === 0) {
+        deliveringOrdelivered = {
+          coutdelivering: state.coutdelivering + 1,
+          coutcheck: state.coutcheck - 1,
+        };
+      } else {
+        deliveringOrdelivered = {
+          coutdelivering: state.coutdelivering - 1,
+          coutdelivered: state.coutdelivered + 1,
+        };
+      }
+      //Đóng đếm số lượng
+
       return {
         ...state,
         data: [...newBill, action.payload.data],
         olddata: [...newBillofOld, action.payload.data],
+        ...deliveringOrdelivered,
       };
     }
 
@@ -87,10 +123,26 @@ export const billReducer = (state = initialState, action) => {
         //cả xét cho old data, vì khi chuyển tab nó lại lấy dữ liệu oldataa
         (item) => item._id !== action.payload
       );
+
+      //Này để đếm số lượng
+      const coutBill = newState.data.find((item) => {
+        return item._id === action.payload;
+      });
+      let deliveringOrdelivered;
+      if (coutBill?.status === 0) {
+        deliveringOrdelivered = { coutcheck: state.coutcheck - 1 };
+      } else if (coutBill?.status === 1) {
+        deliveringOrdelivered = { coutdelivering: state.coutdelivering - 1 };
+      } else {
+        deliveringOrdelivered = { coutdelivered: state.coutdelivered - 1 };
+      }
+      //Đóng đếm số lượng
+
       return {
         ...newState,
         data: newBill,
         olddata: newBillofOld,
+        ...deliveringOrdelivered,
       };
     }
     default:
