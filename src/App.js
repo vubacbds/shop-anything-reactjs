@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import React, { useEffect } from "react";
 import getproduct from "./action/product";
 import getcategory from "./action/category";
+import getbill from "./action/bill";
 
 import Product from "./components/product";
 import Navbar from "./components/navbar";
@@ -26,6 +27,7 @@ function App() {
   useEffect(() => {
     dispatch(getproduct());
     dispatch(getcategory());
+    dispatch(getbill());
   }, []);
 
   return (

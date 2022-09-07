@@ -1,9 +1,64 @@
 import { Button, Form, Input, InputNumber } from "antd";
+import { useDispatch } from "react-redux";
+import BillAPI from "../services/billAPI";
+import { GetCookie } from "../util/cookie";
+import { add_bill } from "../action/bill";
+import { toast } from "react-toastify";
+import ProductAPI from "../services/productAPI";
 
 const ProductOrder = ({ dataProductOrder }) => {
-  const onFinish = (values) => {
-    console.log(values);
+  const dispatch = useDispatch();
+  //Thông báo
+  const BillAddSuccess = () => {
+    toast.success("Thêm hóa đơn thành công !", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
   };
+  const BillAddFail = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+  };
+
+  const onFinish = (values) => {
+    const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
+    const newBill = {
+      ...values,
+      total_price: dataProductOrder.price * values.amount,
+      products: dataProductOrder._id,
+      users: userData._id,
+      status: 0,
+    };
+    // ProductAPI
+
+    Promise.all([
+      //Để lấy hình ảnh sản phẩm khi dispatch
+      ProductAPI.getproductId(dataProductOrder._id),
+      BillAPI.addbill(newBill),
+    ]).then((item) => {
+      BillAddSuccess();
+      const newBill2 = {
+        ...newBill,
+        products: item[0],
+        _id: item[1]._id,
+        users: {
+          _id: userData._id,
+        },
+      };
+      dispatch(add_bill(newBill2));
+    });
+    // BillAPI.addbill(newBill)
+    //   .then((item) => {
+    //     BillAddSuccess();
+    //     dispatch(add_bill(item));
+    //     console.log(item);
+    //   })
+    //   .catch((er) => {
+    //     console.log(er);
+    //     BillAddFail(er.response.data.message);
+    //   });
+  };
+
   return (
     <div style={{ display: "flex" }}>
       <img

@@ -1,6 +1,7 @@
 import axios from "axios";
 import ProductAPI from "../services/productAPI";
 import CategoryAPI from "../services/categorytAPI";
+import BillAPI from "../services/billAPI";
 
 const axiosProduct = () => {
   return new Promise((resolve, reject) => {
@@ -28,4 +29,17 @@ const axiosCategory = () => {
   });
 };
 
-export { axiosProduct, axiosCategory };
+const axiosBill = () => {
+  return new Promise((resolve, reject) => {
+    BillAPI.getall()
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+};
+
+export { axiosProduct, axiosCategory, axiosBill };

@@ -7,9 +7,12 @@ import UserAPI from "../services/userAPI";
 import { toast } from "react-toastify";
 import Signup from "./signup";
 import { SetCookie, GetCookie } from "../util/cookie";
+import { useDispatch } from "react-redux";
+import getbill from "../action/bill";
 
 const Login = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [checkPassword, setCheckPassword] = useState(true);
 
@@ -28,6 +31,7 @@ const Login = (props) => {
   const onFinish = (values) => {
     UserAPI.login(values)
       .then(function (response) {
+        dispatch(getbill());
         if (checkPassword) {
           SetCookie(
             "userRemember",

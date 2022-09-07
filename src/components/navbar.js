@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { SetCookie, GetCookie } from "../util/cookie";
 import getproduct, { getproductcategory } from "../action/product";
 import { useDispatch, useSelector } from "react-redux";
+import { set_null } from "../action/bill";
 
 const Navbar = () => {
   //Thủ thuật cập nhật lại narbar khi login/logout
@@ -15,7 +16,7 @@ const Navbar = () => {
 
   //Lấy dữ liệu user khi login từ cookie
   const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
-
+  // console.log(userData);
   //Hiển thị Modal login và add product
   const [visibleLogin, setVisibleLogin] = useState(false);
   const [visibleProductAdd, setVisibleProductAdd] = useState(false);
@@ -28,6 +29,7 @@ const Navbar = () => {
 
   //Hàm xử lý đăng xuất
   const logout = () => {
+    dispatch(set_null()); //Cho null đơn hàng
     document.getElementById("an").classList.remove("show"); //Sửa lỗi đăng xuất nhưng dropdown vẫn hiện
     SetCookie("user", "", -1);
     SetCookie("accessToken", "", -1);
@@ -185,13 +187,12 @@ const Navbar = () => {
               Đơn hàng
             </Link>
             <div className="dropdown-divider"></div>
-            <a className="dropdown-item" href="/me/store/course">
+            <a className="dropdown-item" href="#">
               Tài khoản
             </a>
             <div className="dropdown-divider"></div>
             <a
               className="dropdown-item"
-              href="#"
               onClick={() => {
                 logout();
               }}
