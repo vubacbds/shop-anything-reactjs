@@ -81,11 +81,15 @@ export const billReducer = (state = initialState, action) => {
 
     case "UPDATE_BILL": {
       const newState = { ...state };
-      const newBill = newState.data.filter((item) => {
-        return item._id !== action.payload.id;
+      const newBill = newState.data.map((item) => {
+        if (item._id == action.payload.id) {
+          return (item = { ...item, ...action.payload.data });
+        } else return item;
       });
-      const newBillofOld = newState.olddata.filter((item) => {
-        return item._id !== action.payload.id;
+      const newBillofOld = newState.olddata.map((item) => {
+        if (item._id == action.payload.id) {
+          return (item = { ...item, ...action.payload.data });
+        } else return item;
       });
 
       //Này để đếm số lượng
@@ -108,8 +112,8 @@ export const billReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        data: [...newBill, action.payload.data],
-        olddata: [...newBillofOld, action.payload.data],
+        data: newBill,
+        olddata: newBillofOld,
         ...deliveringOrdelivered,
       };
     }

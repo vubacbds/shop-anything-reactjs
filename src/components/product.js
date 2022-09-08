@@ -29,10 +29,10 @@ const Product = (props) => {
       <div className="comtainer" style={{ margin: "20px 20px" }}>
         {product?.data?.map((item, index) => (
           <div className="row" key={item._id}>
-            <div className="col-sm-0 col-lg-2 "> </div>
+            <div className="col-sm-2 col-lg-2 "> </div>
             <NavLink
               to={`/products/${item._id}`}
-              className="col-sm-12 col-lg-8 product-hover"
+              className="col-sm-8 col-lg-8 product-hover"
               style={{ textAlign: "left", display: "flex" }}
             >
               <img
@@ -71,7 +71,7 @@ const Product = (props) => {
                 </div>
               </div>
             </NavLink>
-            <div className="col-sm-0 col-lg-2 "> </div>
+            <div className="col-sm-2 col-lg-2 "> </div>
           </div>
         ))}
       </div>

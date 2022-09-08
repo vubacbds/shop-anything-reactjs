@@ -49,13 +49,16 @@ export const productReducer = (state = initialState, action) => {
       };
     }
     case "UPDATE_PRODUCT_SUCCESS": {
-      const newProductList = state.data.filter((item) => {
-        return item._id !== action.payload.data._id;
+      const newProductList = state.data.map((item) => {
+        if (item._id == action.payload.data._id) {
+          return (item = { ...item, ...action.payload.data });
+        } else return item;
       });
+
       return {
         ...state,
-        data: [...newProductList, action.payload.data],
-        olddata: [...newProductList, action.payload.data],
+        data: newProductList,
+        olddata: newProductList,
       };
     }
     case "DELETE_PRODUCT_SUCCESS": {

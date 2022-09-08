@@ -1,8 +1,9 @@
 import { Input } from "antd";
 import { Link, NavLink } from "react-router-dom";
-import getDataUser from "../action/user";
+import getDataUser, { get_user_one } from "../action/user";
 import Login from "./login";
 import ProductAdd from "./productadd";
+import Account from "./account";
 import { Button, Modal } from "antd";
 import React, { useState } from "react";
 import { SetCookie, GetCookie } from "../util/cookie";
@@ -17,9 +18,11 @@ const Navbar = () => {
   //Lấy dữ liệu user khi login từ cookie
   const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
   // console.log(userData);
-  //Hiển thị Modal login và add product
+
+  //Hiển thị Modal login và add product và tài khoản
   const [visibleLogin, setVisibleLogin] = useState(false);
   const [visibleProductAdd, setVisibleProductAdd] = useState(false);
+  const [visibleAccount, setVisibleAccount] = useState(false);
 
   //Dispath acction khi chọn vào danh mục
   const dispatch = useDispatch();
@@ -34,6 +37,7 @@ const Navbar = () => {
     SetCookie("user", "", -1);
     SetCookie("accessToken", "", -1);
     setLoadPage(!loadPage);
+
     // setTimeout("location.reload(true)", 50);
   };
 
@@ -139,9 +143,9 @@ const Navbar = () => {
                   Danh mục
                 </Link>
                 <div className="dropdown-divider"></div>
-                <a className="dropdown-item" href="#">
+                <Link className="dropdown-item" to="/user">
                   Tài khoản người dùng
-                </a>
+                </Link>
               </div>
             </li>
           )}
@@ -187,7 +191,10 @@ const Navbar = () => {
               Đơn hàng
             </Link>
             <div className="dropdown-divider"></div>
-            <a className="dropdown-item" href="#">
+            <a
+              className="dropdown-item"
+              onClick={() => setVisibleAccount(true)}
+            >
               Tài khoản
             </a>
             <div className="dropdown-divider"></div>
@@ -207,6 +214,7 @@ const Navbar = () => {
         visible={visibleProductAdd}
         setVisible={setVisibleProductAdd}
       />
+      <ModalAccount visible={visibleAccount} setVisible={setVisibleAccount} />
     </nav>
   );
 };
@@ -272,6 +280,40 @@ const ModalProductAdd = (props) => {
         footer={null}
       >
         <ProductAdd setVisible={props.setVisible} />
+      </Modal>
+    </>
+  );
+};
+
+//Modal tài khoản
+const ModalAccount = (props) => {
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const handleOk = () => {
+    setConfirmLoading(true);
+    setTimeout(() => {
+      props.setVisible(false);
+      setConfirmLoading(false);
+    }, 500);
+  };
+
+  const handleCancel = () => {
+    console.log("Clicked cancel button");
+    props.setVisible(false);
+  };
+
+  return (
+    <>
+      <Modal
+        title="Tài khoản của bạn"
+        visible={props.visible}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+        footer={null}
+        width={1000}
+      >
+        <Account />
       </Modal>
     </>
   );

@@ -131,7 +131,7 @@ const ModalCategoryAdd = (props) => {
   );
 };
 
-//Modal Category Add
+//Modal Category Update
 const ModalCategoryUpdate = (props) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
 

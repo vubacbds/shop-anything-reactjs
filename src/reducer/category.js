@@ -25,12 +25,14 @@ export const categoryReducer = (state = initialState, action) => {
       };
     }
     case "UPDATE_CATEGORY_SUCCESS": {
-      const newCategory = state.data.filter((item) => {
-        return item._id !== action.payload._id;
+      const newCategory = state.data.map((item) => {
+        if (item._id == action.payload._id) {
+          return (item = { ...item, ...action.payload });
+        } else return item;
       });
       return {
         ...state,
-        data: [...newCategory, action.payload],
+        data: newCategory,
       };
     }
     case "DELETE_CATEGORY_SUCCESS": {

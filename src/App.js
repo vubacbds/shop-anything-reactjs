@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import getproduct from "./action/product";
 import getcategory from "./action/category";
 import getbill from "./action/bill";
+import getuser from "./action/user";
 
 import Product from "./components/product";
 import Navbar from "./components/navbar";
@@ -14,6 +15,7 @@ import Login from "./components/login";
 import ProductList from "./components/productlist";
 import CategorytList from "./components/categorylist";
 import Bill from "./components/bill";
+import UsertList from "./components/userlist";
 
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
@@ -28,6 +30,7 @@ function App() {
     dispatch(getproduct());
     dispatch(getcategory());
     dispatch(getbill());
+    dispatch(getuser());
   }, []);
 
   return (
@@ -39,6 +42,7 @@ function App() {
         <Route path="/products/:productId" element={<ProductDetail />} />
         <Route path="/products/admin-product-list" element={<ProductList />} />
         <Route path="/bill" element={<Bill />} />
+        <Route path="/user" element={<UsertList />} />
         <Route
           path="/category/admin-category-list"
           element={<CategorytList />}

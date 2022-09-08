@@ -13,6 +13,7 @@ import ProductUpdate from "./productupdate";
 import { GetCookie } from "../util/cookie";
 import { DeleteOutlined } from "@ant-design/icons";
 import BillAPI from "../services/billAPI";
+import ProductAPI from "../services/productAPI";
 
 const BillList = ({ numbertab }) => {
   const dataBill = useSelector((state) => state.bill.data); //Chú ý state.product là khi gộp các reducer lại
@@ -36,13 +37,25 @@ const BillList = ({ numbertab }) => {
   };
 
   //Hàm xóa một sản phẩm trong ProductList
-  const deleteBill = (id) => {
-    BillAPI.deletebill(id)
+  const deleteBill = (record) => {
+    BillAPI.deletebill(record._id)
       .then(() => {
         DeleteBillSuccess();
-        dispatch(delete_bill(id));
+        dispatch(delete_bill(record._id));
       })
       .catch((err) => console.log(err));
+
+    //Vì khi xóa bill trong đang giao thì số lượng về vị trí cũ
+    if (record.status == 1)
+      ProductAPI.updateproduct(record.products._id, {
+        amount: record.products.amount + record.amount,
+      })
+        .then(() => {
+          console.log("Sửa amount thành công");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
   };
 
   //Hàm update bill thành đang giao/ đã giao
@@ -54,6 +67,17 @@ const BillList = ({ numbertab }) => {
       dispatch(update_bill(BillUpdated._id, BillUpdated));
       dispatch(get_bill_user_status(numbertab - 1));
     });
+    //Vì khi nó thành đang giao thì số lượng giảm đi số lượng đã mua
+    if (status == 1)
+      ProductAPI.updateproduct(record.products._id, {
+        amount: record.products.amount - record.amount,
+      })
+        .then(() => {
+          console.log("Sửa amount thành công");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
   };
 
   //Định nghĩa các cột trong table
@@ -138,7 +162,7 @@ const BillList = ({ numbertab }) => {
         ) : numbertab == 1 ? (
           <Popconfirm
             title="Xác nhận xóa?"
-            onConfirm={() => deleteBill(record._id)}
+            onConfirm={() => deleteBill(record)}
           >
             <a href="#">
               <DeleteOutlined />
@@ -149,7 +173,7 @@ const BillList = ({ numbertab }) => {
             <span>
               <Popconfirm
                 title="Xác nhận xóa?"
-                onConfirm={() => deleteBill(record._id)}
+                onConfirm={() => deleteBill(record)}
               >
                 <a href="#">
                   <DeleteOutlined />
@@ -169,7 +193,7 @@ const BillList = ({ numbertab }) => {
         ) : (
           <Popconfirm
             title="Xác nhận xóa?"
-            onConfirm={() => deleteBill(record._id)}
+            onConfirm={() => deleteBill(record)}
           >
             <a href="#">
               <DeleteOutlined />

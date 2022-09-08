@@ -60,7 +60,7 @@ const ProductUpdate = (props) => {
   const { Option } = Select;
   const prefixSelectorPrice = (
     <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 30 }} defaultValue={"vnd"}>
+      <Select style={{ width: 30 }} value={"vnd"}>
         <Option value="vnd">đ</Option>
       </Select>
     </Form.Item>

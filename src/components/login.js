@@ -2,13 +2,14 @@ import { Button, Checkbox, Form, Input, Modal } from "antd";
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import getDataUser from "../action/user";
+import getDataUser, { get_user_one } from "../action/user";
 import UserAPI from "../services/userAPI";
 import { toast } from "react-toastify";
 import Signup from "./signup";
 import { SetCookie, GetCookie } from "../util/cookie";
 import { useDispatch } from "react-redux";
 import getbill from "../action/bill";
+import getuser from "../action/user";
 
 const Login = (props) => {
   const navigate = useNavigate();
@@ -46,6 +47,7 @@ const Login = (props) => {
         props.setVisible(false);
 
         // navigate("/");
+        dispatch(get_user_one(response.user._id)); //Khi login cũng cần dispatch lại dữ liệu, nhưng được cái ko phải gọi lại API từ DB nên nhẹ
       })
       .catch(function (error) {
         console.log("Error on Authentication", error);

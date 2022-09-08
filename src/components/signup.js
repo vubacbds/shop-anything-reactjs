@@ -96,7 +96,7 @@ const Signup = (props) => {
                   return Promise.resolve();
                 }
                 return Promise.reject(
-                  new Error("Mật khẩu xác nhận chưa đúng!")
+                  new Error("Mật khẩu xác nhận không khớp!")
                 );
               },
             }),

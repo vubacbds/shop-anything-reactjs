@@ -1,14 +1,50 @@
-const initialState = {
-  image:
-    "https://phunugioi.com/wp-content/uploads/2020/01/anh-avatar-supreme-dep-lam-dai-dien-facebook.jpg",
-  _id: "",
-  email: "",
-};
+import { GetCookie } from "../util/cookie";
+
+const initialState = {};
 
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_DATA_USER":
-      return action.payload;
+    case "GET_USER":
+      //Lấy User từ cookie
+      const userDataCookie = GetCookie("user")
+        ? JSON.parse(GetCookie("user"))
+        : "";
+      const dataOne = action.payload.find((item) => {
+        return item._id === userDataCookie._id;
+      });
+      return {
+        data: action.payload,
+        dataOne,
+      };
+
+    case "DELETE_USER": {
+      const newState = { ...state };
+      const userList = newState.data.filter(
+        (item) => item._id !== action.payload
+      );
+      return {
+        ...state,
+        data: userList,
+      };
+    }
+
+    case "GET_USER_ONE": {
+      const dataOne = state.data.find((item) => {
+        return item._id === action.payload;
+      });
+      return {
+        ...state,
+        dataOne,
+      };
+    }
+
+    case "UPDATE_USER": {
+      const newUser = { ...state.dataOne, ...action.payload };
+      return {
+        ...state,
+        dataOne: newUser,
+      };
+    }
 
     default:
       return state;

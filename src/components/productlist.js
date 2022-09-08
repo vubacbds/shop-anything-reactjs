@@ -141,8 +141,8 @@ const ProductList = () => {
     },
     getCheckboxProps: (record) => {
       return {
-        disabled: record.working != null,
-        name: record.title,
+        disabled: record?.working != null,
+        name: record?.title,
       };
     },
   };
@@ -204,7 +204,7 @@ const ProductList = () => {
             </p>
           ),
         }}
-        rowKey={(record) => record._id}
+        rowKey={(record) => record?._id}
         rowSelection={rowSelection}
         pagination={{
           onChange: (page, pageSize) => {
