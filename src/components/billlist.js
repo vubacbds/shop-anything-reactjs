@@ -121,7 +121,11 @@ const BillList = ({ numbertab }) => {
         );
       },
     },
-
+    {
+      title: "Tên khách hàng",
+      dataIndex: "name",
+      key: "name",
+    },
     {
       title: "Số điện thoại",
       dataIndex: "phone",
@@ -142,7 +146,7 @@ const BillList = ({ numbertab }) => {
             <span>
               <Popconfirm
                 title="Xác nhận xóa?"
-                onConfirm={() => deleteBill(record._id)}
+                onConfirm={() => deleteBill(record)}
               >
                 <a href="#">
                   <DeleteOutlined />

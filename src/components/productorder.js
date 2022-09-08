@@ -1,14 +1,19 @@
 import { Button, Form, Input, InputNumber } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import BillAPI from "../services/billAPI";
 import { GetCookie } from "../util/cookie";
 import { add_bill } from "../action/bill";
 import { toast } from "react-toastify";
 import ProductAPI from "../services/productAPI";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ProductOrder = ({ dataProductOrder }) => {
   const dispatch = useDispatch();
+
+  //Lấy thông tin user đang đăng nhập
+  const dataUserRedux = useSelector((state) => state.user.dataOne);
+
   //Thông báo
   const BillAddSuccess = () => {
     toast.success("Thêm hóa đơn thành công !", {
@@ -20,6 +25,9 @@ const ProductOrder = ({ dataProductOrder }) => {
       position: toast.POSITION.BOTTOM_RIGHT,
     });
   };
+
+  //Chuyển tới trang hóa đơn khi nhấn vào Mua
+  const navigate = useNavigate();
 
   const onFinish = (values) => {
     const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
@@ -44,9 +52,11 @@ const ProductOrder = ({ dataProductOrder }) => {
         _id: item[1]._id,
         users: {
           _id: userData._id,
+          name: values.name,
         },
       };
       dispatch(add_bill(newBill2));
+      navigate("/bill");
     });
   };
 
@@ -72,7 +82,12 @@ const ProductOrder = ({ dataProductOrder }) => {
             xs: 12,
             md: 12,
           }}
-          initialValues={{ amount: 1 }}
+          initialValues={{
+            amount: 1,
+            phone: dataUserRedux.phone,
+            address: dataUserRedux.address,
+            name: dataUserRedux.name,
+          }}
           onFinish={onFinish}
           autoComplete="off"
           style={{ flexGrow: 1 }}
@@ -92,6 +107,19 @@ const ProductOrder = ({ dataProductOrder }) => {
             ]}
           >
             <InputNumber min={1} max={dataProductOrder?.amount} />
+          </Form.Item>
+
+          <Form.Item
+            label="Họ và tên"
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: "Bạn chưa nhập tên!",
+              },
+            ]}
+          >
+            <Input style={{ width: "70%" }} />
           </Form.Item>
 
           <Form.Item

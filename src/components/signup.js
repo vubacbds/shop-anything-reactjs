@@ -5,6 +5,7 @@ import getDataUser from "../action/user";
 import UserAPI from "../services/userAPI";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 const Signup = (props) => {
   //Thông báo
@@ -19,7 +20,18 @@ const Signup = (props) => {
     });
   };
 
+  //Lấy danh sách user kiemr tra email đã tồn tại chưa
+  const dataUserRedux = useSelector((state) => state.user.data);
+
   const onFinish = (values) => {
+    console.log(dataUserRedux);
+    const isUser = dataUserRedux.find((item) => {
+      return item.email === values.email;
+    });
+    if (isUser) {
+      signupFail("Email đã tồn tại");
+      return;
+    }
     const dataUser = {
       ...values,
       image:

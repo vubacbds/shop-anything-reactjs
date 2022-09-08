@@ -5,7 +5,7 @@ import {
   SettingOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
-import { Avatar, Card, Modal } from "antd";
+import { Avatar, Button, Card, Modal, Pagination } from "antd";
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "antd";
 import { Link, NavLink } from "react-router-dom";
@@ -24,57 +24,105 @@ const Product = (props) => {
   //Hiện model đặt hàng
   const [visibleOrderProduct, setVisibleOrderProduct] = useState(false);
 
+  //Phân trang
+  const objPage = {
+    totalPage: product.data?.length,
+    current: 1, //Trang hiện tại
+    minIndex: 0, //Số min index trong mảng data có thể hiển thị
+    maxIndex: 12,
+    size: 12, //Số item hiển thị
+  };
+  const [pages, setPages] = useState(objPage);
+  //Xử lý khi chọn trang
+  const handleChange = (page, size) => {
+    setPages({
+      ...pages,
+      current: page,
+      minIndex: (page - 1) * size,
+      maxIndex: page * size,
+      size: size,
+    });
+  };
+
   return (
     <>
       <div className="comtainer" style={{ margin: "20px 20px" }}>
-        {product?.data?.map((item, index) => (
-          <div className="row" key={item._id}>
-            <div className="col-sm-2 col-lg-2 "> </div>
-            <NavLink
-              to={`/products/${item._id}`}
-              className="col-sm-8 col-lg-8 product-hover"
-              style={{ textAlign: "left", display: "flex" }}
-            >
-              <img
-                className="card-img-left"
-                src={item.image}
-                style={{ flexGrow: 1, width: 80, height: 134 }}
-              />
-              <div className="card w-50" style={{ flexGrow: 2, height: 134 }}>
-                <div className="card-body">
-                  <h5 className="card-title">{item.title}</h5>
-                  <p
-                    className="card-text"
-                    style={{ color: "red", fontWeight: "bold" }}
+        {product?.data?.map((item, index) => {
+          return (
+            index >= pages.minIndex &&
+            index < pages.maxIndex && (
+              <div className="row" key={item._id}>
+                <div className="col-sm-2 col-lg-2 "> </div>
+                <a
+                  // to={`/products/${item._id}`}
+                  className="col-sm-8 col-lg-8 product-hover"
+                  style={{ textAlign: "left", display: "flex" }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setDataProductOrder(item);
+                    setVisibleOrderProduct(true);
+                  }}
+                >
+                  <img
+                    className="card-img-left"
+                    src={item.image}
+                    style={{ flexGrow: 1, width: 80, height: 134 }}
+                  />
+                  <div
+                    className="card w-50"
+                    style={{ flexGrow: 2, height: 134 }}
                   >
-                    {item.price.toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
-                  </p>
-                  <div style={{ textAlign: "left", display: "flex" }}>
-                    <div style={{ flexGrow: 8 }}>Sản phẩm có khuyến mãi</div>
-                    <div style={{ flexGrow: 1 }}>
-                      <button
-                        className="btn btn-primary "
-                        style={{ width: 40, height: 32, marginBottom: 20 }}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setDataProductOrder(item);
-                          setVisibleOrderProduct(true);
-                        }}
+                    <div className="card-body">
+                      <h5 className="card-title">{item.title}</h5>
+                      <p
+                        className="card-text"
+                        style={{ color: "red", fontWeight: "bold" }}
                       >
-                        <ShoppingCartOutlined />
-                      </button>
+                        {item.price.toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                      </p>
+                      <div style={{ textAlign: "left", display: "flex" }}>
+                        <div style={{ flexGrow: 8 }}>
+                          Sản phẩm có khuyến mãi
+                        </div>
+                        <div style={{ flexGrow: 1 }}>
+                          <Button
+                          // className="btn btn-primary "
+                          // style={{ width: 40, height: 32, marginBottom: 20 }}
+                          // onClick={(e) => {
+                          //   e.preventDefault();
+                          //   setDataProductOrder(item);
+                          //   setVisibleOrderProduct(true);
+                          // }}
+                          >
+                            <ShoppingCartOutlined />
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </a>
+                <div className="col-sm-2 col-lg-2 "> </div>
               </div>
-            </NavLink>
-            <div className="col-sm-2 col-lg-2 "> </div>
-          </div>
-        ))}
+            )
+          );
+        })}
       </div>
+      {/* //Phân trang// */}
+      <hr style={{ border: 2, color: "#BCADB0" }} />
+      <Pagination
+        pageSize={pages.size}
+        current={pages.current}
+        total={product.data?.length}
+        onChange={handleChange}
+        style={{ textAlign: "center", margin: "20px 20px" }}
+        showSizeChanger={true}
+        pageSizeOptions={[12, 24, 48]}
+        // onShowSizeChange={handleShowSizeChange}
+      />
+      {/* //Phân trang// */}
       <ModalOrderProduct
         visible={visibleOrderProduct}
         setVisible={setVisibleOrderProduct}

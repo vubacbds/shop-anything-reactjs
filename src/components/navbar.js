@@ -41,6 +41,9 @@ const Navbar = () => {
     // setTimeout("location.reload(true)", 50);
   };
 
+  //Lấy ra số lượng hóa đơn
+  const dataBill = useSelector((state) => state.bill);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top sticky-top">
       <NavLink
@@ -188,7 +191,7 @@ const Navbar = () => {
             id="an"
           >
             <Link className="dropdown-item" to="/bill">
-              Đơn hàng
+              {`Đơn hàng (${dataBill.coutcheck})`}
             </Link>
             <div className="dropdown-divider"></div>
             <a
