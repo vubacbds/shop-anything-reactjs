@@ -89,6 +89,16 @@ export const productReducer = (state = initialState, action) => {
         data: newProductList,
       };
     }
+    case "GET_PRODUCT_SEARCH": {
+      const newState = { ...state };
+      const newProductList = newState.olddata.filter((item) =>
+        item.title.includes(action.payload)
+      );
+      return {
+        ...newState,
+        data: newProductList,
+      };
+    }
 
     default:
       return state;

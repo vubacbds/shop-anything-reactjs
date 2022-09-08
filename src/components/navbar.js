@@ -7,7 +7,10 @@ import Account from "./account";
 import { Button, Modal } from "antd";
 import React, { useState } from "react";
 import { SetCookie, GetCookie } from "../util/cookie";
-import getproduct, { getproductcategory } from "../action/product";
+import getproduct, {
+  getproductcategory,
+  getproductsearch,
+} from "../action/product";
 import { useDispatch, useSelector } from "react-redux";
 import { set_null } from "../action/bill";
 
@@ -44,6 +47,8 @@ const Navbar = () => {
   //Lấy ra số lượng hóa đơn
   const dataBill = useSelector((state) => state.bill);
 
+  //Lấy input tìm kiếm
+  const [keySearch, setKeySearch] = useState();
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top sticky-top">
       <NavLink
@@ -156,15 +161,18 @@ const Navbar = () => {
         <form className="form-inline my-2 my-lg-0 mr-5">
           <input
             className="form-control mr-sm-2"
-            type="search"
-            placeholder="Search"
+            placeholder="Nhập từ khóa..."
             aria-label="Search"
+            value={keySearch}
+            onChange={(e) => setKeySearch(e.target.value)}
+            style={{ fontSize: 14 }}
           />
           <button
-            className="btn btn-outline-success my-2 my-sm-0"
-            type="submit"
+            className="btn btn-outline-success "
+            onClick={() => dispatch(getproductsearch(keySearch))}
+            style={{ fontSize: 14 }}
           >
-            Search
+            Tìm kiếm
           </button>
         </form>
       </div>

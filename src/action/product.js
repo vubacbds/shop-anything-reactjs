@@ -56,6 +56,11 @@ const getproductcategory = (categoryid) => ({
   payload: categoryid,
 });
 
+const getproductsearch = (key) => ({
+  type: "GET_PRODUCT_SEARCH",
+  payload: key,
+});
+
 export default getproduct;
 export {
   addproduct,
@@ -63,4 +68,5 @@ export {
   deleteproduct,
   getproductid,
   getproductcategory,
+  getproductsearch,
 };

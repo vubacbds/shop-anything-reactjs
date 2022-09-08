@@ -29,8 +29,8 @@ const Product = (props) => {
     totalPage: product.data?.length,
     current: 1, //Trang hiện tại
     minIndex: 0, //Số min index trong mảng data có thể hiển thị
-    maxIndex: 12,
-    size: 12, //Số item hiển thị
+    maxIndex: 2,
+    size: 2, //Số item hiển thị
   };
   const [pages, setPages] = useState(objPage);
   //Xử lý khi chọn trang
@@ -117,7 +117,10 @@ const Product = (props) => {
         current={pages.current}
         total={product.data?.length}
         onChange={handleChange}
-        style={{ textAlign: "center", margin: "20px 20px" }}
+        style={{
+          textAlign: "center",
+          margin: "20px 0px 20px 350px ",
+        }}
         showSizeChanger={true}
         pageSizeOptions={[12, 24, 48]}
         // onShowSizeChange={handleShowSizeChange}
