@@ -17,6 +17,7 @@ import CategorytList from "./components/categorylist";
 import Bill from "./components/bill";
 import UsertList from "./components/userlist";
 import Footer from "./components/footer";
+import UploadImage from "./components/upload";
 
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
@@ -44,7 +45,7 @@ function App() {
         <Route path="/products/admin-product-list" element={<ProductList />} />
         <Route path="/bill" element={<Bill />} />
         <Route path="/user" element={<UsertList />} />
-        <Route path="/footer" element={<Footer />} />
+        <Route path="/upload-image" element={<UploadImage />} />
         <Route
           path="/category/admin-category-list"
           element={<CategorytList />}

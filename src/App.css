@@ -90,3 +90,51 @@
   box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
 }
 
+/* //Ghim footer cuối trang */
+
+footer{
+  display: block;
+
+  height: 80px;
+  width: 100%;
+ }
+
+.ghimfooter {
+   border-top: 1px solid #E7E7E7;
+  text-align: center;
+
+  position: fixed;
+    left: 0px;
+  bottom: 0px;
+  height: 80px;
+  width: 100%;
+}
+/* //Ghim footer cuối trang */
+
+/* tile uploaded pictures */
+.upload-list-inline .ant-upload-list-item {
+  float: left;
+  width: 160px;
+  margin-right: 6px;
+}
+
+.upload-list-inline [class*='-upload-list-rtl'] .ant-upload-list-item {
+  float: right;
+}
+
+/* .ant-tooltip-open:hover {
+  display: none;
+}  */
+ 
+/* .ant-upload-span {
+  display: none;
+} */
+
+.ant-upload-list-item-info{
+  background: white;
+}
+
+.Form-Add-Product {
+  margin: 20px 20px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}

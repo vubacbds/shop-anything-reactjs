@@ -29,8 +29,8 @@ const Product = (props) => {
     totalPage: product.data?.length,
     current: 1, //Trang hiện tại
     minIndex: 0, //Số min index trong mảng data có thể hiển thị
-    maxIndex: 2,
-    size: 2, //Số item hiển thị
+    maxIndex: 12,
+    size: 12, //Số item hiển thị
   };
   const [pages, setPages] = useState(objPage);
   //Xử lý khi chọn trang
@@ -46,7 +46,7 @@ const Product = (props) => {
 
   return (
     <>
-      <div className="comtainer" style={{ margin: "20px 20px" }}>
+      <div className="comtainer" style={{ margin: "10px 20px" }}>
         {product?.data?.map((item, index) => {
           return (
             index >= pages.minIndex &&

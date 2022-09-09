@@ -9,11 +9,18 @@ import {
   InputNumber,
   Modal,
   Select,
+  Upload,
 } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { addproduct } from "../action/product";
+import { useEffect, useState } from "react";
+import { storage } from "./firebase";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 
 const ProductAdd = (props) => {
+  //Set state sản phẩm mới
+  const [newProduct, setNewProduct] = useState({});
+
   //Chuyển trang
   const navigate = useNavigate();
 
@@ -35,21 +42,93 @@ const ProductAdd = (props) => {
     });
   };
 
+  //Xử lý upload ảnh
+  const [fileList, setFileList] = useState([]);
+  const [progress, setProgress] = useState(0);
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [url, setUrl] = useState([1]);
+
+  //Sửa lỗi Xem trước phóng to
+  function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
+  const handleCancel = () => setPreviewVisible(false);
+
+  const handleChange = (e) => {
+    const nameImage = e.fileList[e.fileList.length - 1].name;
+    const fileListLength = e.fileList.filter((item) => {
+      return item.name == nameImage;
+    }).length;
+
+    if (fileListLength == 1) setFileList(e.fileList);
+    else alert("Lỗi trùng ảnh");
+    console.log(e.fileList);
+  };
+
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    setPreviewImage(() => file.url || file.preview);
+    setPreviewVisible(true);
+    setPreviewTitle(
+      () => file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
+  };
+  const handleUpload = () => {
+    fileList.forEach((e) => {
+      const uploadTask = storage
+        .ref(`images/${e.originFileObj.name}`)
+        .put(e.originFileObj);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          storage
+            .ref("images")
+            .child(e.originFileObj.name)
+            .getDownloadURL()
+            .then((url) => {
+              // posdocument({...newDocument, "nameUrl": urlimg})
+              // setUrl(pre => [...pre, urlimg])
+              setUrl((old) => {
+                if (old[0] == 1) {
+                  old.shift();
+                  return [...old, url];
+                }
+                return [...old, url];
+              });
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      );
+    });
+  };
+  //Đóng xử lý upload ảnh
+  console.log(url.length);
+  //Khi submit Form
   const onFinish = (values) => {
-    console.log(values);
-    values.image =
-      "https://st.app1h.com/uploads/images/company72/images/ao-thun-trang-129595.jpg";
-    ProductAPI.addproduct(values)
-      .then(function (response) {
-        ProductAddSuccess();
-        dispatch(addproduct(response));
-        props.setVisible(false);
-        navigate("/products/admin-product-list");
-      })
-      .catch(function (error) {
-        console.log("Error on Authentication", error);
-        ProductAddFail(error.response.data.message);
-      });
+    setNewProduct(values);
+    handleUpload(); //upload ảnh lên firebase trước
   };
 
   //Định dạng giá bán
@@ -61,6 +140,26 @@ const ProductAdd = (props) => {
       </Select>
     </Form.Item>
   );
+
+  //Khi số lượng url bằng số lượng ảnh upload lên thì sẽ chạy API - AddProduct
+
+  useEffect(() => {
+    if (url.length === fileList.length) {
+      newProduct.images = url;
+      newProduct.image = url[0];
+      ProductAPI.addproduct(newProduct)
+        .then(function (response) {
+          ProductAddSuccess();
+          dispatch(addproduct(response));
+          props.setVisible(false);
+          navigate("/products/admin-product-list");
+        })
+        .catch(function (error) {
+          console.log("Error on Authentication", error);
+          ProductAddFail(error.response.data.message);
+        });
+    }
+  }, [url]);
   return (
     <>
       <Form
@@ -166,6 +265,47 @@ const ProductAdd = (props) => {
         </Form.Item>
 
         <Form.Item
+          label="Chọn ảnh"
+          name="images"
+          rules={[
+            {
+              required: true,
+              message: "Bạn chưa chọn ảnh!",
+            },
+          ]}
+        >
+          <div>
+            <Upload
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+              // multiple={true}
+            >
+              {fileList.length >= 4 ? null : (
+                <div>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>Upload</div>
+                </div>
+              )}
+            </Upload>
+            <Modal
+              visible={previewVisible}
+              title={previewTitle}
+              footer={null}
+              onCancel={handleCancel}
+            >
+              <img alt="example" style={{ width: "100%" }} src={previewImage} />
+            </Modal>
+            {/* <button onClick={handleUpload}>Upload</button> */}
+            <br />
+            <progress value={progress} max="100" />
+            <br />
+          </div>
+        </Form.Item>
+
+        <Form.Item
           wrapperCol={{
             offset: 8,
             span: 16,
@@ -176,6 +316,7 @@ const ProductAdd = (props) => {
           </Button>
         </Form.Item>
       </Form>
+      <Button onClick={() => handleUpload()}>Upppp</Button>
     </>
   );
 };
