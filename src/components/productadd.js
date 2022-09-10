@@ -290,6 +290,7 @@ const ProductAdd = (props) => {
               fileList={fileList}
               onPreview={handlePreview}
               onChange={handleChange}
+              accept=".jpg, .png"
               // multiple={true}
             >
               {fileList.length >= 4 ? null : (

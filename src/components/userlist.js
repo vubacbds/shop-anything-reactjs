@@ -71,6 +71,7 @@ const UsertList = () => {
   return (
     <>
       <Table
+        scroll={{ x: true }}
         columns={columns}
         rowKey={(record) => record._id}
         dataSource={dataUser}

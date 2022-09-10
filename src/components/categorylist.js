@@ -86,6 +86,7 @@ const CategorytList = () => {
         + Thêm danh mục
       </Button>
       <Table
+        scroll={{ x: true }}
         columns={columns}
         rowKey={(record) => record._id}
         dataSource={dataCategory}

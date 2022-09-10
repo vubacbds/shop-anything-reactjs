@@ -28,7 +28,7 @@ const Footer = () => {
                   color: "gray",
                   margin: "10px 0px 0px 20px",
                   textAlign: "left",
-                  fontSize: 13,
+                  fontSize: 12,
                 }}
                 className="contact"
               >
@@ -40,8 +40,8 @@ const Footer = () => {
                 </p>
               </div>
             </Col>
-            <Col span={10}>
-              <ul style={{ textAlign: "left", marginTop: 10 }}>
+            <Col span={8}>
+              <ul style={{ textAlign: "left", marginTop: 10, fontSize: 12 }}>
                 <li>Chính sách mua hàng</li>
                 <li>Bảo hành</li>
                 <li>Hướng dẫn sử dụng</li>
@@ -49,7 +49,7 @@ const Footer = () => {
             </Col>
 
             <Col
-              span={4}
+              span={6}
               style={{
                 textAlign: "justify",
               }}

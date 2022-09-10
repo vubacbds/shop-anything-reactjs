@@ -3,7 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Button, Checkbox } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import getproduct, { getproductcategory } from "../action/product";
+import getproduct, {
+  getproductcategory,
+  updateproduct,
+} from "../action/product";
 import ProductAPI from "../services/productAPI";
 import { deleteproduct, getproductid } from "../action/product";
 import ProductUpdate from "./productupdate";
@@ -43,7 +46,9 @@ const ProductList = () => {
       dataIndex: "image",
       key: "image",
       render: (_, record) => {
-        return <img src={record.image} style={{ width: 100, height: 100 }} />;
+        return (
+          <img src={record.images[0]} style={{ width: 100, height: 100 }} />
+        );
       },
     },
     {
@@ -169,6 +174,22 @@ const ProductList = () => {
     });
   };
 
+  //Hàm set ảnh chính để hiển thị tại trang chủ
+  const handleFirtImage = (record, url) => {
+    const newImagesList = record?.images.filter((item) => {
+      return item != url;
+    });
+    const newImages = [url, ...newImagesList];
+
+    ProductAPI.updateproduct(record._id, { images: newImages }) //Update lại mảng images của Product và dispatch lại phía giao diện
+      .then(function (response) {
+        dispatch(updateproduct({ images: newImages, _id: record._id }));
+      })
+      .catch(function (error) {
+        console.log("Error on Authentication", error);
+      });
+  };
+
   return (
     <div
       style={{
@@ -201,17 +222,32 @@ const ProductList = () => {
         </Popconfirm>{" "}
       </div>
       <Table
+        scroll={{ x: true }}
         columns={columns}
         rowSelection={{}}
         expandable={{
           expandedRowRender: (record) => (
-            <p
-              style={{
-                margin: 0,
-              }}
-            >
-              {record.description}
-            </p>
+            <>
+              {record.images.map((item, index) => {
+                if (index > 0)
+                  return (
+                    <a key={index}>
+                      <img
+                        src={item}
+                        onClick={() => handleFirtImage(record, item)}
+                        style={{ width: 50, height: 50, margin: 10 }}
+                      />
+                    </a>
+                  );
+              })}
+              <span
+                style={{
+                  margin: 0,
+                }}
+              >
+                {record.description}
+              </span>
+            </>
           ),
         }}
         rowKey={(record) => record?._id}

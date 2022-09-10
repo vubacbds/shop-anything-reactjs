@@ -11,6 +11,7 @@ import { Col, Row } from "antd";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
 import ProductOrder from "./productorder";
+import moment from "moment"; //Định dạng thời gian
 
 const { Meta } = Card;
 
@@ -65,7 +66,7 @@ const Product = (props) => {
                 >
                   <img
                     className="card-img-left"
-                    src={item.image}
+                    src={item.images[0]}
                     style={{ flexGrow: 1, width: 80, height: 134 }}
                   />
                   <div
@@ -84,8 +85,16 @@ const Product = (props) => {
                         })}
                       </p>
                       <div style={{ textAlign: "left", display: "flex" }}>
-                        <div style={{ flexGrow: 8 }}>
-                          Sản phẩm có khuyến mãi
+                        <div
+                          style={{
+                            flexGrow: 8,
+                            fontSize: 12,
+                            marginTop: 10,
+                            color: "#a4b4b4",
+                          }}
+                        >
+                          Số lượng: {item.amount}&ensp; || &ensp;{" "}
+                          {moment(item.updatedAt).format("DD/MM/yyyy A")}
                         </div>
                         <div style={{ flexGrow: 1 }}>
                           <Button
@@ -157,7 +166,11 @@ const ModalOrderProduct = (props) => {
   const handleCancel = () => {
     console.log("Clicked cancel button");
     props.setVisible(false);
+    setBigImage(); //khi đóng trang chi tiết thì set lại trang lớn bằng null
   };
+
+  //Set ảnh lớn khi click vào ảnh nhỏ trong trang chi tiết (productOrder) truyền bigImage cho comonent
+  const [bigImage, setBigImage] = useState();
 
   return (
     <>
@@ -170,7 +183,11 @@ const ModalOrderProduct = (props) => {
         footer={null}
         width={1000}
       >
-        <ProductOrder dataProductOrder={props.dataProductOrder} />
+        <ProductOrder
+          dataProductOrder={props.dataProductOrder}
+          bigImage={bigImage}
+          setBigImage={setBigImage}
+        />
       </Modal>
     </>
   );

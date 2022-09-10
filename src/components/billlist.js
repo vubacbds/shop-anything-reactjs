@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Checkbox } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import moment from "moment"; //Định dạng thời gian
 
 import getbill, {
   delete_bill,
@@ -60,6 +61,7 @@ const BillList = ({ numbertab }) => {
 
   //Hàm update bill thành đang giao/ đã giao
   const updateBill = (record, status) => {
+    delete record.updatedAt;
     const BillUpdated = { ...record, status };
     BillAPI.updatebill(BillUpdated._id, BillUpdated).then(() => {
       UpdateBillSuccess();
@@ -94,6 +96,8 @@ const BillList = ({ numbertab }) => {
           />
         );
       },
+      showOnResponse: true,
+      showOnDesktop: true,
     },
     {
       title: "Tên sản phẩm",
@@ -105,6 +109,8 @@ const BillList = ({ numbertab }) => {
       title: "Số lượng",
       dataIndex: "amount",
       key: "amount",
+      showOnResponse: true,
+      showOnDesktop: true,
     },
     {
       title: "Thành tiền",
@@ -120,21 +126,41 @@ const BillList = ({ numbertab }) => {
           </p>
         );
       },
+      showOnResponse: true,
+      showOnDesktop: true,
     },
     {
       title: "Tên khách hàng",
       dataIndex: "name",
       key: "name",
+      showOnResponse: true,
+      showOnDesktop: true,
     },
     {
       title: "Số điện thoại",
       dataIndex: "phone",
       key: "phone",
+      showOnResponse: true,
+      showOnDesktop: true,
     },
     {
       title: "Địa chỉ",
       dataIndex: "address",
       key: "address",
+      showOnResponse: true,
+      showOnDesktop: true,
+    },
+    {
+      title: "Thời gian",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
+      render: (_, record) => {
+        return (
+          <p>{moment(record.updatedAt).format("DD/MM/yyyy hh:mm:ss  A")}</p>
+        );
+      },
+      showOnResponse: true,
+      showOnDesktop: true,
     },
     {
       title: "",
@@ -205,12 +231,15 @@ const BillList = ({ numbertab }) => {
           </Popconfirm>
         );
       },
+      showOnResponse: true,
+      showOnDesktop: true,
     },
   ];
 
   return (
     <>
       <Table
+        scroll={{ x: true }}
         columns={columns}
         expandable={{
           expandedRowRender: (record) => (

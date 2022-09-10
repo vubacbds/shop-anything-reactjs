@@ -1,4 +1,13 @@
-import { Button, Form, Input, InputNumber, Modal, Upload } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Row,
+  Upload,
+} from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { GetCookie, SetCookie } from "../util/cookie";
 import { toast } from "react-toastify";
@@ -72,6 +81,7 @@ const Account = () => {
 
   const handleChange = (e) => {
     setFile(e.file);
+    setProgress(0); //Để button đổi ảnh disable tắt
   };
 
   const handlePreview = async (file) => {
@@ -110,8 +120,7 @@ const Account = () => {
               .then(() => {
                 UpdateSuccess();
                 dispatch(update_user({ image: url }));
-                setProgress(0);
-
+                setProgress(1);
                 SetCookie(
                   "user",
                   JSON.stringify({ ...accountData, image: url })
@@ -137,71 +146,80 @@ const Account = () => {
   return (
     accountData && (
       <>
-        <div style={{ display: "flex" }}>
-          <Form onFinish={onFinishFormUpload}>
-            <Form.Item
-              label="Chọn ảnh"
-              name="images"
-              rules={[
-                {
-                  required: true,
-                  message: "Bạn chưa chọn ảnh!",
-                },
-              ]}
-            >
-              <div>
-                <Upload
-                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                  listType="picture-card"
-                  // fileList={file}
-                  onPreview={handlePreview}
-                  onChange={handleChange}
-                  // multiple={true}
-                >
-                  {(!file || file?.status == "removed") && (
-                    // <div>
-                    //   <PlusOutlined />
-                    //   <div style={{ marginTop: 8 }}>Upload</div>
-                    // </div>
-                    <img
-                      src={accountData.image}
-                      style={{ width: 80, height: 80 }}
-                    />
-                  )}
-                </Upload>
-                <Modal
-                  visible={previewVisible}
-                  title={previewTitle}
-                  footer={null}
-                  onCancel={handleCancel}
-                >
-                  <img
-                    alt="example"
-                    style={{ width: "100%" }}
-                    src={previewImage}
-                  />
-                </Modal>
-                {/* <button onClick={handleUpload}>Upload</button> */}
-                <br />
-                <progress value={progress} max="100" />
-                <br />
-              </div>
-            </Form.Item>
-            <Form.Item
-              wrapperCol={{
-                offset: 8,
-                span: 16,
-              }}
-            >
-              <Button
-                type="primary"
-                htmlType="submit"
-                disabled={!(file && file?.status != "removed")} //Khi chưa chọn ảnh thì ẩn button đổi ảnh đi
+        <Row>
+          <Col xs={10} sm={6} lg={6}>
+            <Form onFinish={onFinishFormUpload}>
+              <Form.Item
+                label="Chọn ảnh"
+                name="images"
+                rules={[
+                  {
+                    required: true,
+                    message: "Bạn chưa chọn ảnh!",
+                  },
+                ]}
               >
-                Đổi ảnh
-              </Button>
-            </Form.Item>
-          </Form>
+                <div>
+                  <Upload
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    listType="picture-card"
+                    // fileList={file}
+                    onPreview={handlePreview}
+                    onChange={handleChange}
+                    accept=".jpg, .png"
+                    // multiple={true}
+                  >
+                    {(!file || file?.status == "removed") && (
+                      // <div>
+                      //   <PlusOutlined />
+                      //   <div style={{ marginTop: 8 }}>Upload</div>
+                      // </div>
+                      <img
+                        src={accountData.image}
+                        style={{ width: 80, height: 80 }}
+                      />
+                    )}
+                  </Upload>
+                  <Modal
+                    visible={previewVisible}
+                    title={previewTitle}
+                    footer={null}
+                    onCancel={handleCancel}
+                  >
+                    <img
+                      alt="example"
+                      style={{ width: "100%" }}
+                      src={previewImage}
+                    />
+                  </Modal>
+                  {/* <button onClick={handleUpload}>Upload</button> */}
+                  <br />
+                  <progress
+                    value={progress}
+                    max="100"
+                    style={{ width: "70%" }}
+                  />
+                  <br />
+                </div>
+              </Form.Item>
+              <Form.Item
+                wrapperCol={{
+                  offset: 8,
+                  span: 16,
+                }}
+              >
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  disabled={
+                    !(file && file?.status != "removed" && progress == 0)
+                  } //Khi chưa chọn ảnh thì ẩn button đổi ảnh đi
+                >
+                  Đổi ảnh
+                </Button>
+              </Form.Item>
+            </Form>
+          </Col>
           {/* <img
             src="https://khoinguonsangtao.vn/wp-content/uploads/2022/05/anh-avatar-dep-ngau-hinh-dai-dien.jpg"
             style={{
@@ -212,127 +230,129 @@ const Account = () => {
             }}
           /> */}
           {/*_____ Form 2 thay đổi thông tin cá nhân _-_______  */}
-          <Form
-            form={form}
-            name="basic"
-            labelCol={{
-              xs: 8,
-              md: 8,
-            }}
-            wrapperCol={{
-              xs: 12,
-              md: 12,
-            }}
-            initialValues={{
-              email: accountData?.email,
-              name: accountData?.name,
-              phone: accountData?.phone,
-              address: accountData?.address,
-            }}
-            onFinish={onFinish}
-            autoComplete="off"
-            style={{ flexGrow: 2 }}
-          >
-            <Form.Item label="Họ và tên" name="name" rules={[]}>
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              name="phone"
-              label="Số điện thoại"
-              rules={[
-                {
-                  pattern: /^[\d]{10,10}$/,
-                  message: "Số điện thoại phải 10 số !",
-                },
-              ]}
-            >
-              <Input style={{ width: "70%" }} />
-            </Form.Item>
-
-            <Form.Item label="Email" name="email" rules={[]}>
-              <Input />
-            </Form.Item>
-
-            <Form.Item label="Địa chỉ" name="address" rules={[]}>
-              <Input.TextArea style={{ width: 400 }} />
-            </Form.Item>
-
-            <Form.Item
-              wrapperCol={{
-                offset: 8,
-                span: 16,
+          <Col xs={14} sm={10} lg={10}>
+            <Form
+              form={form}
+              name="basic"
+              labelCol={{
+                xs: 8,
+                md: 8,
               }}
+              wrapperCol={{
+                xs: 12,
+                md: 12,
+              }}
+              initialValues={{
+                email: accountData?.email,
+                name: accountData?.name,
+                phone: accountData?.phone,
+                address: accountData?.address,
+              }}
+              onFinish={onFinish}
+              autoComplete="off"
             >
-              <Button type="primary" htmlType="submit">
-                Lưu thông tin
-              </Button>
-            </Form.Item>
-          </Form>
-          {/*_____ Form 3 thay đổi mật khẩu _-_______  */}
-          <Form
-            name="basic"
-            labelCol={{
-              xs: 8,
-              md: 8,
-            }}
-            wrapperCol={{
-              xs: 12,
-              md: 12,
-            }}
-            initialValues={{ amount: 1 }}
-            onFinish={onFinish_Pass}
-            autoComplete="off"
-            style={{ flexGrow: 2 }}
-          >
-            <Form.Item
-              label="Mật khẩu mới"
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "Bạn chưa nhập mật khẩu mới!",
-                },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
+              <Form.Item label="Họ và tên" name="name" rules={[]}>
+                <Input />
+              </Form.Item>
 
-            <Form.Item
-              label="Xác nhận"
-              name="repassword"
-              rules={[
-                {
-                  required: true,
-                  message: "Bạn chưa nhập mật khẩu xác nhận!",
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      new Error("Mật khẩu xác nhận không khớp!")
-                    );
+              <Form.Item
+                name="phone"
+                label="Số điện thoại"
+                rules={[
+                  {
+                    pattern: /^[\d]{10,10}$/,
+                    message: "Số điện thoại phải 10 số !",
                   },
-                }),
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
+                ]}
+              >
+                <Input style={{ width: "70%" }} />
+              </Form.Item>
 
-            <Form.Item
-              wrapperCol={{
-                offset: 8,
-                span: 16,
+              <Form.Item label="Email" name="email" rules={[]}>
+                <Input />
+              </Form.Item>
+
+              <Form.Item label="Địa chỉ" name="address" rules={[]}>
+                <Input.TextArea style={{ width: 400 }} />
+              </Form.Item>
+
+              <Form.Item
+                wrapperCol={{
+                  offset: 8,
+                  span: 16,
+                }}
+              >
+                <Button type="primary" htmlType="submit">
+                  Lưu thông tin
+                </Button>
+              </Form.Item>
+            </Form>
+          </Col>
+          {/*_____ Form 3 thay đổi mật khẩu _-_______  */}
+          <Col xs={24} sm={8} lg={8}>
+            <Form
+              name="basic"
+              labelCol={{
+                xs: 8,
+                md: 8,
               }}
+              wrapperCol={{
+                xs: 12,
+                md: 12,
+              }}
+              initialValues={{ amount: 1 }}
+              onFinish={onFinish_Pass}
+              autoComplete="off"
             >
-              <Button type="primary" htmlType="submit">
-                Đổi mật khẩu
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
+              <Form.Item
+                label="Mật khẩu mới"
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Bạn chưa nhập mật khẩu mới!",
+                  },
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+
+              <Form.Item
+                label="Xác nhận"
+                name="repassword"
+                rules={[
+                  {
+                    required: true,
+                    message: "Bạn chưa nhập mật khẩu xác nhận!",
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue("password") === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(
+                        new Error("Mật khẩu xác nhận không khớp!")
+                      );
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+
+              <Form.Item
+                wrapperCol={{
+                  offset: 8,
+                  span: 16,
+                }}
+              >
+                <Button type="primary" htmlType="submit">
+                  Đổi mật khẩu
+                </Button>
+              </Form.Item>
+            </Form>
+          </Col>
+        </Row>
         <Button onClick={() => form.resetFields()}>Reset</Button>
       </>
     )

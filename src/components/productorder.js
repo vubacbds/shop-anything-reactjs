@@ -5,10 +5,10 @@ import { GetCookie } from "../util/cookie";
 import { add_bill } from "../action/bill";
 import { toast } from "react-toastify";
 import ProductAPI from "../services/productAPI";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const ProductOrder = ({ dataProductOrder }) => {
+const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
   const dispatch = useDispatch();
 
   //Lấy thông tin user đang đăng nhập
@@ -66,7 +66,7 @@ const ProductOrder = ({ dataProductOrder }) => {
         <Col sm={12} xs={24} lg={12}>
           <div style={{ display: "flex" }}>
             <img
-              src={dataProductOrder.image}
+              src={bigImage ?? dataProductOrder.images[0]}
               style={{
                 height: 300,
                 width: 270,
@@ -77,15 +77,17 @@ const ProductOrder = ({ dataProductOrder }) => {
             <div style={{ flexGrow: 1 }}>
               {dataProductOrder.images.map((item, index) => {
                 return (
-                  <img
-                    key={index}
-                    src={item}
-                    style={{
-                      height: 80,
-                      width: 80,
-                      margin: "0px 0px 10px 20px",
-                    }}
-                  />
+                  <a key={index}>
+                    <img
+                      src={item}
+                      style={{
+                        height: 80,
+                        width: 80,
+                        margin: "0px 0px 10px 20px",
+                      }}
+                      onClick={() => setBigImage(item)}
+                    />
+                  </a>
                 );
               })}
             </div>
