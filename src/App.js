@@ -20,9 +20,10 @@ import Footer from "./components/footer";
 import { BackTop } from "antd";
 import { UpCircleOutlined } from "@ant-design/icons";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GetCookie } from "./util/cookie";
 
 const LazyTestLazy = React.lazy(() => import("./components/testlazy"));
 
@@ -36,6 +37,10 @@ function App() {
     dispatch(getuser());
   }, []);
 
+  //Để ràng buộc router ko cho phép vào
+  const userAdmin = useSelector((state) => state.user.dataOne)?.email == "bac";
+  const userFormal = useSelector((state) => state.user.dataOne);
+
   return (
     <>
       <div className="App">
@@ -43,17 +48,21 @@ function App() {
         <Routes>
           <Route path="/" element={<Product />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/products/:productId" element={<ProductDetail />} />
+          {/* <Route path="/products/:productId" element={<ProductDetail />} /> */}
+
+          <Route path="/bill" element={userFormal ? <Bill /> : <Notfound />} />
+
           <Route
             path="/products/admin-product-list"
-            element={<ProductList />}
+            element={userAdmin ? <ProductList /> : <Notfound />} //Ko phải admin ko dc vào link này
           />
-          <Route path="/bill" element={<Bill />} />
-          <Route path="/user" element={<UsertList />} />
-          {/* <Route path="/upload-image" element={<UploadImage />} /> */}
+          <Route
+            path="/user"
+            element={userAdmin ? <UsertList /> : <Notfound />}
+          />
           <Route
             path="/category/admin-category-list"
-            element={<CategorytList />}
+            element={<Notfound /> ? <CategorytList /> : <Notfound />}
           />
 
           <Route

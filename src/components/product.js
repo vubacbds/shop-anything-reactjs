@@ -182,6 +182,7 @@ const ModalOrderProduct = (props) => {
         onCancel={handleCancel}
         footer={null}
         width={1000}
+        zIndex={49} //Để model Login đè lên
       >
         <ProductOrder
           dataProductOrder={props.dataProductOrder}

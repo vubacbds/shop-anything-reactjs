@@ -46,6 +46,13 @@ export const userReducer = (state = initialState, action) => {
       };
     }
 
+    case "REMOVE_DATA_ONE": {
+      return {
+        ...state,
+        dataOne: null,
+      };
+    }
+
     default:
       return state;
   }

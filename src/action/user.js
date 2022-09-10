@@ -28,5 +28,9 @@ const update_user = (data) => ({
   payload: data,
 });
 
+const remove_data_one = () => ({
+  type: "REMOVE_DATA_ONE",
+});
+
 export default getuser;
-export { delete_user, get_user_one, update_user };
+export { delete_user, get_user_one, update_user, remove_data_one };

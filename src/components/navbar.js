@@ -1,6 +1,6 @@
 import { Input } from "antd";
 import { Link, NavLink } from "react-router-dom";
-import getDataUser, { get_user_one } from "../action/user";
+import getDataUser, { get_user_one, remove_data_one } from "../action/user";
 import Login from "./login";
 import ProductAdd from "./productadd";
 import Account from "./account";
@@ -40,7 +40,8 @@ const Navbar = () => {
     SetCookie("user", "", -1);
     SetCookie("accessToken", "", -1);
     setLoadPage(!loadPage);
-
+    dispatch(remove_data_one()); //Dataone reducer user về null
+    setVisibleAccount(false); //Đăng xuất đóng form cá nhân
     // setTimeout("location.reload(true)", 50);
   };
 
@@ -257,6 +258,8 @@ const ModalLogin = (props) => {
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
         footer={null}
+        zIndex={50}
+        // style={{ zIndex: 1000, position: "absolute" }}
       >
         <Login setVisible={props.setVisible} />
       </Modal>
@@ -324,6 +327,7 @@ const ModalAccount = (props) => {
         onCancel={handleCancel}
         footer={null}
         width={1000}
+        zIndex={48} //Để model Login đè lên
       >
         <Account />
       </Modal>

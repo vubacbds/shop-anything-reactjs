@@ -91,7 +91,7 @@ const BillList = ({ numbertab }) => {
       render: (_, record) => {
         return (
           <img
-            src={record.products.image}
+            src={record.products?.images[0]}
             style={{ width: 100, height: 100 }}
           />
         );

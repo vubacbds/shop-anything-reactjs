@@ -60,6 +60,12 @@ const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
     });
   };
 
+  //Để reset form,
+  const [form] = Form.useForm();
+  useEffect(() => {
+    form.resetFields();
+  }, [dataUserRedux?._id]);
+  console.log(dataUserRedux?._id);
   return (
     <>
       <Row>
@@ -70,7 +76,7 @@ const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
               style={{
                 height: 300,
                 width: 270,
-                margin: "0px 0px 10px 20px",
+                // margin: "0px 0px 10px 20px",
                 flexGrow: 1,
               }}
             />
@@ -99,6 +105,7 @@ const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
         <Col sm={12} xs={24} lg={12}>
           <div className="Form-Add-Product">
             <Form
+              form={form}
               name="basic"
               labelCol={{
                 xs: 8,
@@ -189,9 +196,20 @@ const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
                   span: 16,
                 }}
               >
-                <Button type="primary" htmlType="submit">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  disabled={!dataUserRedux?._id}
+                >
                   Đặt mua
                 </Button>
+                {!dataUserRedux?._id ? (
+                  <span style={{ color: "red" }}>
+                    * Bạn cần đăng nhập mới có thể đặt mua nhé{" "}
+                  </span>
+                ) : (
+                  ""
+                )}
               </Form.Item>
             </Form>
           </div>
