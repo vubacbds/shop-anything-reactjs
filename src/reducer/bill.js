@@ -73,8 +73,8 @@ export const billReducer = (state = initialState, action) => {
     case "ADD_BILL": {
       return {
         ...state,
-        data: [...state.data, action.payload],
-        olddata: [...state.olddata, action.payload],
+        data: [action.payload, ...state.data],
+        olddata: [action.payload, ...state.olddata],
         coutcheck: state.coutcheck + 1,
       };
     }

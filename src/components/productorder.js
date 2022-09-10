@@ -75,9 +75,10 @@ const ProductOrder = ({ dataProductOrder }) => {
               }}
             />
             <div style={{ flexGrow: 1 }}>
-              {dataProductOrder.images.map((item) => {
+              {dataProductOrder.images.map((item, index) => {
                 return (
                   <img
+                    key={index}
                     src={item}
                     style={{
                       height: 80,
@@ -107,9 +108,9 @@ const ProductOrder = ({ dataProductOrder }) => {
               }}
               initialValues={{
                 amount: 1,
-                phone: dataUserRedux.phone,
-                address: dataUserRedux.address,
-                name: dataUserRedux.name,
+                phone: dataUserRedux?.phone,
+                address: dataUserRedux?.address,
+                name: dataUserRedux?.name,
               }}
               onFinish={onFinish}
               autoComplete="off"

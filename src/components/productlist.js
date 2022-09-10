@@ -170,8 +170,18 @@ const ProductList = () => {
   };
 
   return (
-    <>
-      <div style={{ margin: "10px 20px", float: "right" }}>
+    <div
+      style={{
+        flexDirection: "row",
+        display: "inline",
+      }}
+    >
+      <div
+        style={{
+          margin: "10px 20px",
+          float: "right",
+        }}
+      >
         <Checkbox
           checked={isCheckedAll.all}
           indeterminate={isCheckedAll.part}
@@ -220,7 +230,7 @@ const ProductList = () => {
         visible={visibleProductUpdate}
         setVisible={setVisibleProductUpdate}
       />
-    </>
+    </div>
   );
 };
 
@@ -237,7 +247,6 @@ const ModalProductUpdate = (props) => {
   };
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     props.setVisible(false);
   };
 

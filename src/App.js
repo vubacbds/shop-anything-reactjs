@@ -17,7 +17,8 @@ import CategorytList from "./components/categorylist";
 import Bill from "./components/bill";
 import UsertList from "./components/userlist";
 import Footer from "./components/footer";
-import UploadImage from "./components/upload";
+import { BackTop } from "antd";
+import { UpCircleOutlined } from "@ant-design/icons";
 
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
@@ -36,35 +37,46 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Product />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/products/:productId" element={<ProductDetail />} />
-        <Route path="/products/admin-product-list" element={<ProductList />} />
-        <Route path="/bill" element={<Bill />} />
-        <Route path="/user" element={<UsertList />} />
-        <Route path="/upload-image" element={<UploadImage />} />
-        <Route
-          path="/category/admin-category-list"
-          element={<CategorytList />}
-        />
+    <>
+      <div className="App">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Product />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/products/:productId" element={<ProductDetail />} />
+          <Route
+            path="/products/admin-product-list"
+            element={<ProductList />}
+          />
+          <Route path="/bill" element={<Bill />} />
+          <Route path="/user" element={<UsertList />} />
+          {/* <Route path="/upload-image" element={<UploadImage />} /> */}
+          <Route
+            path="/category/admin-category-list"
+            element={<CategorytList />}
+          />
 
-        <Route
-          path="/test-lazy"
-          element={
-            <React.Suspense fallback={<div>Loading...</div>}>
-              <LazyTestLazy />
-            </React.Suspense>
-          }
-        />
-        {/* Để cuối */}
-        <Route path="*" element={<Notfound />} />
-      </Routes>
+          <Route
+            path="/test-lazy"
+            element={
+              <React.Suspense fallback={<div>Loading...</div>}>
+                <LazyTestLazy />
+              </React.Suspense>
+            }
+          />
+          {/* Để cuối */}
+          <Route path="*" element={<Notfound />} />
+        </Routes>
+
+        <ToastContainer />
+      </div>
       <Footer />
-      <ToastContainer />
-    </div>
+      <BackTop>
+        <div className="back-top">
+          <UpCircleOutlined />
+        </div>
+      </BackTop>
+    </>
   );
 }
 

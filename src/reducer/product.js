@@ -44,8 +44,8 @@ export const productReducer = (state = initialState, action) => {
     case "ADD_PRODUCT_SUCCESS": {
       return {
         ...state,
-        data: [...state.data, action.payload.data],
-        olddata: [...state.data, action.payload.data],
+        data: [action.payload.data, ...state.data],
+        olddata: [action.payload.data, ...state.olddata],
       };
     }
     case "UPDATE_PRODUCT_SUCCESS": {
@@ -91,8 +91,9 @@ export const productReducer = (state = initialState, action) => {
     }
     case "GET_PRODUCT_SEARCH": {
       const newState = { ...state };
-      const newProductList = newState.olddata.filter((item) =>
-        item.title.includes(action.payload)
+      const newProductList = newState.olddata.filter(
+        (item) =>
+          item.title.toLowerCase().includes(action.payload.toLowerCase()) //Biến thành chũ thường hết để tìm kiếm
       );
       return {
         ...newState,

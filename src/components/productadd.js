@@ -42,6 +42,9 @@ const ProductAdd = (props) => {
     });
   };
 
+  //Reset Form
+  const [form] = Form.useForm();
+
   //Xử lý upload ảnh
   const [fileList, setFileList] = useState([]);
   const [progress, setProgress] = useState(0);
@@ -63,14 +66,14 @@ const ProductAdd = (props) => {
   const handleCancel = () => setPreviewVisible(false);
 
   const handleChange = (e) => {
-    const nameImage = e.fileList[e.fileList.length - 1].name;
+    console.log("đã change ảnh");
+    const nameImage = e.fileList[e.fileList.length - 1]?.name;
     const fileListLength = e.fileList.filter((item) => {
       return item.name == nameImage;
     }).length;
 
-    if (fileListLength == 1) setFileList(e.fileList);
+    if (fileListLength == 1 || fileListLength == 0) setFileList(e.fileList);
     else alert("Lỗi trùng ảnh");
-    console.log(e.fileList);
   };
 
   const handlePreview = async (file) => {
@@ -124,7 +127,7 @@ const ProductAdd = (props) => {
     });
   };
   //Đóng xử lý upload ảnh
-  console.log(url.length);
+
   //Khi submit Form
   const onFinish = (values) => {
     setNewProduct(values);
@@ -149,10 +152,14 @@ const ProductAdd = (props) => {
       newProduct.image = url[0];
       ProductAPI.addproduct(newProduct)
         .then(function (response) {
-          ProductAddSuccess();
           dispatch(addproduct(response));
-          props.setVisible(false);
-          navigate("/products/admin-product-list");
+          ProductAddSuccess();
+          // props.setVisible(false);
+          // navigate("/products/admin-product-list");
+          setFileList([]);
+          setUrl([1]);
+          setProgress(0);
+          form.resetFields();
         })
         .catch(function (error) {
           console.log("Error on Authentication", error);
@@ -160,9 +167,11 @@ const ProductAdd = (props) => {
         });
     }
   }, [url]);
+
   return (
     <>
       <Form
+        form={form}
         name="basic"
         labelCol={{
           xs: 8,
@@ -316,7 +325,6 @@ const ProductAdd = (props) => {
           </Button>
         </Form.Item>
       </Form>
-      <Button onClick={() => handleUpload()}>Upppp</Button>
     </>
   );
 };

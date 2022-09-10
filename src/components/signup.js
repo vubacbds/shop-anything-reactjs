@@ -35,7 +35,7 @@ const Signup = (props) => {
     const dataUser = {
       ...values,
       image:
-        "https://haycafe.vn/wp-content/uploads/2021/12/hinh-anh-avatar-dep-cho-con-gai-dai-dien-Facebook-Zalo-Tiktok.jpg",
+        "https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg",
       isadmin: false,
     };
     UserAPI.signup(dataUser)

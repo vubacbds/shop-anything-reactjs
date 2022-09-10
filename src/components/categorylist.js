@@ -72,7 +72,12 @@ const CategorytList = () => {
   ];
 
   return (
-    <>
+    <div
+      style={{
+        flexDirection: "row",
+        display: "inline",
+      }}
+    >
       <Button
         onClick={() => setVisibleCategoryAdd(true)}
         style={{ margin: "10px 20px", fontWeight: "bold", float: "right" }}
@@ -94,7 +99,7 @@ const CategorytList = () => {
         visible={visibleCategoryUpdate}
         setVisible={setVisibleCategoryUpdate}
       />
-    </>
+    </div>
   );
 };
 
@@ -144,7 +149,6 @@ const ModalCategoryUpdate = (props) => {
   };
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     props.setVisible(false);
   };
 

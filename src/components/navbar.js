@@ -5,7 +5,7 @@ import Login from "./login";
 import ProductAdd from "./productadd";
 import Account from "./account";
 import { Button, Modal } from "antd";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { SetCookie, GetCookie } from "../util/cookie";
 import getproduct, {
   getproductcategory,
@@ -47,8 +47,9 @@ const Navbar = () => {
   //Lấy ra số lượng hóa đơn
   const dataBill = useSelector((state) => state.bill);
 
-  //Lấy input tìm kiếm
-  const [keySearch, setKeySearch] = useState();
+  //DÙng useRef lấy giá trị input search
+  const searchInput = useRef();
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top sticky-top">
       <NavLink
@@ -158,23 +159,23 @@ const Navbar = () => {
             </li>
           )}
         </ul>
-        <form className="form-inline my-2 my-lg-0 mr-5">
+        <div className="form-inline my-2 my-lg-0 mr-5">
           <input
             className="form-control mr-sm-2"
             placeholder="Nhập từ khóa..."
-            aria-label="Search"
-            value={keySearch}
-            onChange={(e) => setKeySearch(e.target.value)}
+            ref={searchInput}
             style={{ fontSize: 14 }}
           />
           <button
             className="btn btn-outline-success "
-            onClick={() => dispatch(getproductsearch(keySearch))}
+            onClick={() =>
+              dispatch(getproductsearch(searchInput.current.value))
+            }
             style={{ fontSize: 14 }}
           >
             Tìm kiếm
           </button>
-        </form>
+        </div>
       </div>
       <ul className="navbar-nav ml-auto ">
         <li className="nav-item dropdown">

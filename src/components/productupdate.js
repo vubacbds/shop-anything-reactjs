@@ -40,8 +40,6 @@ const ProductUpdate = (props) => {
   }, [dataProductId.productid]);
 
   const onFinish = (values) => {
-    values.image =
-      "https://st.app1h.com/uploads/images/company72/images/ao-thun-trang-129595.jpg";
     ProductAPI.updateproduct(dataProductId.productid, values)
       .then(function (response) {
         ProductAddSuccess();

@@ -21,7 +21,7 @@ export const categoryReducer = (state = initialState, action) => {
     case "ADD_CATEGORY": {
       return {
         ...state,
-        data: [...state.data, action.payload],
+        data: [action.payload, ...state.data],
       };
     }
     case "UPDATE_CATEGORY_SUCCESS": {
