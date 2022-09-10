@@ -1,13 +1,16 @@
 import { Button, Checkbox, Col, Form, Input, Row } from "antd";
 import React, { useEffect } from "react";
 import axios from "axios";
-import getDataUser from "../action/user";
+import getDataUser, { add_user } from "../action/user";
 import UserAPI from "../services/userAPI";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Signup = (props) => {
+  //Khi đăng ký là ditpatch thêm user mới vào state trong redux luôn để ko phải load laị trang
+  const dispatch = useDispatch();
+
   //Thông báo
   const signupSuccess = () => {
     toast.success("Đăng ký thành công !", {
@@ -41,6 +44,7 @@ const Signup = (props) => {
     UserAPI.signup(dataUser)
       .then(function (response) {
         signupSuccess();
+        dispatch(add_user(response));
       })
       .catch(function (error) {
         console.log("Error on Authentication", error);

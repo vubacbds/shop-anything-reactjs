@@ -38,6 +38,13 @@ export const userReducer = (state = initialState, action) => {
       };
     }
 
+    case "ADD_USER": {
+      return {
+        ...state,
+        data: [...state.data, action.payload],
+      };
+    }
+
     case "UPDATE_USER": {
       const newUser = { ...state.dataOne, ...action.payload };
       return {

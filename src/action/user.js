@@ -23,6 +23,11 @@ const delete_user = (id) => ({
   payload: id,
 });
 
+const add_user = (data) => ({
+  type: "ADD_USER",
+  payload: data,
+});
+
 const update_user = (data) => ({
   type: "UPDATE_USER",
   payload: data,
@@ -33,4 +38,4 @@ const remove_data_one = () => ({
 });
 
 export default getuser;
-export { delete_user, get_user_one, update_user, remove_data_one };
+export { delete_user, get_user_one, update_user, remove_data_one, add_user };

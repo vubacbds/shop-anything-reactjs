@@ -41,7 +41,6 @@ function App() {
   const userAdmin = useSelector((state) => state.user.dataOne)?.email == "bac";
   const userFormal = useSelector((state) => state.user.dataOne);
 
-  console.log(userAdmin);
   return (
     <>
       <div className="App">
