@@ -30,8 +30,8 @@ const Product = (props) => {
     totalPage: product.data?.length,
     current: 1, //Trang hiện tại
     minIndex: 0, //Số min index trong mảng data có thể hiển thị
-    maxIndex: 12,
-    size: 12, //Số item hiển thị
+    maxIndex: 3,
+    size: 3, //Số item hiển thị
   };
   const [pages, setPages] = useState(objPage);
   //Xử lý khi chọn trang

@@ -46,7 +46,7 @@ const ProductUpdate = (props) => {
         dispatch(updateproduct({ ...values, _id: dataProductId.productid })); //Để truyền _Id vào reducer, thay đổi trên giao diện
 
         props.setVisible(false);
-        navigate("/products/admin-product-list");
+        // navigate("/products/admin-product-list");
       })
       .catch(function (error) {
         console.log("Error on Authentication", error);

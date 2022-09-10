@@ -139,21 +139,15 @@ const Navbar = () => {
                   Thêm sản phẩm
                 </a>
                 <div className="dropdown-divider"></div>
-                <Link
-                  className="dropdown-item"
-                  to="/products/admin-product-list"
-                >
+                <Link className="dropdown-item" to="/admin/products">
                   Sản phẩm của tôi
                 </Link>
                 <div className="dropdown-divider"></div>
-                <Link
-                  className="dropdown-item"
-                  to="/category/admin-category-list"
-                >
+                <Link className="dropdown-item" to="/admin/categories">
                   Danh mục
                 </Link>
                 <div className="dropdown-divider"></div>
-                <Link className="dropdown-item" to="/user">
+                <Link className="dropdown-item" to="/admin/users">
                   Tài khoản người dùng
                 </Link>
               </div>

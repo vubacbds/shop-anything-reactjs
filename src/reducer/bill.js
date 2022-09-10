@@ -26,6 +26,7 @@ export const billReducer = (state = initialState, action) => {
           return item.status === 2;
         });
         //Đóng đếm số lượng
+
         return {
           ...state,
           data: databill,
@@ -38,10 +39,21 @@ export const billReducer = (state = initialState, action) => {
         const databill = action.payload.filter((item) => {
           return item.status === 0 && item.users?._id === userData?._id;
         });
+        //Này để đếm số lượng
+        const databill1 = action.payload.filter((item) => {
+          return item.status === 1 && item.users?._id === userData?._id;
+        });
+        const databill2 = action.payload.filter((item) => {
+          return item.status === 2 && item.users?._id === userData?._id;
+        });
+        //Đóng đếm số lượng
         return {
           ...state,
           data: databill,
           olddata: action.payload,
+          coutcheck: databill.length,
+          coutdelivering: databill1.length,
+          coutdelivered: databill2.length,
         };
       }
     case "GET_BILL_USER_STATUS": {

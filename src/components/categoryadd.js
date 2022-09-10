@@ -30,7 +30,7 @@ const CategorytAdd = (props) => {
         CategoryAddSuccess();
         dispatch(addcategory(response));
         props.setVisible(false);
-        navigate("/category/admin-category-list");
+        // navigate("/category/admin-category-list");
       })
       .catch(function (error) {
         console.log("Error on Authentication", error);

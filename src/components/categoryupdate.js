@@ -36,7 +36,7 @@ const CategorytUpdate = (props) => {
           updatecategory({ ...values, _id: categorytId.catid, slug: "" })
         );
         props.setVisible(false);
-        navigate("/category/admin-category-list");
+        // navigate("/category/admin-category-list");
       })
       .catch(function (error) {
         console.log("Error on Authentication", error);

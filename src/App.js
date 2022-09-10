@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import getproduct from "./action/product";
 import getcategory from "./action/category";
@@ -41,6 +41,7 @@ function App() {
   const userAdmin = useSelector((state) => state.user.dataOne)?.email == "bac";
   const userFormal = useSelector((state) => state.user.dataOne);
 
+  console.log(userAdmin);
   return (
     <>
       <div className="App">
@@ -50,19 +51,24 @@ function App() {
           <Route path="/login" element={<Login />} />
           {/* <Route path="/products/:productId" element={<ProductDetail />} /> */}
 
-          <Route path="/bill" element={userFormal ? <Bill /> : <Notfound />} />
+          <Route
+            path="/bill"
+            element={userFormal ? <Bill /> : <Navigate to="/" replace />}
+          />
 
           <Route
-            path="/products/admin-product-list"
-            element={userAdmin ? <ProductList /> : <Notfound />} //Ko phải admin ko dc vào link này
+            path="/admin/products"
+            element={userAdmin ? <ProductList /> : <Navigate to="/" replace />} //Ko phải admin ko dc vào link này
           />
           <Route
-            path="/user"
-            element={userAdmin ? <UsertList /> : <Notfound />}
+            path="/admin/users"
+            element={userAdmin ? <UsertList /> : <Navigate to="/" replace />}
           />
           <Route
-            path="/category/admin-category-list"
-            element={<Notfound /> ? <CategorytList /> : <Notfound />}
+            path="/admin/categories"
+            element={
+              <Notfound /> ? <CategorytList /> : <Navigate to="/" replace />
+            }
           />
 
           <Route
@@ -74,7 +80,7 @@ function App() {
             }
           />
           {/* Để cuối */}
-          <Route path="*" element={<Notfound />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
 
         <ToastContainer />

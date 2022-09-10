@@ -220,7 +220,7 @@ const BillList = ({ numbertab }) => {
               </Popconfirm>
             </span>
           </>
-        ) : (
+        ) : numbertab == 3 && userData.email == "bac" ? (
           <Popconfirm
             title="Xác nhận xóa?"
             onConfirm={() => deleteBill(record)}
@@ -229,6 +229,8 @@ const BillList = ({ numbertab }) => {
               <DeleteOutlined />
             </a>
           </Popconfirm>
+        ) : (
+          ""
         );
       },
       showOnResponse: true,
