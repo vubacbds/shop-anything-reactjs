@@ -15,6 +15,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { set_null } from "../action/bill";
 
 const Navbar = () => {
+  //Lấy các thông tin của web
+  const dataOther = useSelector((state) => state.other);
+
   //Thủ thuật cập nhật lại narbar khi login/logout
   const [loadPage, setLoadPage] = useState(false);
 
@@ -60,7 +63,7 @@ const Navbar = () => {
           dispatch(getproductcategory());
         }}
       >
-        <h2 className="font-home">SHOP</h2>
+        <h2 className="font-home">{dataOther?.web_title}</h2>
       </NavLink>
 
       <button
@@ -149,6 +152,10 @@ const Navbar = () => {
                 <div className="dropdown-divider"></div>
                 <Link className="dropdown-item" to="/admin/users">
                   Tài khoản người dùng
+                </Link>
+                <div className="dropdown-divider"></div>
+                <Link className="dropdown-item" to="/admin/others">
+                  Cài đặt chung
                 </Link>
               </div>
             </li>

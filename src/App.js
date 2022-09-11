@@ -6,6 +6,7 @@ import getproduct from "./action/product";
 import getcategory from "./action/category";
 import getbill from "./action/bill";
 import getuser from "./action/user";
+import getother from "./action/other";
 
 import Product from "./components/product";
 import Navbar from "./components/navbar";
@@ -17,6 +18,9 @@ import CategorytList from "./components/categorylist";
 import Bill from "./components/bill";
 import UsertList from "./components/userlist";
 import Footer from "./components/footer";
+import Other from "./components/other";
+import OtherContext from "./components/othercontext";
+
 import { BackTop } from "antd";
 import { UpCircleOutlined } from "@ant-design/icons";
 
@@ -35,6 +39,7 @@ function App() {
     dispatch(getcategory());
     dispatch(getbill());
     dispatch(getuser());
+    dispatch(getother());
   }, []);
 
   //Để ràng buộc router ko cho phép vào
@@ -48,6 +53,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Product />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/other/:cat" element={<OtherContext />} />
           {/* <Route path="/products/:productId" element={<ProductDetail />} /> */}
 
           <Route
@@ -68,6 +74,10 @@ function App() {
             element={
               <Notfound /> ? <CategorytList /> : <Navigate to="/" replace />
             }
+          />
+          <Route
+            path="/admin/others"
+            element={userFormal ? <Other /> : <Navigate to="/" replace />}
           />
 
           <Route

@@ -139,3 +139,11 @@ footer {
     text-align: center;
     font-size: 20px;
 }
+
+.other-context {
+
+  width: 96%;
+  margin-top: 30px;
+  margin-left: 30px;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}

@@ -10,8 +10,13 @@ import {
   YoutubeOutlined,
 } from "@ant-design/icons";
 import { Col, Row } from "antd";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
+  //Lấy các thông tin của web
+  const dataOther = useSelector((state) => state.other);
+
   return (
     <>
       <footer style={{}}>
@@ -33,18 +38,33 @@ const Footer = () => {
                 className="contact"
               >
                 <p>
-                  <PhoneOutlined /> Hotline: 0868609878
+                  <PhoneOutlined /> Hotline: {dataOther?.web_hotline}
                 </p>
                 <p>
-                  <MailOutlined /> vubacbds@gmail.com
+                  <MailOutlined /> {dataOther?.web_mail}
                 </p>
               </div>
             </Col>
             <Col span={8}>
               <ul style={{ textAlign: "left", marginTop: 10, fontSize: 12 }}>
-                <li>Chính sách mua hàng</li>
-                <li>Bảo hành</li>
-                <li>Hướng dẫn sử dụng</li>
+                <li>
+                  <Link to="/other/cs" style={{ color: "black" }}>
+                    {" "}
+                    Chính sách mua hàng
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/other/bh" style={{ color: "black" }}>
+                    {" "}
+                    Bảo hành
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/other/hd" style={{ color: "black" }}>
+                    {" "}
+                    Hướng dẫn
+                  </Link>
+                </li>
               </ul>
             </Col>
 
@@ -61,13 +81,16 @@ const Footer = () => {
                   }
                 }
               >
-                <a className="btn btn-link btn-lg text-dark " href="#!">
+                <a
+                  className="btn btn-link btn-lg text-dark "
+                  href={dataOther?.web_facebook}
+                >
                   <FacebookOutlined />
                 </a>
 
                 <a
                   className="btn btn-link btn-floating btn-lg text-dark "
-                  href="#!"
+                  href={dataOther?.web_youtube}
                 >
                   <YoutubeOutlined />
                 </a>
@@ -97,9 +120,8 @@ const Footer = () => {
                   fontSize: 11,
                 }}
               >
-                © 2022 Copyright: &nbsp;
                 <a className="text-dark" href="https://mdbootstrap.com/">
-                  Website built on ReactJS and NodeJS platform by BAC
+                  {dataOther?.web_finish}
                 </a>
               </div>
             </Col>

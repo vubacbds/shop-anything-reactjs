@@ -3,6 +3,7 @@ import ProductAPI from "../services/productAPI";
 import CategoryAPI from "../services/categorytAPI";
 import BillAPI from "../services/billAPI";
 import UserAPI from "../services/userAPI";
+import OtherAPI from "../services/otherAPI";
 
 const axiosProduct = () => {
   return new Promise((resolve, reject) => {
@@ -56,4 +57,17 @@ const axiosUser = () => {
   });
 };
 
-export { axiosProduct, axiosCategory, axiosBill, axiosUser };
+const axiosOther = () => {
+  return new Promise((resolve, reject) => {
+    OtherAPI.getother()
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+};
+
+export { axiosProduct, axiosCategory, axiosBill, axiosUser, axiosOther };
