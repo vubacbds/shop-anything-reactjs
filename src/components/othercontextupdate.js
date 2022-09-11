@@ -1,5 +1,5 @@
 import { Button, Checkbox, Form, Input } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { update_other } from "../action/other";
@@ -9,15 +9,6 @@ const OtherContextUpdate = ({ cat }) => {
   const dispatch = useDispatch();
   //Lấy các thông tin của web
   const dataOther = useSelector((state) => state.other);
-  console.log(dataOther);
-  //Kiểm tra
-  const checkCat = () => {
-    let data;
-    if (cat == "cs") data = dataOther.web_cs;
-    else if (cat == "bh") data = dataOther.web_bh;
-    else data = dataOther.web_hd;
-    return data;
-  };
 
   //Thông báo
   const ProductAddSuccess = () => {
@@ -49,28 +40,33 @@ const OtherContextUpdate = ({ cat }) => {
       });
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
-
+  const [form] = Form.useForm();
+  useEffect(() => {
+    form.resetFields();
+  }, [cat]);
   return (
     <Form
+      form={form}
       name="basic"
       labelCol={{
-        span: 2,
+        span: 0,
       }}
       wrapperCol={{
-        span: 22,
+        span: 24,
       }}
       initialValues={{
-        desc: checkCat(),
+        desc:
+          cat == "cs"
+            ? dataOther.web_cs
+            : cat == "bh"
+            ? dataOther.web_bh
+            : dataOther.web_hd,
       }}
       onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
       <Form.Item
-        label="Nội dung"
+        label=""
         name="desc"
         rules={[
           {
@@ -79,7 +75,7 @@ const OtherContextUpdate = ({ cat }) => {
           },
         ]}
       >
-        <Input.TextArea showCount maxLength={5000} style={{ height: 400 }} />
+        <Input.TextArea showCount maxLength={5000} style={{ height: 360 }} />
       </Form.Item>
 
       <Form.Item

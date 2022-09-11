@@ -45,10 +45,10 @@ const Other = () => {
   };
 
   return (
-    <>
+    <div>
       <Row>
         <Col lg={14} xs={24}>
-          <h5 style={{ margin: 20 }}>
+          <h5 style={{ margin: "20px 0px" }}>
             Thay đổi các thông tin chung trên website của bạn
           </h5>
           <Form
@@ -161,7 +161,7 @@ const Other = () => {
           </Form>
         </Col>
         <Col lg={10} xs={24}>
-          <div style={{ margin: "40px 0px" }}>
+          <div style={{ margin: "40px 0px 120px 0px" }}>
             <Button
               onClick={() => {
                 setCat("cs");
@@ -194,7 +194,7 @@ const Other = () => {
         setVisible={setVisibleOtherContext}
         cat={cat}
       />
-    </>
+    </div>
   );
 };
 
@@ -230,8 +230,8 @@ const ModalOtherContext = ({ cat, setVisible, visible }) => {
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
         footer={null}
-        width={1000}
-        zIndex={48} //Để model Login đè lên
+        width={800}
+        zIndex={45} //Để model Login đè lên
       >
         <OtherContextUpdate cat={cat} />
       </Modal>

@@ -81,7 +81,7 @@
 .borderText {
   box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px;
     box-sizing: inherit;
-   margin-top: 10px;
+   margin-top: 20px;
    padding: 15px;
     line-height: 1.6em;
 }
@@ -141,9 +141,10 @@ footer {
 }
 
 .other-context {
-
-  width: 96%;
-  margin-top: 30px;
-  margin-left: 30px;
+  text-align: left;
+  padding: 10px;
+  /* width: 96%; */
+  margin: 20px;
+  /* margin-left: 30px; */
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }

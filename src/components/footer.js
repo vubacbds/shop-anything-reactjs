@@ -27,13 +27,12 @@ const Footer = () => {
               color: "gray",
             }}
           >
-            <Col span={10}>
+            <Col lg={10} xs={12}>
               <div
                 style={{
                   color: "gray",
                   margin: "10px 0px 0px 20px",
                   textAlign: "left",
-                  fontSize: 12,
                 }}
                 className="contact"
               >
@@ -45,8 +44,8 @@ const Footer = () => {
                 </p>
               </div>
             </Col>
-            <Col span={8}>
-              <ul style={{ textAlign: "left", marginTop: 10, fontSize: 12 }}>
+            <Col lg={8} xs={12}>
+              <ul style={{ textAlign: "left", marginTop: 10 }}>
                 <li>
                   <Link to="/other/cs" style={{ color: "black" }}>
                     {" "}
@@ -69,7 +68,8 @@ const Footer = () => {
             </Col>
 
             <Col
-              span={6}
+              lg={6}
+              xs={24}
               style={{
                 textAlign: "justify",
               }}

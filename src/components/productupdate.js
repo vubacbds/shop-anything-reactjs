@@ -70,12 +70,12 @@ const ProductUpdate = (props) => {
         form={form}
         name="basic"
         labelCol={{
-          xs: 8,
-          md: 8,
+          xs: 4,
+          md: 4,
         }}
         wrapperCol={{
-          xs: 12,
-          md: 12,
+          xs: 20,
+          md: 20,
         }}
         initialValues={{
           remember: true,
@@ -89,7 +89,7 @@ const ProductUpdate = (props) => {
         autoComplete="off"
       >
         <Form.Item
-          label="Category"
+          label="Danh mục"
           name="category"
           rules={[
             {
@@ -98,7 +98,7 @@ const ProductUpdate = (props) => {
             },
           ]}
         >
-          <Select>
+          <Select style={{ width: "60%" }}>
             {category.map((item) => {
               return (
                 <Select.Option value={item._id} key={item._id}>
@@ -110,7 +110,7 @@ const ProductUpdate = (props) => {
         </Form.Item>
 
         <Form.Item
-          label="Title"
+          label="Tiêu đề"
           name="title"
           rules={[
             {
@@ -119,12 +119,12 @@ const ProductUpdate = (props) => {
             },
           ]}
         >
-          <Input name="title" />
+          <Input.TextArea showCount maxLength={100} />
         </Form.Item>
 
         <Form.Item
-          label="Description"
-          name="description"
+          label="Mô tả"
+          name="Description"
           rules={[
             {
               required: true,
@@ -132,7 +132,7 @@ const ProductUpdate = (props) => {
             },
           ]}
         >
-          <Input />
+          <Input.TextArea showCount maxLength={500} style={{ height: 100 }} />
         </Form.Item>
 
         <Form.Item
@@ -148,7 +148,7 @@ const ProductUpdate = (props) => {
           <InputNumber
             addonAfter={prefixSelectorPrice}
             min={0}
-            style={{ width: "80%" }}
+            style={{ width: "60%" }}
             formatter={(value) =>
               `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }
@@ -167,7 +167,7 @@ const ProductUpdate = (props) => {
         >
           <InputNumber
             min={0}
-            style={{ width: "40%" }}
+            style={{ width: "30%" }}
             formatter={(value) =>
               `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }

@@ -174,12 +174,12 @@ const ProductAdd = (props) => {
         form={form}
         name="basic"
         labelCol={{
-          xs: 8,
-          md: 8,
+          xs: 4,
+          md: 4,
         }}
         wrapperCol={{
-          xs: 12,
-          md: 12,
+          xs: 20,
+          md: 20,
         }}
         initialValues={{
           remember: true,
@@ -188,7 +188,7 @@ const ProductAdd = (props) => {
         autoComplete="off"
       >
         <Form.Item
-          label="Danh mục"
+          label="Danh mục "
           name="category"
           rules={[
             {
@@ -197,7 +197,7 @@ const ProductAdd = (props) => {
             },
           ]}
         >
-          <Select>
+          <Select style={{ width: "60%" }}>
             {category.map((item) => {
               return (
                 <Select.Option value={item._id} key={item._id}>
@@ -218,7 +218,7 @@ const ProductAdd = (props) => {
             },
           ]}
         >
-          <Input.TextArea showCount maxLength={50} style={{ height: 50 }} />
+          <Input.TextArea showCount maxLength={100} />
         </Form.Item>
 
         <Form.Item
@@ -247,7 +247,7 @@ const ProductAdd = (props) => {
           <InputNumber
             addonAfter={prefixSelectorPrice}
             min={0}
-            style={{ width: "70%" }}
+            style={{ width: "60%" }}
             formatter={(value) =>
               `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }
@@ -266,7 +266,7 @@ const ProductAdd = (props) => {
         >
           <InputNumber
             min={0}
-            style={{ width: "40%" }}
+            style={{ width: "30%" }}
             formatter={(value) =>
               `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }

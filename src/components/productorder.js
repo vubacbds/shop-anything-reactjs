@@ -74,10 +74,10 @@ const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
             <img
               src={bigImage ?? dataProductOrder.images[0]}
               style={{
-                height: 300,
-                width: 270,
+                height: 240,
+                width: 240,
                 // margin: "0px 0px 10px 20px",
-                flexGrow: 1,
+                flexGrow: 2,
               }}
             />
             <div style={{ flexGrow: 1 }}>
@@ -89,7 +89,7 @@ const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
                       style={{
                         height: 80,
                         width: 80,
-                        margin: "0px 0px 10px 20px",
+                        margin: "0px 0px 10px 10px",
                       }}
                       onClick={() => setBigImage(item)}
                     />
