@@ -149,7 +149,6 @@ const ProductAdd = (props) => {
   useEffect(() => {
     if (url.length === fileList.length) {
       newProduct.images = url;
-      newProduct.image = url[0];
       ProductAPI.addproduct(newProduct)
         .then(function (response) {
           dispatch(addproduct(response));

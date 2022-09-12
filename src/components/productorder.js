@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import ProductAPI from "../services/productAPI";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UseViewport } from "../util/customhook";
 
 const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
   const dispatch = useDispatch();
@@ -65,44 +66,109 @@ const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
   useEffect(() => {
     form.resetFields();
   }, [dataUserRedux?._id]);
-  console.log(dataUserRedux?._id);
+
+  //Sử dụng CostumHook kiểm tra kích thước màn hình để hiển thị cho đúng reponsive
+  const viewPort = UseViewport();
+  const isMobile = viewPort.width <= 512;
+
   return (
     <>
       <Row>
-        <Col sm={12} xs={24} lg={12}>
-          <div style={{ display: "flex" }}>
-            <img
-              src={bigImage ?? dataProductOrder.images[0]}
-              style={{
-                height: 240,
-                width: 240,
-                // margin: "0px 0px 10px 20px",
-                flexGrow: 2,
-              }}
-            />
-            <div style={{ flexGrow: 1 }}>
-              {dataProductOrder.images.map((item, index) => {
-                return (
-                  <a key={index}>
-                    <img
-                      src={item}
-                      style={{
-                        height: 80,
-                        width: 80,
-                        margin: "0px 0px 10px 10px",
-                      }}
-                      onClick={() => setBigImage(item)}
-                    />
-                  </a>
-                );
-              })}
+        <Col sm={24} xs={24} lg={12}>
+          {!isMobile ? (
+            <div style={{ display: "flex" }}>
+              <img
+                src={bigImage ?? dataProductOrder.images[0]}
+                style={{
+                  height: 300,
+                  width: 300,
+                  // margin: "0px 0px 10px 20px",
+                  flexGrow: 2,
+                }}
+              />
+              <div style={{ flexGrow: 1 }}>
+                {dataProductOrder.images.map((item, index) => {
+                  return (
+                    <a key={index}>
+                      <img
+                        src={item}
+                        style={{
+                          height: 90,
+                          width: 90,
+                          margin: "0px 0px 10px 10px",
+                        }}
+                        onClick={() => setBigImage(item)}
+                      />
+                    </a>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          ) : (
+            <>
+              <div
+                id="carouselExampleControls"
+                className="carousel slide"
+                data-ride="carousel"
+              >
+                <div className="carousel-inner">
+                  <div className="carousel-item active">
+                    <img
+                      src={dataProductOrder.images[0]}
+                      alt="First slide"
+                      style={{
+                        height: 260,
+                      }}
+                    />
+                  </div>
+                  {dataProductOrder.images.map((item, index) => {
+                    return (
+                      index > 0 && (
+                        <div key={index} className="carousel-item">
+                          <img
+                            src={item}
+                            style={{
+                              height: 260,
+                            }}
+                          />
+                        </div>
+                      )
+                    );
+                  })}
+                </div>
+                <a
+                  className="carousel-control-prev"
+                  href="#carouselExampleControls"
+                  role="button"
+                  data-slide="prev"
+                >
+                  <span
+                    className="carousel-control-prev-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span className="sr-only">Previous</span>
+                </a>
+                <a
+                  className="carousel-control-next"
+                  href="#carouselExampleControls"
+                  role="button"
+                  data-slide="next"
+                >
+                  <span
+                    className="carousel-control-next-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span className="sr-only">Next</span>
+                </a>
+              </div>
+            </>
+          )}
+
           <div className="borderText">
             *Mô tả: {dataProductOrder.description}{" "}
           </div>
         </Col>
-        <Col sm={12} xs={24} lg={12}>
+        <Col sm={24} xs={24} lg={12}>
           <div className="Form-Add-Product">
             <Form
               form={form}

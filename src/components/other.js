@@ -47,17 +47,17 @@ const Other = () => {
   return (
     <div>
       <Row>
-        <Col lg={14} xs={24}>
+        <Col lg={18} xs={24}>
           <h5 style={{ margin: "20px 0px" }}>
             Thay đổi các thông tin chung trên website của bạn
           </h5>
           <Form
             name="basic"
             labelCol={{
-              span: 8,
+              span: 6,
             }}
             wrapperCol={{
-              span: 12,
+              span: 18,
             }}
             initialValues={{
               web_title: dataOther?.web_title,
@@ -66,10 +66,13 @@ const Other = () => {
               web_facebook: dataOther?.web_facebook,
               web_youtube: dataOther?.web_youtube,
               web_finish: dataOther?.web_finish,
+              web_imageads: dataOther?.web_imageads,
+              web_linkads: dataOther?.web_linkads,
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
+            style={{ margin: "0px 40px" }}
           >
             <Form.Item
               label="Tên website"
@@ -81,7 +84,7 @@ const Other = () => {
                 },
               ]}
             >
-              <Input />
+              <Input maxLength={15} />
             </Form.Item>
 
             <Form.Item
@@ -94,7 +97,7 @@ const Other = () => {
                 },
               ]}
             >
-              <Input />
+              <Input maxLength={20} />
             </Form.Item>
 
             <Form.Item
@@ -135,6 +138,7 @@ const Other = () => {
             >
               <Input />
             </Form.Item>
+
             <Form.Item
               label="Dòng cuối website"
               name="web_finish"
@@ -145,6 +149,14 @@ const Other = () => {
                 },
               ]}
             >
+              <Input maxLength={200} />
+            </Form.Item>
+
+            <Form.Item label="Link ảnh quảng cáo (ảnh dọc)" name="web_imageads">
+              <Input />
+            </Form.Item>
+
+            <Form.Item label="Link quảng cáo" name="web_linkads">
               <Input />
             </Form.Item>
 
@@ -160,7 +172,7 @@ const Other = () => {
             </Form.Item>
           </Form>
         </Col>
-        <Col lg={10} xs={24}>
+        <Col lg={6} xs={24}>
           <div style={{ margin: "40px 0px 120px 0px" }}>
             <Button
               onClick={() => {
@@ -231,7 +243,7 @@ const ModalOtherContext = ({ cat, setVisible, visible }) => {
         onCancel={handleCancel}
         footer={null}
         width={800}
-        zIndex={45} //Để model Login đè lên
+        zIndex={1998} //Để model Login đè lên
       >
         <OtherContextUpdate cat={cat} />
       </Modal>

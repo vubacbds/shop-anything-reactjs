@@ -19,6 +19,9 @@ const Product = (props) => {
   //Lấy data sản phẩm từ redux
   const product = useSelector((state) => state.product);
 
+  //Lấy các thông tin của web
+  const dataOther = useSelector((state) => state.other);
+
   //Lấy 1 product khi đặt hàng
   const [dataProductOrder, setDataProductOrder] = useState();
 
@@ -47,78 +50,99 @@ const Product = (props) => {
 
   return (
     <>
-      <div className="comtainer" style={{ margin: "10px 20px" }}>
-        {product?.data?.map((item, index) => {
-          return (
-            index >= pages.minIndex &&
-            index < pages.maxIndex && (
-              <div className="row" key={item._id}>
-                <div className="col-sm-2 col-lg-2 "> </div>
-                <a
-                  // to={`/products/${item._id}`}
-                  className="col-sm-8 col-lg-8 product-hover"
-                  style={{ textAlign: "left", display: "flex" }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setDataProductOrder(item);
-                    setVisibleOrderProduct(true);
-                  }}
-                >
-                  <img
-                    className="card-img-left"
-                    src={item.images[0]}
-                    style={{ flexGrow: 1, width: 80, height: 134 }}
-                  />
-                  <div
-                    className="card w-50"
-                    style={{ flexGrow: 2, height: 134 }}
-                  >
-                    <div className="card-body">
-                      <h5 className="card-title">{item.title}</h5>
-                      <p
-                        className="card-text"
-                        style={{ color: "red", fontWeight: "bold" }}
+      <Row>
+        <Col xs={0} sm={0} lg={6}>
+          {" "}
+        </Col>
+        <Col xs={24} sm={16} lg={12}>
+          {product?.data?.map((item, index) => {
+            return (
+              <div key={item._id}>
+                {index >= pages.minIndex && index < pages.maxIndex && (
+                  <div>
+                    <a
+                      // to={`/products/${item._id}`}
+                      className=" product-hover"
+                      style={{ textAlign: "left", display: "flex" }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setDataProductOrder(item);
+                        setVisibleOrderProduct(true);
+                      }}
+                    >
+                      <img
+                        className="card-img-left"
+                        src={item.images[0]}
+                        style={{ flexGrow: 1, width: 80, height: 130 }}
+                      />
+                      <div
+                        className="card w-50"
+                        style={{ flexGrow: 2, height: 130 }}
                       >
-                        {item.price.toLocaleString("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                        })}
-                      </p>
-                      <div style={{ textAlign: "left", display: "flex" }}>
-                        <div
-                          style={{
-                            flexGrow: 8,
-                            fontSize: 12,
-                            marginTop: 10,
-                            color: "#a4b4b4",
-                          }}
-                        >
-                          Số lượng: {item.amount}&ensp; || &ensp;{" "}
-                          {moment(item.updatedAt).format("DD/MM/yyyy A")}
-                        </div>
-                        <div style={{ flexGrow: 1 }}>
-                          <Button
-                          // className="btn btn-primary "
-                          // style={{ width: 40, height: 32, marginBottom: 20 }}
-                          // onClick={(e) => {
-                          //   e.preventDefault();
-                          //   setDataProductOrder(item);
-                          //   setVisibleOrderProduct(true);
-                          // }}
+                        <div className="card-body">
+                          <h5 className="card-title">{item.title}</h5>
+                          <p
+                            className="card-text"
+                            style={{ color: "red", fontWeight: "bold" }}
                           >
-                            <ShoppingCartOutlined />
-                          </Button>
+                            {item.price.toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                          </p>
+                          <div style={{ textAlign: "left", display: "flex" }}>
+                            <div
+                              style={{
+                                flexGrow: 8,
+                                fontSize: 11,
+                                marginTop: 10,
+                                color: "#a4b4b4",
+                              }}
+                            >
+                              Còn lại: {item.amount} &ensp; | &ensp;{" "}
+                              {moment(item.updatedAt).format("DD/MM/yyyy")}
+                            </div>
+                            <div style={{ flexGrow: 1 }}>
+                              <Button
+                              // className="btn btn-primary "
+                              // style={{ width: 40, height: 32, marginBottom: 20 }}
+                              // onClick={(e) => {
+                              //   e.preventDefault();
+                              //   setDataProductOrder(item);
+                              //   setVisibleOrderProduct(true);
+                              // }}
+                              >
+                                <ShoppingCartOutlined />
+                              </Button>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </a>
                   </div>
-                </a>
-                <div className="col-sm-2 col-lg-2 "> </div>
+                )}
               </div>
-            )
-          );
-        })}
-      </div>
+            );
+          })}
+        </Col>
+        <Col xs={0} sm={8} lg={6}>
+          <div
+            style={{
+              height: 420,
+              margin: "50px 20px 0px 20px",
+            }}
+          >
+            {dataOther?.web_imageads?.split(" ").join("") != "" && (
+              <a href={dataOther.web_linkads} target="_blank">
+                <img
+                  style={{ height: 420, width: "100%" }}
+                  src={dataOther.web_imageads}
+                />
+              </a>
+            )}
+          </div>
+        </Col>
+      </Row>
       {/* //Phân trang// */}
 
       <hr style={{ border: 2, color: "#BCADB0" }} />
@@ -136,7 +160,7 @@ const Product = (props) => {
             // margin: "20px 0px 20px 350px ",
           }}
           showSizeChanger={true}
-          pageSizeOptions={[12, 24, 48]}
+          pageSizeOptions={[3, 12, 24, 48]}
 
           // onShowSizeChange={handleShowSizeChange}
         />
@@ -182,7 +206,7 @@ const ModalOrderProduct = (props) => {
         onCancel={handleCancel}
         footer={null}
         width={1100}
-        zIndex={49} //Để model Login đè lên
+        zIndex={2000} //Để model Login đè lên
       >
         <ProductOrder
           dataProductOrder={props.dataProductOrder}

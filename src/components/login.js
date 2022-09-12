@@ -162,6 +162,7 @@ const ModalSignup = (props) => {
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
         footer={null}
+        zIndex={1997}
       >
         <Signup setVisible={props.setVisible} />
       </Modal>

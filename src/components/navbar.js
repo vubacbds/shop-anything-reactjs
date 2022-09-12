@@ -13,6 +13,7 @@ import getproduct, {
 } from "../action/product";
 import { useDispatch, useSelector } from "react-redux";
 import { set_null } from "../action/bill";
+import { UseViewport } from "../util/customhook";
 
 const Navbar = () => {
   //Lấy các thông tin của web
@@ -53,6 +54,10 @@ const Navbar = () => {
 
   //DÙng useRef lấy giá trị input search
   const searchInput = useRef();
+
+  //Sử dụng CostumHook kiểm tra kích thước màn hình để hiển thị cho đúng reponsive
+  const viewPort = UseViewport();
+  const isMobile = viewPort.width <= 512;
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top sticky-top">
@@ -190,7 +195,7 @@ const Navbar = () => {
               aria-expanded="false"
             >
               <img className="avt-user" src={userData?.image} />
-              {userData?.email}
+              {!isMobile && userData?.email}
             </a>
           ) : (
             <Button type="primary" onClick={() => setVisibleLogin(true)}>
@@ -259,7 +264,7 @@ const ModalLogin = (props) => {
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
         footer={null}
-        zIndex={50}
+        zIndex={1996}
         // style={{ zIndex: 1000, position: "absolute" }}
       >
         <Login setVisible={props.setVisible} />
@@ -294,6 +299,7 @@ const ModalProductAdd = (props) => {
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
         footer={null}
+        zIndex={1999}
       >
         <ProductAdd setVisible={props.setVisible} />
       </Modal>

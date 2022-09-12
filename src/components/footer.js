@@ -84,6 +84,7 @@ const Footer = () => {
                 <a
                   className="btn btn-link btn-lg text-dark "
                   href={dataOther?.web_facebook}
+                  target="_blank"
                 >
                   <FacebookOutlined />
                 </a>
@@ -91,6 +92,7 @@ const Footer = () => {
                 <a
                   className="btn btn-link btn-floating btn-lg text-dark "
                   href={dataOther?.web_youtube}
+                  target="_blank"
                 >
                   <YoutubeOutlined />
                 </a>
@@ -120,9 +122,7 @@ const Footer = () => {
                   fontSize: 11,
                 }}
               >
-                <a className="text-dark" href="https://mdbootstrap.com/">
-                  {dataOther?.web_finish}
-                </a>
+                <p className="text-dark">{dataOther?.web_finish}</p>
               </div>
             </Col>
           </Row>
