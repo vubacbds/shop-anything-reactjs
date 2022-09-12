@@ -302,7 +302,7 @@ const ProductAdd = (props) => {
               accept=".jpg, .png"
               // multiple={true}
             >
-              {fileList.length >= 4 ? null : (
+              {fileList.length >= 6 ? null : (
                 <div>
                   <PlusOutlined />
                   <div style={{ marginTop: 8 }}>Upload</div>

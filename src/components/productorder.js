@@ -151,7 +151,7 @@ const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
                     className="carousel-control-prev-icon"
                     aria-hidden="true"
                   ></span>
-                  <span className="sr-only">Previous</span>
+                  <span className="sr-only"> Previous</span>
                 </a>
                 <a
                   className="carousel-control-next"
@@ -178,14 +178,12 @@ const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
             >
               <span>Còn lại: {dataProductOrder.amount}</span> &ensp; | &ensp;
               <span>
-                Ngày đăng:{" "}
                 {moment(dataProductOrder.createdAt).format("DD/MM/yyyy")}{" "}
               </span>
               &ensp;
               <span>
                 <Button
-                  onClick={(e) => {
-                    e.preventDefault();
+                  onClick={() => {
                     const cb = navigator.clipboard;
                     cb.writeText(
                       `http://localhost:3000/products/${dataProductOrder._id}`
@@ -199,7 +197,7 @@ const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
                 </Button>
               </span>
               &ensp;
-              <span>{copy && !isMobile ? copy : ""}</span>
+              <span>{copy ?? ""}</span>
             </div>
             <p>*Mô tả: {dataProductOrder.description} </p>
           </div>

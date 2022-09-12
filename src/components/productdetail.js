@@ -23,7 +23,6 @@ const ProductDetail = () => {
 
   //Lấy thông tin sản phẩm chi tiết
   const dataProductOrder = useSelector((state) => state.product.dataproductid);
-  console.log(dataProductOrder);
 
   //Lấy thông tin user đang đăng nhập
   const dataUserRedux = useSelector((state) => state.user.dataOne);
@@ -205,7 +204,6 @@ const ProductDetail = () => {
               <span>Còn lại: {(dataProductOrder ?? productItem)?.amount}</span>{" "}
               &ensp; | &ensp;
               <span>
-                Ngày đăng:{" "}
                 {moment((dataProductOrder ?? productItem)?.createdAt).format(
                   "DD/MM/yyyy"
                 )}{" "}
@@ -213,11 +211,12 @@ const ProductDetail = () => {
               &ensp;
               <span>
                 <Button
-                  onClick={(e) => {
-                    e.preventDefault();
+                  onClick={() => {
                     const cb = navigator.clipboard;
                     cb.writeText(
-                      `http://localhost:3000/products/${dataProductOrder._id}`
+                      `http://localhost:3000/products/${
+                        (dataProductOrder ?? productItem)?._id
+                      }`
                     ).then(() => setCopy("Đã copy"));
                   }}
                   onMouseOut={() => {

@@ -20,6 +20,7 @@ import UsertList from "./components/userlist";
 import Footer from "./components/footer";
 import Other from "./components/other";
 import OtherContext from "./components/othercontext";
+// import Upload from "./components/upload";
 
 import { BackTop } from "antd";
 import { UpCircleOutlined } from "@ant-design/icons";
@@ -55,6 +56,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/other/:cat" element={<OtherContext />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
+          {/* <Route path="/upload" element={<Upload />} /> */}
 
           <Route
             path="/bill"

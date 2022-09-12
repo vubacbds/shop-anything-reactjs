@@ -61,7 +61,7 @@ const Navbar = () => {
   const isMobile = viewPort.width <= 512;
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top sticky-top">
+    <nav className="navbar navbar-expand-md navbar-light bg-light navbar-fixed-top sticky-top">
       <NavLink
         className="navbar-brand"
         to="/"
@@ -72,7 +72,7 @@ const Navbar = () => {
         <h2 className="font-home">{dataOther?.web_title}</h2>
       </NavLink>
 
-      <button
+      <Button
         className="navbar-toggler"
         type="button"
         data-toggle="collapse"
@@ -82,11 +82,11 @@ const Navbar = () => {
         aria-label="Toggle navigation"
       >
         <span className="navbar-toggler-icon"></span>
-      </button>
+      </Button>
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         {/* Để mấy cái trong 3 gạch khi thu nhỏ */}
-        <ul className="navbar-nav mr-auto">
+        <ul className="navbar-nav mr-auto" style={{ textAlign: "left" }}>
           <li className="nav-item dropdown">
             <a
               className="nav-link dropdown-toggle"
@@ -193,17 +193,17 @@ const Navbar = () => {
         </ul>
         <div className="form-inline my-2 my-lg-0 mr-5">
           <input
-            className="form-control mr-sm-2"
-            placeholder="Nhập từ khóa..."
+            className="form-control mr-sm-2 mr-2"
+            placeholder="Từ khóa..."
             ref={searchInput}
-            style={{ fontSize: 14 }}
+            style={{ fontSize: 14, width: 130 }}
           />
           <button
             className="btn btn-outline-success "
             onClick={() =>
               dispatch(getproductsearch(searchInput.current.value))
             }
-            style={{ fontSize: 14 }}
+            style={{ fontSize: 14, width: 80 }}
           >
             Tìm kiếm
           </button>

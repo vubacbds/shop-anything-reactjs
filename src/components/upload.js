@@ -1,3 +1,49 @@
+const Upload = () => {
+  return (
+    <>
+      <nav className="navbar navbar-inverse navbar-fixed-top">
+        <div className="navbar-header">
+          <a className="navbar-brand" href="#">
+            Brand
+          </a>
+          <button
+            type="button"
+            className="navbar-toggle"
+            data-toggle="collapse"
+            data-target=".navbar-collapse"
+          >
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+          </button>
+        </div>
+        <div className="navbar-collapse collapse">
+          <ul className="nav navbar-nav">
+            <li className="active">
+              <a href="#">Home</a>
+            </li>
+            <li>
+              <a href="#about">About</a>
+            </li>
+            <li>
+              <a href="#contact">Contact</a>
+            </li>
+          </ul>
+          <div className="navbar-header navbar-right">
+            <p className="navbar-text">
+              <a href="#" className="navbar-link">
+                Username
+              </a>
+            </p>
+          </div>
+        </div>
+      </nav>
+    </>
+  );
+};
+
+export default Upload;
+
 // // import { UploadOutlined } from "@ant-design/icons";
 // // import { Button, Upload } from "antd";
 // // import React, { useState } from "react";
@@ -64,7 +110,7 @@
 // //       <Upload
 // //         listType="picture"
 // //         defaultFileList={[...fileList]}
-// //         className="upload-list-inline"
+// //         classNameName="upload-list-inline"
 // //         onChange={(e) => handleChange(e)}
 // //       >
 // //         {fileList.length >= 2 ? null : (
