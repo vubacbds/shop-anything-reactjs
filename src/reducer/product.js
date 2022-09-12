@@ -31,7 +31,7 @@ export const productReducer = (state = initialState, action) => {
       };
     }
     case "GET_PRODUCT_ID": {
-      const dataproductid = state.data.find((item) => {
+      const dataproductid = state.data?.find((item) => {
         return item._id === action.payload;
       });
 

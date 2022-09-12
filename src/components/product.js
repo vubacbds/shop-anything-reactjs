@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import {
+  DisconnectOutlined,
   EditOutlined,
   EllipsisOutlined,
   SettingOutlined,
@@ -12,6 +13,7 @@ import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
 import ProductOrder from "./productorder";
 import moment from "moment"; //Định dạng thời gian
+import An3gach from "../util/an3gach";
 
 const { Meta } = Card;
 
@@ -39,12 +41,15 @@ const Product = (props) => {
   const [pages, setPages] = useState(objPage);
   //Xử lý khi chọn trang
   const handleChange = (page, size) => {
-    setPages({
-      ...pages,
-      current: page,
-      minIndex: (page - 1) * size,
-      maxIndex: page * size,
-      size: size,
+    setPages(() => {
+      An3gach();
+      return {
+        ...pages,
+        current: page,
+        minIndex: (page - 1) * size,
+        maxIndex: page * size,
+        size: size,
+      };
     });
   };
 
@@ -68,6 +73,7 @@ const Product = (props) => {
                         e.preventDefault();
                         setDataProductOrder(item);
                         setVisibleOrderProduct(true);
+                        An3gach();
                       }}
                     >
                       <img
@@ -94,24 +100,24 @@ const Product = (props) => {
                             <div
                               style={{
                                 flexGrow: 8,
-                                fontSize: 11,
+                                fontSize: 14,
                                 marginTop: 10,
                                 color: "#a4b4b4",
                               }}
                             >
-                              Còn lại: {item.amount} &ensp; | &ensp;{" "}
-                              {moment(item.updatedAt).format("DD/MM/yyyy")}
+                              Còn lại: {item.amount} &ensp;
+                              {item.ghim == 1 ? (
+                                <span>
+                                  <DisconnectOutlined /> Đã ghim{" "}
+                                </span>
+                              ) : (
+                                ""
+                              )}
+                              {/* | &ensp;{" "}
+                              {moment(item.updatedAt).format("DD/MM/yyyy")} */}
                             </div>
                             <div style={{ flexGrow: 1 }}>
-                              <Button
-                              // className="btn btn-primary "
-                              // style={{ width: 40, height: 32, marginBottom: 20 }}
-                              // onClick={(e) => {
-                              //   e.preventDefault();
-                              //   setDataProductOrder(item);
-                              //   setVisibleOrderProduct(true);
-                              // }}
-                              >
+                              <Button>
                                 <ShoppingCartOutlined />
                               </Button>
                             </div>
@@ -171,6 +177,7 @@ const Product = (props) => {
         setVisible={setVisibleOrderProduct}
         dataProductOrder={dataProductOrder}
       />
+      {/* <Link to="/products/631b1a98ba348d830455df28">Chi tiet</Link> */}
     </>
   );
 };

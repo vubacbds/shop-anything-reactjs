@@ -8,6 +8,8 @@ import ProductAPI from "../services/productAPI";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UseViewport } from "../util/customhook";
+import moment from "moment"; //Định dạng thời gian
+import { CopyOutlined } from "@ant-design/icons";
 
 const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
   const dispatch = useDispatch();
@@ -26,6 +28,9 @@ const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
       position: toast.POSITION.BOTTOM_RIGHT,
     });
   };
+
+  //Thông báo đã copy
+  const [copy, setCopy] = useState();
 
   //Chuyển tới trang hóa đơn khi nhấn vào Mua
   const navigate = useNavigate();
@@ -165,7 +170,38 @@ const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
           )}
 
           <div className="borderText">
-            *Mô tả: {dataProductOrder.description}{" "}
+            <div
+              style={{
+                fontSize: 14,
+                color: "#a4b4b4",
+              }}
+            >
+              <span>Còn lại: {dataProductOrder.amount}</span> &ensp; | &ensp;
+              <span>
+                Ngày đăng:{" "}
+                {moment(dataProductOrder.createdAt).format("DD/MM/yyyy")}{" "}
+              </span>
+              &ensp;
+              <span>
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const cb = navigator.clipboard;
+                    cb.writeText(
+                      `http://localhost:3000/products/${dataProductOrder._id}`
+                    ).then(() => setCopy("Đã copy"));
+                  }}
+                  onMouseOut={() => {
+                    setCopy();
+                  }}
+                >
+                  <CopyOutlined />
+                </Button>
+              </span>
+              &ensp;
+              <span>{copy ?? ""}</span>
+            </div>
+            <p>*Mô tả: {dataProductOrder.description} </p>
           </div>
         </Col>
         <Col sm={24} xs={24} lg={12}>

@@ -96,8 +96,6 @@ const BillList = ({ numbertab }) => {
           />
         );
       },
-      showOnResponse: true,
-      showOnDesktop: true,
     },
     {
       title: "Tên sản phẩm",
@@ -109,8 +107,6 @@ const BillList = ({ numbertab }) => {
       title: "Số lượng",
       dataIndex: "amount",
       key: "amount",
-      showOnResponse: true,
-      showOnDesktop: true,
     },
     {
       title: "Thành tiền",
@@ -126,29 +122,21 @@ const BillList = ({ numbertab }) => {
           </p>
         );
       },
-      showOnResponse: true,
-      showOnDesktop: true,
     },
     {
       title: "Tên khách hàng",
       dataIndex: "name",
       key: "name",
-      showOnResponse: true,
-      showOnDesktop: true,
     },
     {
       title: "Số điện thoại",
       dataIndex: "phone",
       key: "phone",
-      showOnResponse: true,
-      showOnDesktop: true,
     },
     {
       title: "Địa chỉ",
       dataIndex: "address",
       key: "address",
-      showOnResponse: true,
-      showOnDesktop: true,
     },
     {
       title: "Thời gian",
@@ -159,8 +147,6 @@ const BillList = ({ numbertab }) => {
           <p>{moment(record.updatedAt).format("DD/MM/yyyy hh:mm:ss  A")}</p>
         );
       },
-      showOnResponse: true,
-      showOnDesktop: true,
     },
     {
       title: "",
@@ -233,8 +219,6 @@ const BillList = ({ numbertab }) => {
           ""
         );
       },
-      showOnResponse: true,
-      showOnDesktop: true,
     },
   ];
 

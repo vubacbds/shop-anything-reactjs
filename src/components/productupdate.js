@@ -124,7 +124,7 @@ const ProductUpdate = (props) => {
 
         <Form.Item
           label="Mô tả"
-          name="Description"
+          name="description"
           rules={[
             {
               required: true,

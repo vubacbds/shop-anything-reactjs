@@ -149,6 +149,7 @@ const ProductAdd = (props) => {
   useEffect(() => {
     if (url.length === fileList.length) {
       newProduct.images = url;
+      newProduct.image = url[0];
       ProductAPI.addproduct(newProduct)
         .then(function (response) {
           dispatch(addproduct(response));
@@ -196,7 +197,16 @@ const ProductAdd = (props) => {
             },
           ]}
         >
-          <Select style={{ width: "60%" }}>
+          <Select
+            // styles={{
+            //   width: "60%",
+            //   position: "relative",
+            //   zIndex: "99999 !important",
+            // }}
+            menuPortalTarget={document.getElementById("portal-target")}
+            styles={{ menuPortal: (styles) => ({ ...styles, zIndex: 10000 }) }}
+            // other props
+          >
             {category.map((item) => {
               return (
                 <Select.Option value={item._id} key={item._id}>

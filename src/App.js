@@ -54,7 +54,7 @@ function App() {
           <Route path="/" element={<Product />} />
           <Route path="/login" element={<Login />} />
           <Route path="/other/:cat" element={<OtherContext />} />
-          {/* <Route path="/products/:productId" element={<ProductDetail />} /> */}
+          <Route path="/products/:productId" element={<ProductDetail />} />
 
           <Route
             path="/bill"

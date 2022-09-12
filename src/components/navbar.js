@@ -14,6 +14,7 @@ import getproduct, {
 import { useDispatch, useSelector } from "react-redux";
 import { set_null } from "../action/bill";
 import { UseViewport } from "../util/customhook";
+import An3gach from "../util/an3gach";
 
 const Navbar = () => {
   //Lấy các thông tin của web
@@ -105,7 +106,10 @@ const Navbar = () => {
                     <Link
                       className="dropdown-item"
                       to="/"
-                      onClick={() => dispatch(getproductcategory(item._id))}
+                      onClick={() => {
+                        An3gach();
+                        dispatch(getproductcategory(item._id));
+                      }}
                     >
                       {item.name}
                     </Link>
@@ -118,6 +122,7 @@ const Navbar = () => {
                 className="dropdown-item"
                 to="/"
                 onClick={() => {
+                  An3gach();
                   dispatch(getproductcategory());
                 }}
               >
@@ -142,24 +147,44 @@ const Navbar = () => {
                 <a
                   className="dropdown-item"
                   href="#"
-                  onClick={() => setVisibleProductAdd(true)}
+                  onClick={() => {
+                    An3gach();
+
+                    setVisibleProductAdd(true);
+                  }}
                 >
                   Thêm sản phẩm
                 </a>
                 <div className="dropdown-divider"></div>
-                <Link className="dropdown-item" to="/admin/products">
+                <Link
+                  className="dropdown-item"
+                  to="/admin/products"
+                  onClick={() => An3gach()}
+                >
                   Sản phẩm của tôi
                 </Link>
                 <div className="dropdown-divider"></div>
-                <Link className="dropdown-item" to="/admin/categories">
+                <Link
+                  className="dropdown-item"
+                  to="/admin/categories"
+                  onClick={() => An3gach()}
+                >
                   Danh mục
                 </Link>
                 <div className="dropdown-divider"></div>
-                <Link className="dropdown-item" to="/admin/users">
+                <Link
+                  className="dropdown-item"
+                  to="/admin/users"
+                  onClick={() => An3gach()}
+                >
                   Tài khoản người dùng
                 </Link>
                 <div className="dropdown-divider"></div>
-                <Link className="dropdown-item" to="/admin/others">
+                <Link
+                  className="dropdown-item"
+                  to="/admin/others"
+                  onClick={() => An3gach()}
+                >
                   Cài đặt chung
                 </Link>
               </div>
@@ -206,13 +231,22 @@ const Navbar = () => {
             className="dropdown-menu user-dropdown dropdown-menu-right"
             id="an"
           >
-            <Link className="dropdown-item" to="/bill">
+            <Link
+              className="dropdown-item"
+              to="/bill"
+              onClick={() => {
+                An3gach();
+              }}
+            >
               {`Đơn hàng (${dataBill.coutcheck})`}
             </Link>
             <div className="dropdown-divider"></div>
             <a
               className="dropdown-item"
-              onClick={() => setVisibleAccount(true)}
+              onClick={() => {
+                An3gach();
+                setVisibleAccount(true);
+              }}
             >
               Tài khoản
             </a>
@@ -299,7 +333,7 @@ const ModalProductAdd = (props) => {
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
         footer={null}
-        zIndex={1999}
+        // zIndex={1997}
       >
         <ProductAdd setVisible={props.setVisible} />
       </Modal>
@@ -334,7 +368,6 @@ const ModalAccount = (props) => {
         onCancel={handleCancel}
         footer={null}
         width={1000}
-        zIndex={48} //Để model Login đè lên
       >
         <Account />
       </Modal>

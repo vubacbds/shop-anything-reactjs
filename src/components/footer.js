@@ -12,6 +12,7 @@ import {
 import { Col, Row } from "antd";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import An3gach from "../util/an3gach";
 
 const Footer = () => {
   //Lấy các thông tin của web
@@ -47,19 +48,31 @@ const Footer = () => {
             <Col lg={8} xs={12}>
               <ul style={{ textAlign: "left", marginTop: 10 }}>
                 <li>
-                  <Link to="/other/cs" style={{ color: "black" }}>
+                  <Link
+                    to="/other/cs"
+                    style={{ color: "black" }}
+                    onClick={() => An3gach()}
+                  >
                     {" "}
                     Chính sách mua hàng
                   </Link>
                 </li>
                 <li>
-                  <Link to="/other/bh" style={{ color: "black" }}>
+                  <Link
+                    to="/other/bh"
+                    style={{ color: "black" }}
+                    onClick={() => An3gach()}
+                  >
                     {" "}
                     Bảo hành
                   </Link>
                 </li>
                 <li>
-                  <Link to="/other/hd" style={{ color: "black" }}>
+                  <Link
+                    to="/other/hd"
+                    style={{ color: "black" }}
+                    onClick={() => An3gach()}
+                  >
                     {" "}
                     Hướng dẫn
                   </Link>

@@ -11,6 +11,7 @@ import ProductAPI from "../services/productAPI";
 import { deleteproduct, getproductid } from "../action/product";
 import ProductUpdate from "./productupdate";
 import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
+import moment from "moment"; //Định dạng thời gian
 
 const ProductList = () => {
   const dataProduct = useSelector((state) => state.product.data); //Chú ý state.product là khi gộp các reducer lại
@@ -37,6 +38,21 @@ const ProductList = () => {
       ProductAddSuccess();
       dispatch(deleteproduct(id));
     });
+  };
+
+  //Hàm update sản phẩm trường khi Ghim
+  const handleGhim = (record) => {
+    let data;
+    if (record.ghim == 0) data = { ghim: 1 };
+    else data = { ghim: 0 };
+    ProductAPI.updateproduct(record._id, data)
+      .then(function (response) {
+        dispatch(updateproduct({ ...data, _id: record._id }));
+      })
+      .catch(function (error) {
+        console.log("Error on Authentication", error);
+        //ProductAddFail(error.response.data.message);
+      });
   };
 
   //Định nghĩa các cột trong table
@@ -77,6 +93,16 @@ const ProductList = () => {
       dataIndex: "amount",
       key: "price",
     },
+    {
+      title: "Thời gian",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (_, record) => {
+        return (
+          <p>{moment(record.createdAt).format("DD/MM/yyyy hh:mm:ss  A")}</p>
+        );
+      },
+    },
     Table.SELECTION_COLUMN,
     {
       title: "",
@@ -84,6 +110,17 @@ const ProductList = () => {
       render: (_, record) => {
         return (
           <>
+            <a
+              onClick={() => {
+                //dispatch(getproductid(record._id));
+                //setVisibleProductUpdate(true);
+                handleGhim(record);
+              }}
+              href="#"
+            >
+              {record.ghim == 0 ? "Ghim" : "Bỏ ghim"}
+            </a>
+            &nbsp; &nbsp;
             <Popconfirm
               title="Bạn chắc chắn xóa?"
               onConfirm={() => deleteProductList(record._id)}
