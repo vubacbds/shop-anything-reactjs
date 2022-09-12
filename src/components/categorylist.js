@@ -8,6 +8,7 @@ import { deletecategory, getcategory_id } from "../action/category";
 import CategorytAdd from "./categoryadd";
 import CategorytUpdate from "./categoryupdate";
 import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
+import An3gach from "../util/an3gach";
 
 const CategorytList = () => {
   const dataCategory = useSelector((state) => state.category.data);
@@ -79,7 +80,10 @@ const CategorytList = () => {
       }}
     >
       <Button
-        onClick={() => setVisibleCategoryAdd(true)}
+        onClick={() => {
+          An3gach();
+          setVisibleCategoryAdd(true);
+        }}
         style={{ margin: "10px 20px", fontWeight: "bold", float: "right" }}
         type="primary"
       >

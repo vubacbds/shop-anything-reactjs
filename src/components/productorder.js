@@ -199,7 +199,7 @@ const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
                 </Button>
               </span>
               &ensp;
-              <span>{copy ?? ""}</span>
+              <span>{copy && !isMobile ? copy : ""}</span>
             </div>
             <p>*Mô tả: {dataProductOrder.description} </p>
           </div>
