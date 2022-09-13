@@ -1,8 +1,8 @@
 import { axiosEvaluation } from "./api";
 
-const getevaluation = (product_id) => {
+const getevaluation = (product_id, amount) => {
   return (dispatch) => {
-    axiosEvaluation(product_id)
+    axiosEvaluation(product_id, amount)
       .then((data) => dispatch(get_evaluation(data)))
       .catch((error) => console.log(error));
   };
@@ -23,5 +23,10 @@ const delete_evaluation = (id) => ({
   payload: id,
 });
 
+const update_evaluation = (data) => ({
+  type: "UPDATE_EVALUATION",
+  payload: data,
+});
+
 export default getevaluation;
-export { add_evaluation, delete_evaluation };
+export { add_evaluation, delete_evaluation, update_evaluation };

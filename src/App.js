@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { GetCookie } from "./util/cookie";
+import Demo from "./components/demo";
 
 const LazyTestLazy = React.lazy(() => import("./components/testlazy"));
 
@@ -57,6 +58,7 @@ function App() {
           <Route path="/other/:cat" element={<OtherContext />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
           <Route path="/evaluation" element={<Evaluation />} />
+          <Route path="/demo" element={<Demo />} />
 
           <Route
             path="/bill"

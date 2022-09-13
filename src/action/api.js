@@ -71,9 +71,9 @@ const axiosOther = () => {
   });
 };
 
-const axiosEvaluation = (product_id) => {
+const axiosEvaluation = (product_id, amount) => {
   return new Promise((resolve, reject) => {
-    EvaluationAPI.getevaluation(product_id)
+    EvaluationAPI.getevaluation(product_id, amount)
       .then((response) => {
         resolve(response);
       })
