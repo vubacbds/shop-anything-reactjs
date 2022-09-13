@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { UseViewport } from "../util/customhook";
 import moment from "moment"; //Định dạng thời gian
 import { CopyOutlined } from "@ant-design/icons";
+import Evaluation from "./evaluation";
 
 const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
   const dispatch = useDispatch();
@@ -315,6 +316,7 @@ const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
           </div>
         </Col>
       </Row>
+      <Evaluation product_id={dataProductOrder._id} />
     </>
   );
 };

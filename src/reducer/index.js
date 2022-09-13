@@ -3,6 +3,7 @@ import { userReducer } from "./user";
 import { categoryReducer } from "./category";
 import { billReducer } from "./bill";
 import { otherReducer } from "./other";
+import { evaluationReducer } from "./evaluation";
 import { combineReducers } from "redux";
 
 const RootReducer = combineReducers({
@@ -11,6 +12,7 @@ const RootReducer = combineReducers({
   category: categoryReducer,
   bill: billReducer,
   other: otherReducer,
+  evaluation: evaluationReducer,
 });
 
 export default RootReducer;

@@ -4,6 +4,7 @@ import CategoryAPI from "../services/categorytAPI";
 import BillAPI from "../services/billAPI";
 import UserAPI from "../services/userAPI";
 import OtherAPI from "../services/otherAPI";
+import EvaluationAPI from "../services/evaluationAPI";
 
 const axiosProduct = () => {
   return new Promise((resolve, reject) => {
@@ -70,4 +71,24 @@ const axiosOther = () => {
   });
 };
 
-export { axiosProduct, axiosCategory, axiosBill, axiosUser, axiosOther };
+const axiosEvaluation = (product_id) => {
+  return new Promise((resolve, reject) => {
+    EvaluationAPI.getevaluation(product_id)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+};
+
+export {
+  axiosProduct,
+  axiosCategory,
+  axiosBill,
+  axiosUser,
+  axiosOther,
+  axiosEvaluation,
+};
