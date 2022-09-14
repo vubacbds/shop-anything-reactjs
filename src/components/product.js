@@ -7,7 +7,7 @@ import {
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { Avatar, Button, Card, Modal, Pagination } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Col, Row } from "antd";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
@@ -185,6 +185,7 @@ const Product = (props) => {
 //Modal đặt hàng
 const ModalOrderProduct = (props) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const listInnerRef = useRef(); //Cái này là truyền tời component evaluation.js luôn, mục đích khi đóng modal set lại scroll ko thì nó tự load data
 
   const handleOk = () => {
     setConfirmLoading(true);
@@ -198,6 +199,7 @@ const ModalOrderProduct = (props) => {
     console.log("Clicked cancel button");
     props.setVisible(false);
     setBigImage(); //khi đóng trang chi tiết thì set lại trang lớn bằng null
+    listInnerRef.current.scrollTop = 0;
   };
 
   //Set ảnh lớn khi click vào ảnh nhỏ trong trang chi tiết (productOrder) truyền bigImage cho comonent
@@ -219,6 +221,7 @@ const ModalOrderProduct = (props) => {
           dataProductOrder={props.dataProductOrder}
           bigImage={bigImage}
           setBigImage={setBigImage}
+          listInnerRef={listInnerRef}
         />
       </Modal>
     </>

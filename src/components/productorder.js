@@ -12,7 +12,12 @@ import moment from "moment"; //Định dạng thời gian
 import { CopyOutlined } from "@ant-design/icons";
 import Evaluation from "./evaluation";
 
-const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
+const ProductOrder = ({
+  dataProductOrder,
+  bigImage,
+  setBigImage,
+  listInnerRef,
+}) => {
   const dispatch = useDispatch();
 
   //Lấy thông tin user đang đăng nhập
@@ -316,7 +321,10 @@ const ProductOrder = ({ dataProductOrder, bigImage, setBigImage }) => {
           </div>
         </Col>
       </Row>
-      <Evaluation product_id={dataProductOrder._id} />
+      <Evaluation
+        product_id={dataProductOrder._id}
+        listInnerRef={listInnerRef}
+      />
     </div>
   );
 };

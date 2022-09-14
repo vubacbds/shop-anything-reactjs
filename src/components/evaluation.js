@@ -1,7 +1,19 @@
-import { Avatar, Button, Col, Comment, Form, Input, List, Row } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import {
+  Avatar,
+  Button,
+  Col,
+  Comment,
+  Form,
+  Input,
+  List,
+  Row,
+  Upload,
+} from "antd";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import getevaluation, {
   add_evaluation,
   delete_evaluation,
@@ -11,6 +23,7 @@ import getevaluation, {
 } from "../action/evaluation";
 import EvaluationAPI from "../services/evaluationAPI";
 import { GetCookie } from "../util/cookie";
+import { storage } from "./firebase";
 
 const { TextArea } = Input;
 
@@ -33,58 +46,118 @@ const CommentList = ({ comments }) => {
   );
 };
 
-const Editor = ({ onChange, onSubmit, submitting, value }) => {
+const Editor = ({
+  onChange,
+  onSubmit,
+  submitting,
+  value,
+  handlePreview,
+  handleChangeUpload,
+  file,
+  progress,
+  form,
+}) => {
   //Lấy thông tin user
   const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
+
   return (
     <>
-      <Form.Item>
-        <TextArea rows={2} onChange={onChange} value={value} />
-      </Form.Item>
-      <Form.Item>
-        <Button
-          htmlType="submit"
-          loading={submitting}
-          onClick={onSubmit}
-          type="primary"
-          disabled={!userData}
+      <Form
+        onFinish={onSubmit}
+        form={form}
+        initialValues={{
+          remember: true,
+          images: " ",
+        }}
+        autoComplete="off"
+      >
+        <Form.Item
+        // name="description"
+        // rules={[
+        //   {
+        //     required: true,
+        //     message: "Bạn chưa nhập nội dung!",
+        //   },
+        // ]}
         >
-          Bình luận
-        </Button>
-      </Form.Item>
+          <TextArea
+            rows={2}
+            showCount
+            maxLength={300}
+            onChange={onChange}
+            value={value}
+          />
+        </Form.Item>
+
+        <Form.Item name="images">
+          <div style={{ float: "left" }}>
+            <Button
+              htmlType="submit"
+              loading={submitting}
+              // onClick={onSubmit}
+              type="primary"
+              disabled={!userData}
+            >
+              Bình luận
+            </Button>
+          </div>
+          <div style={{ float: "left", marginLeft: 100 }}>
+            <Upload
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              listType="picture-card"
+              onPreview={handlePreview}
+              onChange={handleChangeUpload}
+              accept=".jpg, .png"
+              // multiple={true}
+              style={{ width: "20%" }}
+            >
+              {(!file || file?.status == "removed") && (
+                <div>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>Thêm ảnh</div>
+                </div>
+              )}
+            </Upload>
+            <br />
+            <progress value={progress} max="100" style={{ width: 100 }} />
+          </div>
+        </Form.Item>
+      </Form>
     </>
   );
 };
 
-const Evaluation = ({ product_id }) => {
+const Evaluation = ({ product_id, listInnerRef }) => {
+  //Lấy thông tin user
+  const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
+
   //Xử lý dispatch
   const dispatch = useDispatch();
   const evaluationData = useSelector((state) => state.evaluation);
 
   //Xử lý gọi số lượng data từ API
   const [amount, setAmount] = useState(1);
-
-  //Khi component bắt đầu return thì  product_id thay đổi
+  console.log(amount);
+  //Khi  bắt đầu  component return hoặc product_id/userData._id thay đổi
   useEffect(() => {
+    if (listInnerRef.current) listInnerRef.current.scrollTop = 0;
     dispatch(getevaluation(product_id, amount));
     setAmount(1);
-  }, [product_id]);
+  }, [product_id, userData._id]);
 
   //Khi số lượng data thay đổi thì dispatch lại
   useEffect(() => {
     dispatch(getevaluation_amount(product_id, amount));
   }, [amount]);
 
-  //Lấy thông tin user
-  const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
-
   //Xử lý các state
   const [comments, setComments] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [value, setValue] = useState("");
 
-  const handleSubmit = () => {
-    if (!value) return;
+  //Submit bình luận gọi khi đã upload hình ảnh
+  const handleSubmit = (urlimg) => {
+    if (!(file || value.trim() != "")) return;
     setSubmitting(true);
     setTimeout(() => {
       setSubmitting(false);
@@ -92,8 +165,8 @@ const Evaluation = ({ product_id }) => {
     }, 1000);
 
     const newEvaluation = {
-      body: value,
-      image: "",
+      body: value.trim(),
+      image: urlimg,
       products: product_id,
       users: userData._id,
     };
@@ -104,6 +177,11 @@ const Evaluation = ({ product_id }) => {
       };
       dispatch(add_evaluation(item));
       dispatch(update_totaldata(1)); //Cộng thêm 1 vào tổng số lượng data
+
+      //Up bình luận xong reset tất cả
+      setFile();
+      setUrl();
+      form.resetFields();
     });
   };
 
@@ -185,10 +263,26 @@ const Evaluation = ({ product_id }) => {
         ],
         author: item.users?.email,
         avatar: item.users?.image,
-        content: item?.body,
+        content: (
+          <div>
+            <p>{item?.body}</p>
+            {item.image && item.image != " " && (
+              <img src={item.image} style={{ width: 120, height: 120 }} />
+            )}
+          </div>
+        ),
         // datetime: moment(item?.createdAt).format("DD/MM/yyyy hh:mm:ss  A"),
         datetime: (
-          <span>
+          <span
+            onClick={() =>
+              toast.info(
+                moment(item?.createdAt).format("DD/MM/yyyy hh:mm:ss  A"),
+                {
+                  position: toast.POSITION.BOTTOM_LEFT,
+                }
+              )
+            }
+          >
             {moment(
               moment(item?.createdAt)
                 .format("yyyy-MM-DD hh:mm:ss  A")
@@ -203,7 +297,6 @@ const Evaluation = ({ product_id }) => {
   }, [evaluationData.data, userData._id]); //Đăng nhập tài khoản khác cũng phải chạy lại ko thì ko có avatar
 
   //Xử lý bắt sự kiện cuộn trang xuống cuối scroll (chú ý phải có scroll)
-  const listInnerRef = useRef();
 
   const onScroll = () => {
     if (listInnerRef.current) {
@@ -220,6 +313,85 @@ const Evaluation = ({ product_id }) => {
   //   }
   // };
 
+  //Xử lý upload 1 ảnh bình luận
+  const [url, setUrl] = useState();
+  const [file, setFile] = useState();
+  const [progress, setProgress] = useState(0);
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  // const [url, setUrl] = useState([1]);
+
+  function getBase64(file) {
+    //Sửa lỗi Xem trước phóng to
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
+  const handleCancel = () => setPreviewVisible(false);
+
+  const handleChangeUpload = (e) => {
+    setFile(e.file);
+    setProgress(0); //Để button đổi ảnh disable tắt
+  };
+
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    setPreviewImage(() => file.url || file.preview);
+    setPreviewVisible(true);
+    setPreviewTitle(
+      () => file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
+  };
+  const handleUpload = () => {
+    if (file) {
+      const uploadTask = storage
+        .ref(`images/${file.originFileObj.name}`)
+        .put(file.originFileObj);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          storage
+            .ref("images")
+            .child(file.originFileObj.name)
+            .getDownloadURL()
+            .then((url) => {
+              setUrl(url);
+              setProgress(0);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      );
+    } else setUrl(" ");
+  };
+
+  //url thay đổi chạy handleSubmit để đăng bình luận,
+  useEffect(() => {
+    if (url) handleSubmit(url);
+  }, [url]);
+  //Đóng xử lý upload 1 ảnh
+
+  //Reset Form
+  const [form] = Form.useForm();
+
   return (
     <div style={{ marginTop: 40, marginLeft: 10 }}>
       <hr />
@@ -231,9 +403,14 @@ const Evaluation = ({ product_id }) => {
               content={
                 <Editor
                   onChange={handleChange}
-                  onSubmit={handleSubmit}
+                  onSubmit={handleUpload}
                   submitting={submitting}
                   value={value}
+                  handleChangeUpload={handleChangeUpload} //Cái này up ảnh bình luận
+                  handlePreview={handlePreview}
+                  file={file}
+                  progress={progress}
+                  form={form}
                 />
               }
             />
@@ -247,6 +424,9 @@ const Evaluation = ({ product_id }) => {
               </div>
             )}
           </div>
+          <Button onClick={() => (listInnerRef.current.scrollTop = 0)}>
+            Reset Sctroll
+          </Button>
         </Col>
       </Row>
       {/* <Button onClick={() => setAmount((pre) => pre + 3)}>Xem thêm</Button> */}
