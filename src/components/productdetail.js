@@ -5,7 +5,7 @@ import { GetCookie } from "../util/cookie";
 import { add_bill } from "../action/bill";
 import { toast } from "react-toastify";
 import ProductAPI from "../services/productAPI";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { UseViewport } from "../util/customhook";
 import moment from "moment"; //Định dạng thời gian
@@ -98,6 +98,8 @@ const ProductDetail = () => {
   //Sử dụng CostumHook kiểm tra kích thước màn hình để hiển thị cho đúng reponsive
   const viewPort = UseViewport();
   const isMobile = viewPort.width <= 512;
+
+  const listInnerRef = useRef(); //Cái này là truyền tời component evaluation.js luôn, mục đích khi đóng modal set lại scroll ko thì nó tự load data
 
   return (
     <div style={{ marginBottom: 100, textAlign: "left" }}>
@@ -351,9 +353,12 @@ const ProductDetail = () => {
         </Col>
       </Row>
       {dataProductOrder ? (
-        <Evaluation product_id={dataProductOrder._id} />
+        <Evaluation
+          product_id={dataProductOrder._id}
+          listInnerRef={listInnerRef}
+        />
       ) : productItem ? (
-        <Evaluation product_id={productItem._id} />
+        <Evaluation product_id={productItem._id} listInnerRef={listInnerRef} />
       ) : (
         ""
       )}

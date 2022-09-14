@@ -14,6 +14,7 @@ import axios from "axios";
 import ProductOrder from "./productorder";
 import moment from "moment"; //Định dạng thời gian
 import An3gach from "../util/an3gach";
+import Random from "./random";
 
 const { Meta } = Card;
 
@@ -53,11 +54,39 @@ const Product = (props) => {
     });
   };
 
+  //Xử lý product chạy ngẫu nhiên
+  // const [randomProduct, setRandomProduct] = useState();
+  // const [runrandom, setRunrandom] = useState(true);
+
+  // useEffect(() => {
+  //   if (product?.data?.length)
+  //     var rand =
+  //       product?.data[Math.floor(Math.random() * product?.data?.length)];
+  //   console.log(rand);
+  //   console.log(Math.floor(Math.random() * product?.data?.length));
+  // }, [product]);
+
+  // setInterval(() => {
+  //   let rand;
+  //   if (product?.data?.length) {
+  //     rand = product?.data[Math.floor(Math.random() * product?.data?.length)];
+  //   }
+  //   setRandomProduct(rand);
+  // }, 5000);
+
+  // console.log("return");
   return (
     <>
       <Row>
         <Col xs={0} sm={0} lg={6}>
-          {" "}
+          <div
+            style={{
+              height: 420,
+              margin: "120px 20px 0px 20px",
+            }}
+          >
+            {product.data && <Random data={product.data} />}{" "}
+          </div>
         </Col>
         <Col xs={24} sm={16} lg={12}>
           {product?.data?.map((item, index) => {

@@ -9,6 +9,7 @@ import {
   List,
   Row,
   Upload,
+  Spin,
 } from "antd";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
@@ -27,16 +28,12 @@ import { storage } from "./firebase";
 
 const { TextArea } = Input;
 
-const CommentList = ({ comments }) => {
-  //Lấy tổng số lượng comment
-  const evaluationTotalData = useSelector(
-    (state) => state.evaluation.totalData
-  );
+const CommentList = ({ comments, amount, evaluationTotalData }) => {
   return (
     <List
       dataSource={comments}
-      header={` Có ${evaluationTotalData} ${
-        evaluationTotalData > 1 ? "đánh giá : " : "đánh giá : "
+      header={` Có ${amount + 2}/${evaluationTotalData} ${
+        evaluationTotalData > 1 ? "bình luận : " : "bình luận : "
       }`}
       itemLayout="horizontal"
       renderItem={(props) => (
@@ -71,15 +68,7 @@ const Editor = ({
         }}
         autoComplete="off"
       >
-        <Form.Item
-        // name="description"
-        // rules={[
-        //   {
-        //     required: true,
-        //     message: "Bạn chưa nhập nội dung!",
-        //   },
-        // ]}
-        >
+        <Form.Item name="mota">
           <TextArea
             rows={2}
             showCount
@@ -89,7 +78,7 @@ const Editor = ({
           />
         </Form.Item>
 
-        <Form.Item name="images">
+        <Form.Item name="upload">
           <div style={{ float: "left" }}>
             <Button
               htmlType="submit"
@@ -131,13 +120,18 @@ const Evaluation = ({ product_id, listInnerRef }) => {
   //Lấy thông tin user
   const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
 
+  //Lấy tổng số lượng comment
+  const evaluationTotalData = useSelector(
+    (state) => state.evaluation.totalData
+  );
+
   //Xử lý dispatch
   const dispatch = useDispatch();
   const evaluationData = useSelector((state) => state.evaluation);
 
   //Xử lý gọi số lượng data từ API
   const [amount, setAmount] = useState(1);
-  console.log(amount);
+
   //Khi  bắt đầu  component return hoặc product_id/userData._id thay đổi
   useEffect(() => {
     if (listInnerRef.current) listInnerRef.current.scrollTop = 0;
@@ -157,7 +151,7 @@ const Evaluation = ({ product_id, listInnerRef }) => {
 
   //Submit bình luận gọi khi đã upload hình ảnh
   const handleSubmit = (urlimg) => {
-    if (!(file || value.trim() != "")) return;
+    if (!file && value.trim() == "") return;
     setSubmitting(true);
     setTimeout(() => {
       setSubmitting(false);
@@ -180,7 +174,6 @@ const Evaluation = ({ product_id, listInnerRef }) => {
 
       //Up bình luận xong reset tất cả
       setFile();
-      setUrl();
       form.resetFields();
     });
   };
@@ -251,8 +244,7 @@ const Evaluation = ({ product_id, listInnerRef }) => {
               Thích ({item.likes.length})
             </span>
           ),
-          userData.email == item.users?.email ||
-          userData.users?.email == "bac" ? (
+          userData.email == item.users?.email || userData.email == "bac" ? (
             <span
               key="comment-list-reply-to-0"
               onClick={() => handleDelete(item._id)}
@@ -314,13 +306,11 @@ const Evaluation = ({ product_id, listInnerRef }) => {
   // };
 
   //Xử lý upload 1 ảnh bình luận
-  const [url, setUrl] = useState();
   const [file, setFile] = useState();
   const [progress, setProgress] = useState(0);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
-  // const [url, setUrl] = useState([1]);
 
   function getBase64(file) {
     //Sửa lỗi Xem trước phóng to
@@ -372,7 +362,7 @@ const Evaluation = ({ product_id, listInnerRef }) => {
             .child(file.originFileObj.name)
             .getDownloadURL()
             .then((url) => {
-              setUrl(url);
+              handleSubmit(url);
               setProgress(0);
             })
             .catch((e) => {
@@ -380,13 +370,8 @@ const Evaluation = ({ product_id, listInnerRef }) => {
             });
         }
       );
-    } else setUrl(" ");
+    } else handleSubmit();
   };
-
-  //url thay đổi chạy handleSubmit để đăng bình luận,
-  useEffect(() => {
-    if (url) handleSubmit(url);
-  }, [url]);
   //Đóng xử lý upload 1 ảnh
 
   //Reset Form
@@ -416,17 +401,28 @@ const Evaluation = ({ product_id, listInnerRef }) => {
             />
             {comments?.length > 0 && (
               <div
-                style={{ overflowY: "auto", height: 300 }}
+                style={{
+                  overflowY: "scroll",
+                  height: 300,
+                }}
                 onScroll={onScroll}
                 ref={listInnerRef}
               >
-                <CommentList comments={comments} />
+                <div style={{ height: 500 }}>
+                  <CommentList
+                    comments={comments}
+                    amount={amount}
+                    evaluationTotalData={evaluationTotalData}
+                  />
+                  {amount + 2 < evaluationTotalData && (
+                    <div className="example">
+                      <Spin />
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>
-          <Button onClick={() => (listInnerRef.current.scrollTop = 0)}>
-            Reset Sctroll
-          </Button>
         </Col>
       </Row>
       {/* <Button onClick={() => setAmount((pre) => pre + 3)}>Xem thêm</Button> */}
