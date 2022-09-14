@@ -1,27 +1,37 @@
 import { Avatar, Button, Col, Comment, Form, Input, List, Row } from "antd";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import getevaluation, {
   add_evaluation,
   delete_evaluation,
+  getevaluation_amount,
   update_evaluation,
+  update_totaldata,
 } from "../action/evaluation";
 import EvaluationAPI from "../services/evaluationAPI";
 import { GetCookie } from "../util/cookie";
 
 const { TextArea } = Input;
 
-const CommentList = ({ comments }) => (
-  <List
-    dataSource={comments}
-    header={` Có ${comments.length} ${
-      comments.length > 1 ? "đánh giá : " : "đánh giá : "
-    }`}
-    itemLayout="horizontal"
-    renderItem={(props) => <Comment {...props} style={{ marginBottom: -10 }} />}
-  />
-);
+const CommentList = ({ comments }) => {
+  //Lấy tổng số lượng comment
+  const evaluationTotalData = useSelector(
+    (state) => state.evaluation.totalData
+  );
+  return (
+    <List
+      dataSource={comments}
+      header={` Có ${evaluationTotalData} ${
+        evaluationTotalData > 1 ? "đánh giá : " : "đánh giá : "
+      }`}
+      itemLayout="horizontal"
+      renderItem={(props) => (
+        <Comment {...props} style={{ marginBottom: -10 }} />
+      )}
+    />
+  );
+};
 
 const Editor = ({ onChange, onSubmit, submitting, value }) => {
   //Lấy thông tin user
@@ -39,7 +49,7 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => {
           type="primary"
           disabled={!userData}
         >
-          Đăng
+          Bình luận
         </Button>
       </Form.Item>
     </>
@@ -54,12 +64,16 @@ const Evaluation = ({ product_id }) => {
   //Xử lý gọi số lượng data từ API
   const [amount, setAmount] = useState(1);
 
-  //Khi component bắt đầu return thì chạy dispatch và khi product thay đổi
+  //Khi component bắt đầu return thì  product_id thay đổi
   useEffect(() => {
     dispatch(getevaluation(product_id, amount));
+    setAmount(1);
+  }, [product_id]);
 
-    console.log("return");
-  }, [product_id, amount]);
+  //Khi số lượng data thay đổi thì dispatch lại
+  useEffect(() => {
+    dispatch(getevaluation_amount(product_id, amount));
+  }, [amount]);
 
   //Lấy thông tin user
   const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
@@ -89,6 +103,7 @@ const Evaluation = ({ product_id }) => {
         image: userData.image,
       };
       dispatch(add_evaluation(item));
+      dispatch(update_totaldata(1)); //Cộng thêm 1 vào tổng số lượng data
     });
   };
 
@@ -100,6 +115,7 @@ const Evaluation = ({ product_id }) => {
   const handleDelete = (id) => {
     EvaluationAPI.deleteevaluation(id).then(() => {
       dispatch(delete_evaluation(id));
+      dispatch(update_totaldata(-1)); //Trừ đi 1 vào tổng số lượng data
     });
   };
 
@@ -170,15 +186,42 @@ const Evaluation = ({ product_id }) => {
         author: item.users?.email,
         avatar: item.users?.image,
         content: item?.body,
-        datetime: moment(item?.createdAt).format("DD/MM/yyyy hh:mm:ss  A"),
+        // datetime: moment(item?.createdAt).format("DD/MM/yyyy hh:mm:ss  A"),
+        datetime: (
+          <span>
+            {moment(
+              moment(item?.createdAt)
+                .format("yyyy-MM-DD hh:mm:ss  A")
+                .toString()
+            ).fromNow()}
+          </span>
+        ),
       };
       oldCommentList.push(data);
     });
     setComments(oldCommentList);
-  }, [evaluationData.data, userData._id]);
+  }, [evaluationData.data, userData._id]); //Đăng nhập tài khoản khác cũng phải chạy lại ko thì ko có avatar
+
+  //Xử lý bắt sự kiện cuộn trang xuống cuối scroll (chú ý phải có scroll)
+  const listInnerRef = useRef();
+
+  const onScroll = () => {
+    if (listInnerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
+      if (scrollTop + clientHeight === scrollHeight) {
+        setAmount((pre) => pre + 3);
+      }
+    }
+  };
+
+  // window.onscroll = function (ev) {
+  //   if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+  //     console.log("đã cuộng xuông");
+  //   }
+  // };
 
   return (
-    <div style={{ marginTop: 40 }} id="cuon">
+    <div style={{ marginTop: 40, marginLeft: 10 }}>
       <hr />
       <Row>
         <Col xs={24} sm={12} md={12} lg={12}>
@@ -194,11 +237,19 @@ const Evaluation = ({ product_id }) => {
                 />
               }
             />
-            {comments?.length > 0 && <CommentList comments={comments} />}
+            {comments?.length > 0 && (
+              <div
+                style={{ overflowY: "auto", height: 300 }}
+                onScroll={onScroll}
+                ref={listInnerRef}
+              >
+                <CommentList comments={comments} />
+              </div>
+            )}
           </div>
         </Col>
       </Row>
-      <Button onClick={() => setAmount((pre) => pre + 3)}>Xem thêm</Button>
+      {/* <Button onClick={() => setAmount((pre) => pre + 3)}>Xem thêm</Button> */}
     </div>
   );
 };

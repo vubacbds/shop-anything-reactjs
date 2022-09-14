@@ -5,9 +5,15 @@ const initialState = {
 export const evaluationReducer = (state = initialState, action) => {
   switch (action.type) {
     case "GET_EVALUATION": {
+      return {
+        data: action.payload.data,
+        totalData: action.payload.totalData,
+      };
+    }
+    case "GET_EVALUATION_AMOUNT": {
       let newData = [...state.data];
-      if (state.data[0]?._id != action.payload[0]?._id) {
-        newData = [...state.data, ...action.payload];
+      if (state.data[0]?._id != action.payload.data[0]?._id) {
+        newData = [...state.data, ...action.payload.data];
       }
       return {
         ...state,
@@ -39,6 +45,13 @@ export const evaluationReducer = (state = initialState, action) => {
       return {
         ...state,
         data: newEvaluationList,
+      };
+    }
+
+    case "UPDATE_TOTALDATA": {
+      return {
+        ...state,
+        totalData: state.totalData + action.payload,
       };
     }
 

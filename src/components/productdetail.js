@@ -11,6 +11,8 @@ import { UseViewport } from "../util/customhook";
 import moment from "moment"; //Định dạng thời gian
 import { getproductid } from "../action/product";
 import { CopyOutlined } from "@ant-design/icons";
+import Evaluation from "./evaluation";
+//Trang này dùng cả data từ redux và lấy trực tiếp từ DB lên luôn, cái nào ko null thì chơi cái đó
 
 const ProductDetail = () => {
   //Set ảnh lớn khi click vào ảnh nhỏ trong trang chi tiết (productOrder) truyền bigImage cho comonent
@@ -57,7 +59,7 @@ const ProductDetail = () => {
     // ProductAPI
 
     Promise.all([
-      //Để lấy hình ảnh sản phẩm khi dispatch
+      //Để lấy hình ảnh sản phẩm khi dispatch || vì nối mảng thì được nhưng mà cần phải dispatch cho ko phải load lại trang
       ProductAPI.getproductId(dataProductOrder._id),
       BillAPI.addbill(newBill),
     ]).then((item) => {
@@ -348,6 +350,13 @@ const ProductDetail = () => {
           </div>
         </Col>
       </Row>
+      {dataProductOrder ? (
+        <Evaluation product_id={dataProductOrder._id} />
+      ) : productItem ? (
+        <Evaluation product_id={productItem._id} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };
