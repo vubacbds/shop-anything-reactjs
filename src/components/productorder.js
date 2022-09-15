@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, InputNumber, Row } from "antd";
+import { Button, Col, Form, Input, InputNumber, Row, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import BillAPI from "../services/billAPI";
 import { GetCookie } from "../util/cookie";
@@ -22,6 +22,12 @@ const ProductOrder = ({
 
   //Lấy thông tin user đang đăng nhập
   const dataUserRedux = useSelector((state) => state.user.dataOne);
+
+  //Lấy thuộc tính size
+  const dataSize = useSelector((state) => state.size.data);
+
+  //Lấy thuộc tính màu
+  const dataColor = useSelector((state) => state.color.data);
 
   //Thông báo
   const BillAddSuccess = () => {
@@ -81,6 +87,15 @@ const ProductOrder = ({
   //Sử dụng CostumHook kiểm tra kích thước màn hình để hiển thị cho đúng reponsive
   const viewPort = UseViewport();
   const isMobile = viewPort.width <= 512;
+
+  //Hàm kiểm tra nếu thuộc tính có các phần tử bị ẩn hết thì không hiện trường input đó
+  const handleCheckShow = (data) => {
+    const dataFilter = data.filter((item) => {
+      return item.status == 1;
+    });
+    if (data.length == dataFilter.length) return false;
+    return true;
+  };
 
   return (
     <div id="cuon">
@@ -192,7 +207,7 @@ const ProductOrder = ({
                   onClick={() => {
                     const cb = navigator.clipboard;
                     cb.writeText(
-                      `http://localhost:3000/products/${dataProductOrder._id}`
+                      `${process.env.REACT_APP_DOMAIN}/products/${dataProductOrder._id}`
                     ).then(() => setCopy("Đã copy"));
                   }}
                   onMouseOut={() => {
@@ -250,8 +265,66 @@ const ProductOrder = ({
                   },
                 ]}
               >
-                <InputNumber min={1} max={dataProductOrder?.amount} />
+                <InputNumber
+                  min={1}
+                  max={dataProductOrder?.amount}
+                  style={{ width: "50%" }}
+                />
               </Form.Item>
+
+              {handleCheckShow(dataSize) && (
+                <Form.Item
+                  label="Size "
+                  name="size"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Bạn chưa chọn size!",
+                    },
+                  ]}
+                >
+                  <Select>
+                    {dataSize.map((item) => {
+                      return (
+                        <Select.Option
+                          value={item._id}
+                          key={item._id}
+                          disabled={item.status == 1}
+                        >
+                          {item.name}
+                        </Select.Option>
+                      );
+                    })}
+                  </Select>
+                </Form.Item>
+              )}
+
+              {handleCheckShow(dataColor) && (
+                <Form.Item
+                  label="Màu sắc "
+                  name="color"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Bạn chưa chọn màu sắc!",
+                    },
+                  ]}
+                >
+                  <Select>
+                    {dataColor.map((item) => {
+                      return (
+                        <Select.Option
+                          value={item._id}
+                          key={item._id}
+                          disabled={item.status == 1}
+                        >
+                          {item.name}
+                        </Select.Option>
+                      );
+                    })}
+                  </Select>
+                </Form.Item>
+              )}
 
               <Form.Item
                 label="Họ và tên"
@@ -263,7 +336,7 @@ const ProductOrder = ({
                   },
                 ]}
               >
-                <Input style={{ width: "70%" }} />
+                <Input style={{}} />
               </Form.Item>
 
               <Form.Item
@@ -280,7 +353,7 @@ const ProductOrder = ({
                   },
                 ]}
               >
-                <Input style={{ width: "70%" }} />
+                <Input style={{}} />
               </Form.Item>
 
               <Form.Item

@@ -14,7 +14,7 @@ import axios from "axios";
 import ProductOrder from "./productorder";
 import moment from "moment"; //Định dạng thời gian
 import An3gach from "../util/an3gach";
-import Random from "./random";
+import ProductRandom from "./productrandom";
 
 const { Meta } = Card;
 
@@ -81,11 +81,13 @@ const Product = (props) => {
         <Col xs={0} sm={0} lg={6}>
           <div
             style={{
+              position: "fixed",
+              top: 100,
               height: 420,
-              margin: "120px 20px 0px 20px",
+              margin: "0px 20px",
             }}
           >
-            {product.data && <Random data={product.data} />}{" "}
+            {product.data && <ProductRandom data={product.data} />}{" "}
           </div>
         </Col>
         <Col xs={24} sm={16} lg={12}>
@@ -182,7 +184,9 @@ const Product = (props) => {
 
       <hr style={{ border: 2, color: "#BCADB0" }} />
       {product.data?.length == 0 ? (
-        <h3>(Không có dữ liệu)</h3>
+        <h3 style={{ position: "absolute", top: 100, left: 460 }}>
+          (Không có dữ liệu)
+        </h3>
       ) : (
         <Pagination
           pageSize={pages.size}
@@ -244,7 +248,7 @@ const ModalOrderProduct = (props) => {
         onCancel={handleCancel}
         footer={null}
         width={1100}
-        zIndex={2000} //Để model Login đè lên
+        // zIndex={2000} //Để model Login đè lên
       >
         <ProductOrder
           dataProductOrder={props.dataProductOrder}

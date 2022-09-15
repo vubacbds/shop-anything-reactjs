@@ -166,6 +166,14 @@ const Navbar = () => {
                 <div className="dropdown-divider"></div>
                 <Link
                   className="dropdown-item"
+                  to="/admin/properties"
+                  onClick={() => An3gach()}
+                >
+                  Thuộc tính sản phẩm
+                </Link>
+                <div className="dropdown-divider"></div>
+                <Link
+                  className="dropdown-item"
                   to="/admin/categories"
                   onClick={() => An3gach()}
                 >

@@ -93,7 +93,8 @@ export const productReducer = (state = initialState, action) => {
       const newState = { ...state };
       const newProductList = newState.olddata.filter(
         (item) =>
-          item.title.toLowerCase().includes(action.payload.toLowerCase()) //Biến thành chũ thường hết để tìm kiếm
+          item.title.toLowerCase().includes(action.payload.toLowerCase()) ||
+          item.price == parseInt(action.payload) //Biến thành chũ thường hết để tìm kiếm
       );
       return {
         ...newState,

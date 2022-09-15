@@ -28,11 +28,11 @@ import { storage } from "./firebase";
 
 const { TextArea } = Input;
 
-const CommentList = ({ comments, amount, evaluationTotalData }) => {
+const CommentList = ({ comments, evaluationTotalData }) => {
   return (
     <List
       dataSource={comments}
-      header={` Có ${amount + 2}/${evaluationTotalData} ${
+      header={` Có ${evaluationTotalData} ${
         evaluationTotalData > 1 ? "bình luận : " : "bình luận : "
       }`}
       itemLayout="horizontal"
@@ -411,7 +411,6 @@ const Evaluation = ({ product_id, listInnerRef }) => {
                 <div style={{ height: 500 }}>
                   <CommentList
                     comments={comments}
-                    amount={amount}
                     evaluationTotalData={evaluationTotalData}
                   />
                   {amount + 2 < evaluationTotalData && (

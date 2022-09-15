@@ -66,7 +66,6 @@ const ProductAdd = (props) => {
   const handleCancel = () => setPreviewVisible(false);
 
   const handleChange = (e) => {
-    console.log("đã change ảnh");
     const nameImage = e.fileList[e.fileList.length - 1]?.name;
     const fileListLength = e.fileList.filter((item) => {
       return item.name == nameImage;
@@ -197,16 +196,7 @@ const ProductAdd = (props) => {
             },
           ]}
         >
-          <Select
-            // styles={{
-            //   width: "60%",
-            //   position: "relative",
-            //   zIndex: "99999 !important",
-            // }}
-            menuPortalTarget={document.getElementById("portal-target")}
-            styles={{ menuPortal: (styles) => ({ ...styles, zIndex: 10000 }) }}
-            // other props
-          >
+          <Select>
             {category.map((item) => {
               return (
                 <Select.Option value={item._id} key={item._id}>

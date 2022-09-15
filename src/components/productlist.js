@@ -293,8 +293,9 @@ const ProductList = () => {
           onChange: (page, pageSize) => {
             setPageSize(pageSize);
           },
-          pageSizeOptions: [2, 10, 20, 40],
+          pageSizeOptions: [6, 12, 24, 48],
           showSizeChanger: true,
+          pageSize: 6, //set page mặt định
         }}
         dataSource={dataProduct}
         style={{ margin: "0px 20px" }}

@@ -8,6 +8,8 @@ import { deletecategory, getcategory_id } from "../action/category";
 import CategorytAdd from "./categoryadd";
 import CategorytUpdate from "./categoryupdate";
 import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
+import SizetList from "./sizelist";
+import ColortList from "./colorlist";
 import An3gach from "../util/an3gach";
 
 const CategorytList = () => {
@@ -160,7 +162,7 @@ const ModalCategoryUpdate = (props) => {
   return (
     <>
       <Modal
-        title="Thêm danh mục"
+        title="Sửa danh mục"
         visible={props.visible}
         onOk={handleOk}
         confirmLoading={confirmLoading}

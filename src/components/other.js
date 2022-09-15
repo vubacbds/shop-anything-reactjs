@@ -173,7 +173,7 @@ const Other = () => {
           </Form>
         </Col>
         <Col lg={6} xs={24}>
-          <div style={{ margin: "40px 0px 120px 0px" }}>
+          <div style={{ margin: "40px 0px 40px 0px" }}>
             <Button
               onClick={() => {
                 setCat("cs");

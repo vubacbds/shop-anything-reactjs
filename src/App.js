@@ -21,6 +21,7 @@ import Footer from "./components/footer";
 import Other from "./components/other";
 import OtherContext from "./components/othercontext";
 import Evaluation from "./components/evaluation";
+import ProductProperties from "./components/productproperties";
 
 import { BackTop } from "antd";
 import { UpCircleOutlined } from "@ant-design/icons";
@@ -30,6 +31,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { GetCookie } from "./util/cookie";
 import Demo from "./components/demo";
+import getsize from "./action/size";
+import getcolor from "./action/color";
 
 const LazyTestLazy = React.lazy(() => import("./components/testlazy"));
 
@@ -39,6 +42,8 @@ function App() {
   useEffect(() => {
     dispatch(getproduct());
     dispatch(getcategory());
+    dispatch(getsize());
+    dispatch(getcolor());
     dispatch(getbill());
     dispatch(getuser());
     dispatch(getother());
@@ -74,9 +79,15 @@ function App() {
             element={userAdmin ? <UsertList /> : <Navigate to="/" replace />}
           />
           <Route
+            path="/admin/properties"
+            element={
+              userAdmin ? <ProductProperties /> : <Navigate to="/" replace />
+            }
+          />
+          <Route
             path="/admin/categories"
             element={
-              <Notfound /> ? <CategorytList /> : <Navigate to="/" replace />
+              userAdmin ? <CategorytList /> : <Navigate to="/" replace />
             }
           />
           <Route

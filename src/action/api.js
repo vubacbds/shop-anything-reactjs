@@ -5,6 +5,8 @@ import BillAPI from "../services/billAPI";
 import UserAPI from "../services/userAPI";
 import OtherAPI from "../services/otherAPI";
 import EvaluationAPI from "../services/evaluationAPI";
+import SizeAPI from "../services/sizeAPI";
+import ColorAPI from "../services/colorAPI";
 
 const axiosProduct = () => {
   return new Promise((resolve, reject) => {
@@ -22,6 +24,32 @@ const axiosProduct = () => {
 const axiosCategory = () => {
   return new Promise((resolve, reject) => {
     CategoryAPI.getcategory()
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+};
+
+const axiosSize = () => {
+  return new Promise((resolve, reject) => {
+    SizeAPI.getsize()
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+};
+
+const axiosColor = () => {
+  return new Promise((resolve, reject) => {
+    ColorAPI.getcolor()
       .then((response) => {
         resolve(response);
       })
@@ -87,6 +115,8 @@ const axiosEvaluation = (product_id, amount) => {
 export {
   axiosProduct,
   axiosCategory,
+  axiosSize,
+  axiosColor,
   axiosBill,
   axiosUser,
   axiosOther,
