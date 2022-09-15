@@ -42,6 +42,7 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         data: [...state.data, action.payload],
+        dataOne: action.payload,
       };
     }
 

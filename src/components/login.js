@@ -1,15 +1,30 @@
 import { Button, Checkbox, Form, Input, Modal } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import getDataUser, { get_user_one } from "../action/user";
+import getDataUser, { add_user, get_user_one } from "../action/user";
 import UserAPI from "../services/userAPI";
 import { toast } from "react-toastify";
 import Signup from "./signup";
 import { SetCookie, GetCookie } from "../util/cookie";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import getbill from "../action/bill";
 import getuser from "../action/user";
+
+// Configure FirebaseUI.
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+const uiConfig = {
+  // Popup signin flow rather than redirect flow.
+  signInFlow: "popup",
+  signInSuccessUrl: "/",
+  signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+  callbacks: {
+    // Avoid redirects after sign-in.
+    signInSuccessWithAuthResult: () => false,
+  },
+};
 
 const Login = (props) => {
   const navigate = useNavigate();
@@ -54,6 +69,51 @@ const Login = (props) => {
         loginFail(error.response.data.message);
       });
   };
+
+  //Lấy thông tin user Cookie
+  const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
+
+  //Lấy tất cả user ở Redux
+  const dataUserRedux = useSelector((state) => state.user.data);
+
+  //Hàm kiểm tra xem tài khoản đăng nhập bằng gmail có tồn tại trong DB chưa, nếu chưa thì đăng ký luôn
+  const checkEmail = (data) => {
+    const isUser = dataUserRedux.find((item) => {
+      return item.email === data.email;
+    });
+    if (!isUser) {
+      UserAPI.signup(data)
+        .then(function (response) {
+          dispatch(add_user(response));
+        })
+        .catch(function (error) {
+          console.log("Error on Authentication", error);
+        });
+    }
+  };
+
+  //Đăng nhập gmail
+  useEffect(() => {
+    const unregisterAuthObserver = firebase
+      .auth()
+      .onAuthStateChanged((user) => {
+        if (user) {
+          const dataUser = {
+            _id: user._delegate.providerData[0].uid.toLowerCase() + "888",
+            name: user.multiFactor.user.displayName,
+            email: user.multiFactor.user.email,
+            image: user.multiFactor.user.photoURL,
+            password: "6688",
+          };
+          checkEmail(dataUser);
+          SetCookie("user", JSON.stringify(dataUser));
+          SetCookie("accessToken", user.multiFactor.user.accessToken);
+          dispatch(add_user(dataUser));
+          props.setVisible(false);
+        }
+      });
+    return () => unregisterAuthObserver();
+  }, []);
 
   return (
     <>
@@ -129,6 +189,12 @@ const Login = (props) => {
           </Button>
         </Form.Item>
       </Form>
+      {!userData && (
+        <StyledFirebaseAuth
+          uiConfig={uiConfig}
+          firebaseAuth={firebase.auth()}
+        />
+      )}
       <Button type="link" onClick={() => setVisible(true)}>
         Chưa có tài khoản (đăng ký tại đây)
       </Button>

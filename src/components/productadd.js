@@ -14,7 +14,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { addproduct } from "../action/product";
 import { useEffect, useState } from "react";
-import { storage } from "./firebase";
+// import { storage } from "./firebase";
+import firebase from "firebase/compat/app";
+// import "firebase/compat/auth";
+// import "firebase/compat/firestore";
+import "firebase/compat/storage";
 import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 
 const ProductAdd = (props) => {
@@ -88,7 +92,8 @@ const ProductAdd = (props) => {
   };
   const handleUpload = () => {
     fileList.forEach((e) => {
-      const uploadTask = storage
+      const uploadTask = firebase
+        .storage()
         .ref(`images/${e.originFileObj.name}`)
         .put(e.originFileObj);
       uploadTask.on(
@@ -103,7 +108,8 @@ const ProductAdd = (props) => {
           console.log(error);
         },
         () => {
-          storage
+          firebase
+            .storage()
             .ref("images")
             .child(e.originFileObj.name)
             .getDownloadURL()
@@ -148,7 +154,7 @@ const ProductAdd = (props) => {
   useEffect(() => {
     if (url.length === fileList.length) {
       newProduct.images = url;
-      newProduct.image = url[0];
+      // newProduct.image = url[0];
       ProductAPI.addproduct(newProduct)
         .then(function (response) {
           dispatch(addproduct(response));

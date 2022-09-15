@@ -27,7 +27,7 @@ const Signup = (props) => {
   const dataUserRedux = useSelector((state) => state.user.data);
 
   const onFinish = (values) => {
-    console.log(dataUserRedux);
+    // console.log(dataUserRedux);
     const isUser = dataUserRedux.find((item) => {
       return item.email === values.email;
     });

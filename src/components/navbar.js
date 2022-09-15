@@ -15,6 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { set_null } from "../action/bill";
 import { UseViewport } from "../util/customhook";
 import An3gach from "../util/an3gach";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
 
 const Navbar = () => {
   //Lấy các thông tin của web
@@ -40,6 +42,7 @@ const Navbar = () => {
 
   //Hàm xử lý đăng xuất
   const logout = () => {
+    if (firebase.auth()) firebase.auth().signOut();
     dispatch(set_null()); //Cho null đơn hàng
     document.getElementById("an").classList.remove("show"); //Sửa lỗi đăng xuất nhưng dropdown vẫn hiện
     SetCookie("user", "", -1);

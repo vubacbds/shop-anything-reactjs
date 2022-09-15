@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import getproduct from "./action/product";
 import getcategory from "./action/category";
 import getbill from "./action/bill";
-import getuser from "./action/user";
+import getuser, { add_user } from "./action/user";
 import getother from "./action/other";
 
 import Product from "./components/product";
@@ -22,6 +22,7 @@ import Other from "./components/other";
 import OtherContext from "./components/othercontext";
 import Evaluation from "./components/evaluation";
 import ProductProperties from "./components/productproperties";
+import LoginGmail from "./components/logingmail";
 
 import { BackTop } from "antd";
 import { UpCircleOutlined } from "@ant-design/icons";
@@ -29,10 +30,26 @@ import { UpCircleOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { GetCookie } from "./util/cookie";
+import { GetCookie, SetCookie } from "./util/cookie";
 import Demo from "./components/demo";
 import getsize from "./action/size";
 import getcolor from "./action/color";
+
+// Configure Firebase.
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+
+const config = {
+  apiKey: "AIzaSyDbdEkMG0zt5YBRQlpPdT_gctip3pYfLpM",
+  authDomain: "product-anything.firebaseapp.com",
+  projectId: "product-anything",
+  storageBucket: "product-anything.appspot.com",
+  messagingSenderId: "553146405137",
+  appId: "1:553146405137:web:f234bde8921a619e31fcb0",
+  measurementId: "G-J7HK4D02SN",
+};
+firebase.initializeApp(config);
+//Close Configure Firebase.
 
 const LazyTestLazy = React.lazy(() => import("./components/testlazy"));
 
@@ -63,7 +80,7 @@ function App() {
           <Route path="/other/:cat" element={<OtherContext />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
           <Route path="/evaluation" element={<Evaluation />} />
-          <Route path="/demo" element={<Demo />} />
+          <Route path="/loginmail" element={<LoginGmail />} />
 
           <Route
             path="/bill"

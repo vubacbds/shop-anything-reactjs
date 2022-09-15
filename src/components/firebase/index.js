@@ -14,24 +14,25 @@
 
 // export {storage, firebase as default}
 
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/firestore";
-import "firebase/compat/storage";
+// import firebase from "firebase/compat/app";
+// import "firebase/compat/auth";
+// import "firebase/compat/firestore";
+// import "firebase/compat/storage";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDbdEkMG0zt5YBRQlpPdT_gctip3pYfLpM",
-  authDomain: "product-anything.firebaseapp.com",
-  projectId: "product-anything",
-  storageBucket: "product-anything.appspot.com",
-  messagingSenderId: "553146405137",
-  appId: "1:553146405137:web:f234bde8921a619e31fcb0",
-  measurementId: "G-J7HK4D02SN",
-};
+// const firebaseConfig = {
+//   apiKey: "AIzaSyDbdEkMG0zt5YBRQlpPdT_gctip3pYfLpM",
+//   authDomain: "product-anything.firebaseapp.com",
+//   projectId: "product-anything",
+//   storageBucket: "product-anything.appspot.com",
+//   messagingSenderId: "553146405137",
+//   appId: "1:553146405137:web:f234bde8921a619e31fcb0",
+//   measurementId: "G-J7HK4D02SN",
+// };
 
-firebase.initializeApp(firebaseConfig);
+// firebase.initializeApp(firebaseConfig);
 
-const storage = firebase.storage();
+// const storage = firebase.storage();
 
-export { storage, firebase as default };
+// export { storage, firebase as default };
+// export {};
