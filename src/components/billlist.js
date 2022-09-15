@@ -104,6 +104,16 @@ const BillList = ({ numbertab }) => {
     },
     Table.EXPAND_COLUMN,
     {
+      title: "Size",
+      dataIndex: "size",
+      key: "size",
+    },
+    {
+      title: "Màu sắc",
+      dataIndex: "color",
+      key: "color",
+    },
+    {
       title: "Số lượng",
       dataIndex: "amount",
       key: "amount",

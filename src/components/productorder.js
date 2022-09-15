@@ -287,7 +287,7 @@ const ProductOrder = ({
                     {dataSize.map((item) => {
                       return (
                         <Select.Option
-                          value={item._id}
+                          value={item.name}
                           key={item._id}
                           disabled={item.status == 1}
                         >
@@ -314,7 +314,7 @@ const ProductOrder = ({
                     {dataColor.map((item) => {
                       return (
                         <Select.Option
-                          value={item._id}
+                          value={item.name}
                           key={item._id}
                           disabled={item.status == 1}
                         >

@@ -15,6 +15,7 @@ import ProductOrder from "./productorder";
 import moment from "moment"; //Định dạng thời gian
 import An3gach from "../util/an3gach";
 import ProductRandom from "./productrandom";
+import { UseViewport } from "../util/customhook";
 
 const { Meta } = Card;
 
@@ -54,41 +55,26 @@ const Product = (props) => {
     });
   };
 
-  //Xử lý product chạy ngẫu nhiên
-  // const [randomProduct, setRandomProduct] = useState();
-  // const [runrandom, setRunrandom] = useState(true);
+  //Sử dụng CostumHook kiểm tra kích thước màn hình để hiển thị cho đúng reponsive
+  const viewPort = UseViewport();
+  const isMobile = viewPort.width <= 976;
 
-  // useEffect(() => {
-  //   if (product?.data?.length)
-  //     var rand =
-  //       product?.data[Math.floor(Math.random() * product?.data?.length)];
-  //   console.log(rand);
-  //   console.log(Math.floor(Math.random() * product?.data?.length));
-  // }, [product]);
-
-  // setInterval(() => {
-  //   let rand;
-  //   if (product?.data?.length) {
-  //     rand = product?.data[Math.floor(Math.random() * product?.data?.length)];
-  //   }
-  //   setRandomProduct(rand);
-  // }, 5000);
-
-  // console.log("return");
   return (
     <>
       <Row>
         <Col xs={0} sm={0} lg={6}>
-          <div
-            style={{
-              position: "fixed",
-              top: 100,
-              height: 420,
-              margin: "0px 20px",
-            }}
-          >
-            {product.data && <ProductRandom data={product.data} />}{" "}
-          </div>
+          {!isMobile && (
+            <div
+              style={{
+                position: "fixed",
+                top: 100,
+                height: 420,
+                margin: "0px 20px",
+              }}
+            >
+              {product.data && <ProductRandom data={product.data} />}{" "}
+            </div>
+          )}
         </Col>
         <Col xs={24} sm={16} lg={12}>
           {product?.data?.map((item, index) => {
@@ -97,9 +83,7 @@ const Product = (props) => {
                 {index >= pages.minIndex && index < pages.maxIndex && (
                   <div>
                     <a
-                      // to={`/products/${item._id}`}
-                      className=" product-hover"
-                      style={{ textAlign: "left", display: "flex" }}
+                      style={{ textAlign: "left" }}
                       onClick={(e) => {
                         e.preventDefault();
                         setDataProductOrder(item);
@@ -107,54 +91,73 @@ const Product = (props) => {
                         An3gach();
                       }}
                     >
-                      <img
-                        className="card-img-left"
-                        src={item.images[0]}
-                        style={{ flexGrow: 1, width: 80, height: 130 }}
-                      />
-                      <div
-                        className="card w-50"
-                        style={{ flexGrow: 2, height: 130 }}
-                      >
-                        <div className="card-body">
-                          <h5 className="card-title">{item.title}</h5>
-                          <p
-                            className="card-text"
-                            style={{ color: "red", fontWeight: "bold" }}
-                          >
-                            {item.price.toLocaleString("vi-VN", {
-                              style: "currency",
-                              currency: "VND",
-                            })}
-                          </p>
-                          <div style={{ textAlign: "left", display: "flex" }}>
+                      <Row style={{}} className="product-hover">
+                        <Col xs={6} lg={6} sm={6} md={6}>
+                          <img
+                            className="card-img-left"
+                            src={item.images[0]}
+                            style={{ width: "100%", height: 130 }}
+                          />
+                        </Col>
+                        <Col xs={18} lg={18} sm={18} md={18}>
+                          <div className="card " style={{ height: 130 }}>
                             <div
-                              style={{
-                                flexGrow: 8,
-                                fontSize: 14,
-                                marginTop: 10,
-                                color: "#a4b4b4",
-                              }}
+                              className="card-body"
+                              style={{ padding: 10, position: "relative" }}
                             >
-                              Còn lại: {item.amount} &ensp;
-                              {item.ghim == 1 ? (
-                                <span>
-                                  <DisconnectOutlined /> Đã ghim{" "}
-                                </span>
-                              ) : (
-                                ""
-                              )}
-                              {/* | &ensp;{" "}
-                              {moment(item.updatedAt).format("DD/MM/yyyy")} */}
-                            </div>
-                            <div style={{ flexGrow: 1 }}>
-                              <Button>
-                                <ShoppingCartOutlined />
-                              </Button>
+                              <span
+                                className="card-title"
+                                style={{
+                                  size: 20,
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                {item.title}
+                              </span>
+                              <div
+                                className="card-text"
+                                style={{ color: "red", fontWeight: "bold" }}
+                              >
+                                {item.price.toLocaleString("vi-VN", {
+                                  style: "currency",
+                                  currency: "VND",
+                                })}
+                              </div>
+
+                              <span
+                                style={{
+                                  fontSize: 14,
+                                  marginTop: 10,
+                                  color: "#a4b4b4",
+                                  position: "absolute",
+                                  left: 10,
+                                  top: 96,
+                                }}
+                              >
+                                Còn lại: {item.amount} &ensp;
+                                {item.ghim == 1 ? (
+                                  <span>
+                                    <DisconnectOutlined /> Đã ghim{" "}
+                                  </span>
+                                ) : (
+                                  ""
+                                )}
+                              </span>
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  top: 94,
+                                  left: "80%",
+                                }}
+                              >
+                                <Button>
+                                  <ShoppingCartOutlined />
+                                </Button>
+                              </span>
                             </div>
                           </div>
-                        </div>
-                      </div>
+                        </Col>
+                      </Row>
                     </a>
                   </div>
                 )}
