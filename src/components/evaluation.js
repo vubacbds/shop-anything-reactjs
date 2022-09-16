@@ -24,7 +24,8 @@ import getevaluation, {
 } from "../action/evaluation";
 import EvaluationAPI from "../services/evaluationAPI";
 import { GetCookie } from "../util/cookie";
-import { storage } from "./firebase";
+import firebase from "firebase/compat/app";
+import "firebase/compat/storage";
 
 const { TextArea } = Input;
 
@@ -342,7 +343,8 @@ const Evaluation = ({ product_id, listInnerRef }) => {
   };
   const handleUpload = () => {
     if (file) {
-      const uploadTask = storage
+      const uploadTask = firebase
+        .storage()
         .ref(`images/${file.originFileObj.name}`)
         .put(file.originFileObj);
       uploadTask.on(
@@ -357,7 +359,8 @@ const Evaluation = ({ product_id, listInnerRef }) => {
           console.log(error);
         },
         () => {
-          storage
+          firebase
+            .storage()
             .ref("images")
             .child(file.originFileObj.name)
             .getDownloadURL()

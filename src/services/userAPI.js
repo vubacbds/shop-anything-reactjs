@@ -13,6 +13,10 @@ const UserAPI = {
     const url = "/user/get";
     return axiosClient.get(url);
   },
+  getemail: (email) => {
+    const url = `/user/get-email`;
+    return axiosClient.get(url, email);
+  },
   delete: (id) => {
     const url = `/user/delete/${id}`;
     return axiosClient.delete(url);

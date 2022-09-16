@@ -77,38 +77,63 @@ const Login = (props) => {
   const dataUserRedux = useSelector((state) => state.user.data);
 
   //Hàm kiểm tra xem tài khoản đăng nhập bằng gmail có tồn tại trong DB chưa, nếu chưa thì đăng ký luôn
-  const checkEmail = (data) => {
+  const checkEmail = (data, accessToken) => {
     const isUser = dataUserRedux.find((item) => {
       return item.email === data.email;
     });
     if (!isUser) {
       UserAPI.signup(data)
         .then(function (response) {
+          console.log(response);
           dispatch(add_user(response));
+          SetCookie("user", JSON.stringify(response));
+          SetCookie("accessToken", accessToken);
+          dispatch(getbill());
+          setTimeout("location.reload(true)", 12);
         })
         .catch(function (error) {
           console.log("Error on Authentication", error);
         });
+    } else {
+      dispatch(getbill());
+      SetCookie("user", JSON.stringify(data));
+      SetCookie("accessToken", accessToken);
+      dispatch(get_user_one(data._id));
+      console.log("Login success");
     }
+
+    //Khi thông tin gmail thay đổi thì dùng cái ẩn này/ tuy nhiên dùng lại ko hiện nút login gmail
+
+    // else {
+    //const userUpdate ={name: data.name, email: data: email, image: data.image}
+    // UserAPI.update(data._id, userUpdate)
+    // .then(() => {
+    //   // dispatch(update_user(userUpdate));
+    //   dispatch(getbill());
+    //   SetCookie("user", JSON.stringify(data));
+    //   SetCookie("accessToken", accessToken);
+    //   dispatch(get_user_one(data._id));
+    //   console.log("Update success");
+    // })
+    // .catch((error) => console.log(error.response.data.message));}
   };
 
   //Đăng nhập gmail
   useEffect(() => {
     const unregisterAuthObserver = firebase
       .auth()
-      .onAuthStateChanged((user) => {
+      .onAuthStateChanged(async (user) => {
         if (user) {
+          const accessToken = await user.getIdToken();
           const dataUser = {
             _id: user._delegate.providerData[0].uid.toLowerCase() + "888",
             name: user.multiFactor.user.displayName,
             email: user.multiFactor.user.email,
             image: user.multiFactor.user.photoURL,
-            password: "6688",
+            password: Math.floor(Math.random() * 100000),
           };
-          checkEmail(dataUser);
-          SetCookie("user", JSON.stringify(dataUser));
-          SetCookie("accessToken", user.multiFactor.user.accessToken);
-          dispatch(add_user(dataUser));
+          checkEmail(dataUser, accessToken);
+
           props.setVisible(false);
         }
       });

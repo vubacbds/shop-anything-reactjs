@@ -14,7 +14,8 @@ import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import UserAPI from "../services/userAPI";
 import { get_user_one, update_user } from "../action/user";
-import { storage } from "./firebase";
+import firebase from "firebase/compat/app";
+import "firebase/compat/storage";
 import { PlusOutlined } from "@ant-design/icons";
 
 const Account = () => {
@@ -96,7 +97,8 @@ const Account = () => {
     );
   };
   const handleUpload = () => {
-    const uploadTask = storage
+    const uploadTask = firebase
+      .storage()
       .ref(`images/${file.originFileObj.name}`)
       .put(file.originFileObj);
     uploadTask.on(
@@ -111,7 +113,8 @@ const Account = () => {
         console.log(error);
       },
       () => {
-        storage
+        firebase
+          .storage()
           .ref("images")
           .child(file.originFileObj.name)
           .getDownloadURL()

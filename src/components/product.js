@@ -235,7 +235,7 @@ const ModalOrderProduct = (props) => {
     console.log("Clicked cancel button");
     props.setVisible(false);
     setBigImage(); //khi đóng trang chi tiết thì set lại trang lớn bằng null
-    listInnerRef.current.scrollTop = 0;
+    if (listInnerRef.current) listInnerRef.current.scrollTop = 0;
   };
 
   //Set ảnh lớn khi click vào ảnh nhỏ trong trang chi tiết (productOrder) truyền bigImage cho comonent

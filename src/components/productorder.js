@@ -100,7 +100,7 @@ const ProductOrder = ({
   return (
     <div id="cuon">
       <Row>
-        <Col sm={24} xs={24} lg={12}>
+        <Col sm={24} xs={24} lg={14} md={24} xl={12}>
           {!isMobile ? (
             <div style={{ display: "flex" }}>
               <img
@@ -223,7 +223,7 @@ const ProductOrder = ({
             <p>*Mô tả: {dataProductOrder.description} </p>
           </div>
         </Col>
-        <Col sm={24} xs={24} lg={12}>
+        <Col sm={24} xs={24} lg={10} md={24} xl={12}>
           <div className="Form-Add-Product">
             <Form
               form={form}

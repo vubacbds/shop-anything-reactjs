@@ -41,7 +41,7 @@ export const userReducer = (state = initialState, action) => {
     case "ADD_USER": {
       return {
         ...state,
-        data: [...state.data, action.payload],
+        data: [action.payload, ...state.data],
         dataOne: action.payload,
       };
     }
