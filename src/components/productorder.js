@@ -86,7 +86,7 @@ const ProductOrder = ({
 
   //Sử dụng CostumHook kiểm tra kích thước màn hình để hiển thị cho đúng reponsive
   const viewPort = UseViewport();
-  const isMobile = viewPort.width <= 512;
+  const isMobile = viewPort.width <= 562;
 
   //Hàm kiểm tra nếu thuộc tính có các phần tử bị ẩn hết thì không hiện trường input đó
   const handleCheckShow = (data) => {
@@ -138,7 +138,7 @@ const ProductOrder = ({
                 data-ride="carousel"
               >
                 <div className="carousel-inner">
-                  <div className="carousel-item active">
+                  <div className="carousel-item active" key="0">
                     <img
                       src={dataProductOrder.images[0]}
                       alt="First slide"
@@ -187,6 +187,26 @@ const ProductOrder = ({
                   <span className="sr-only">Next</span>
                 </a>
               </div>
+
+              {dataProductOrder.images.map((item, index) => {
+                return (
+                  <span key={index}>
+                    <a
+                      href="#carouselExampleControls"
+                      data-slide-to={parseInt(index)}
+                    >
+                      <img
+                        src={item}
+                        style={{
+                          width: 48,
+                          height: 48,
+                          margin: "5px 0px 5px 5px",
+                        }}
+                      />
+                    </a>
+                  </span>
+                );
+              })}
             </>
           )}
 

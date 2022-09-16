@@ -151,7 +151,17 @@ const Account = () => {
       <>
         <Row>
           <Col xs={10} sm={6} lg={6}>
-            <Form onFinish={onFinishFormUpload}>
+            <Form
+              onFinish={onFinishFormUpload}
+              labelCol={{
+                xs: 8,
+                md: 8,
+              }}
+              wrapperCol={{
+                xs: 16,
+                md: 16,
+              }}
+            >
               <Form.Item
                 label="Chọn ảnh"
                 name="images"
@@ -207,8 +217,8 @@ const Account = () => {
               </Form.Item>
               <Form.Item
                 wrapperCol={{
-                  offset: 2,
-                  span: 22,
+                  offset: 6,
+                  span: 18,
                 }}
               >
                 <Button
