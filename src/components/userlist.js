@@ -3,7 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Button, Checkbox } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  DeleteOutlined,
+  FormOutlined,
+} from "@ant-design/icons";
 import UserAPI from "../services/userAPI";
 import { delete_user } from "../action/user";
 
@@ -32,6 +37,18 @@ const UsertList = () => {
       title: "Email",
       dataIndex: "email",
       key: "email",
+    },
+    {
+      title: "Xác minh",
+      dataIndex: "isverify",
+      key: "isverify",
+      render: (_, record) => {
+        return record.isverify ? (
+          <CheckCircleOutlined style={{ color: "green" }} />
+        ) : (
+          <CloseCircleOutlined style={{ color: "red" }} />
+        );
+      },
     },
     {
       title: "Họ và tên",

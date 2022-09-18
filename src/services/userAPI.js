@@ -33,6 +33,10 @@ const UserAPI = {
     const url = `/user/verify/${userid}`;
     return axiosClient.get(url);
   },
+  reset_password: (email) => {
+    const url = `/user/resetpassword`;
+    return axiosClient.put(url, email);
+  },
 };
 
 export default UserAPI;

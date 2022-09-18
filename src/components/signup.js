@@ -13,9 +13,12 @@ const Signup = (props) => {
 
   //Thông báo
   const signupSuccess = () => {
-    toast.success("Đăng ký thành công !", {
-      position: toast.POSITION.BOTTOM_RIGHT,
-    });
+    toast.success(
+      "Đăng ký thành công! Bạn cần vào email xác minh để đăng nhập",
+      {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      }
+    );
   };
   const signupFail = (message) => {
     toast.error(message, {
@@ -86,7 +89,7 @@ const Signup = (props) => {
           <Input />
         </Form.Item>
         <Form.Item
-          label="Password"
+          label="Mật khẩu"
           name="password"
           rules={[
             {
@@ -98,7 +101,7 @@ const Signup = (props) => {
           <Input.Password />
         </Form.Item>
         <Form.Item
-          label="PasswordConfirm"
+          label="Xác nhận mật khẩu"
           name="passwordconfirm"
           dependencies={["password"]}
           rules={[

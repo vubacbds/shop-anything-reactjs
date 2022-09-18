@@ -15,6 +15,7 @@ import getuser from "../action/user";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import { useForm } from "rc-field-form";
 const uiConfig = {
   // Popup signin flow rather than redirect flow.
   signInFlow: "popup",
@@ -30,6 +31,7 @@ const Login = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
+  const [visibleResetPassword, setVisibleResetPassword] = useState(false);
   const [checkPassword, setCheckPassword] = useState(true);
 
   //Thông báo
@@ -171,7 +173,7 @@ const Login = (props) => {
           rules={[
             {
               required: true,
-              message: "Please input your username!",
+              message: "Vui lòng nhập email của bạn!!",
             },
           ]}
         >
@@ -179,12 +181,12 @@ const Login = (props) => {
         </Form.Item>
 
         <Form.Item
-          label="Password"
+          label="Mật khẩu"
           name="password"
           rules={[
             {
               required: true,
-              message: "Please input your password!",
+              message: "Vui lòng nhập mật khẩu!!",
             },
           ]}
         >
@@ -200,7 +202,7 @@ const Login = (props) => {
           }}
         >
           <Checkbox onChange={(e) => setCheckPassword(e.target.checked)}>
-            Nhớ mật khẩu
+            Ghi nhớ
           </Checkbox>
         </Form.Item>
 
@@ -211,8 +213,12 @@ const Login = (props) => {
           }}
         >
           <Button type="primary" htmlType="submit">
-            Login
+            Đăng nhập
           </Button>
+          &ensp;
+          <a href="#" onClick={() => setVisibleResetPassword(true)}>
+            Quên mật khẩu
+          </a>
         </Form.Item>
       </Form>
       {!userData && (
@@ -222,13 +228,18 @@ const Login = (props) => {
         />
       )}
       <Button type="link" onClick={() => setVisible(true)}>
-        Chưa có tài khoản (đăng ký tại đây)
+        Chưa có tài khoản đăng ký tại đây
       </Button>
       <ModalSignup visible={visible} setVisible={setVisible} />
+      <ModalResetPassword
+        visible={visibleResetPassword}
+        setVisible={setVisibleResetPassword}
+      />
     </>
   );
 };
 
+//Modal đăng ký
 const ModalSignup = (props) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -257,6 +268,74 @@ const ModalSignup = (props) => {
         zIndex={1997}
       >
         <Signup setVisible={props.setVisible} />
+      </Modal>
+    </>
+  );
+};
+
+//Modal reset mật khẩu
+const ModalResetPassword = (props) => {
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const handleOk = () => {
+    setConfirmLoading(true);
+    setTimeout(() => {
+      props.setVisible(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
+
+  const handleCancel = () => {
+    console.log("Clicked cancel button");
+    props.setVisible(false);
+    form.resetFields();
+    setMessageReset(false);
+  };
+
+  const [messageReset, setMessageReset] = useState(false);
+
+  const handleResetPassword = ({ email }) => {
+    UserAPI.reset_password({ email: email });
+    setMessageReset(true);
+  };
+
+  const [form] = Form.useForm();
+  return (
+    <>
+      <Modal
+        title="Lấy lại mật khẩu"
+        visible={props.visible}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+        footer={null}
+        zIndex={1997}
+      >
+        <Form onFinish={handleResetPassword} form={form}>
+          <Form.Item
+            label="Email lấy lại mật khẩu"
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng nhập email của bạn!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Gửi
+            </Button>
+            &ensp;{" "}
+            {messageReset && (
+              <span style={{ color: "green" }}>
+                * Thành công! Bạn vào email để lấy lại mật khẩu mới nhé!
+              </span>
+            )}
+          </Form.Item>
+        </Form>
       </Modal>
     </>
   );
