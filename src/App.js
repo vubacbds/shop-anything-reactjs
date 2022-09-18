@@ -23,6 +23,7 @@ import OtherContext from "./components/othercontext";
 import Evaluation from "./components/evaluation";
 import ProductProperties from "./components/productproperties";
 import LoginGmail from "./components/logingmail";
+import VerifyEmail from "./components/verifyemail";
 
 import { BackTop } from "antd";
 import { UpCircleOutlined } from "@ant-design/icons";
@@ -81,6 +82,7 @@ function App() {
           <Route path="/products/:productId" element={<ProductDetail />} />
           <Route path="/evaluation" element={<Evaluation />} />
           <Route path="/loginmail" element={<LoginGmail />} />
+          <Route path="/user/verify/:userid" element={<VerifyEmail />} />
 
           <Route
             path="/bill"

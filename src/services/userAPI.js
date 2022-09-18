@@ -29,6 +29,10 @@ const UserAPI = {
     const url = `/user/update-pass/${id}`;
     return axiosClient.put(url, data);
   },
+  verify_email: (userid) => {
+    const url = `/user/verify/${userid}`;
+    return axiosClient.get(url);
+  },
 };
 
 export default UserAPI;

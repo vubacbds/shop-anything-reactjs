@@ -131,6 +131,7 @@ const Login = (props) => {
             email: user.multiFactor.user.email,
             image: user.multiFactor.user.photoURL,
             password: Math.floor(Math.random() * 100000),
+            isverify: true,
           };
           checkEmail(dataUser, accessToken);
 
