@@ -90,10 +90,15 @@ const BillList = ({ numbertab }) => {
       key: "image",
       render: (_, record) => {
         return (
-          <img
-            src={record.products?.images[0]}
-            style={{ width: 100, height: 100 }}
-          />
+          <a
+            href={`${process.env.REACT_APP_DOMAIN}/products/${record.products?._id}`}
+            target="_blank"
+          >
+            <img
+              src={record.products?.images[0]}
+              style={{ width: 100, height: 100 }}
+            />
+          </a>
         );
       },
     },

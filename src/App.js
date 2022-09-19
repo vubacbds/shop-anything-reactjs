@@ -39,6 +39,7 @@ import getcolor from "./action/color";
 // Configure Firebase.
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
+import getaddress from "./action/address";
 
 const config = {
   apiKey: "AIzaSyDbdEkMG0zt5YBRQlpPdT_gctip3pYfLpM",
@@ -65,6 +66,7 @@ function App() {
     dispatch(getbill());
     dispatch(getuser());
     dispatch(getother());
+    dispatch(getaddress());
   }, []);
 
   //Để ràng buộc router ko cho phép vào
@@ -83,6 +85,7 @@ function App() {
           <Route path="/evaluation" element={<Evaluation />} />
           <Route path="/loginmail" element={<LoginGmail />} />
           <Route path="/user/verify/:userid" element={<VerifyEmail />} />
+          <Route path="/demo" element={<Demo />} />
 
           <Route
             path="/bill"

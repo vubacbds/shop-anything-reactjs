@@ -1,4 +1,13 @@
-import { Button, Col, Form, Input, InputNumber, Row, Select } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  InputNumber,
+  Popconfirm,
+  Row,
+  Select,
+} from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import BillAPI from "../services/billAPI";
 import { GetCookie } from "../util/cookie";
@@ -11,6 +20,7 @@ import { UseViewport } from "../util/customhook";
 import moment from "moment"; //Định dạng thời gian
 import { CopyOutlined } from "@ant-design/icons";
 import Evaluation from "./evaluation";
+import Address from "./address";
 
 const ProductOrder = ({
   dataProductOrder,
@@ -49,6 +59,9 @@ const ProductOrder = ({
 
   const onFinish = (values) => {
     const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
+    if (!isAddressDefault) {
+      values.address = `${values.numhome}, ${values.ward}, ${values.district}, ${values.province} `;
+    }
     const newBill = {
       ...values,
       total_price: dataProductOrder.price * values.amount,
@@ -82,7 +95,8 @@ const ProductOrder = ({
   const [form] = Form.useForm();
   useEffect(() => {
     form.resetFields();
-  }, [dataUserRedux?._id]);
+    setIsAddressDefault(true);
+  }, [dataUserRedux?._id, dataProductOrder._id]);
 
   //Sử dụng CostumHook kiểm tra kích thước màn hình để hiển thị cho đúng reponsive
   const viewPort = UseViewport();
@@ -96,6 +110,9 @@ const ProductOrder = ({
     if (data.length == dataFilter.length) return false;
     return true;
   };
+
+  //Cài đặt địa chỉ default
+  const [isAddressDefault, setIsAddressDefault] = useState(true);
 
   return (
     <div id="cuon">
@@ -249,8 +266,8 @@ const ProductOrder = ({
               form={form}
               name="basic"
               labelCol={{
-                xs: 8,
-                md: 8,
+                xs: 12,
+                md: 12,
               }}
               wrapperCol={{
                 xs: 12,
@@ -376,18 +393,20 @@ const ProductOrder = ({
                 <Input style={{}} />
               </Form.Item>
 
-              <Form.Item
-                label="Địa chỉ"
-                name="address"
-                rules={[
-                  {
-                    required: true,
-                    message: "Bạn chưa nhập địa ch!",
-                  },
-                ]}
-              >
-                <Input.TextArea style={{ width: 400, height: 70 }} />
-              </Form.Item>
+              {isAddressDefault ? (
+                <div>
+                  <Popconfirm
+                    title="Bạn có muốn thay đổi địa chỉ không?"
+                    onConfirm={() => setIsAddressDefault(false)}
+                  >
+                    <Form.Item label="Địa chỉ" name="address">
+                      <Input.TextArea style={{ height: 100 }} disabled />
+                    </Form.Item>
+                  </Popconfirm>
+                </div>
+              ) : (
+                <Address />
+              )}
 
               <Form.Item
                 wrapperCol={{

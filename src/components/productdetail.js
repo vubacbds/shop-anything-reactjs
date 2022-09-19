@@ -144,31 +144,29 @@ const ProductDetail = () => {
                 data-ride="carousel"
               >
                 <div className="carousel-inner">
-                  <div className="carousel-item active">
+                  <div className="carousel-item active" key="0">
                     <img
-                      src={(dataProductOrder ?? productItem)?.images[0]}
+                      src={dataProductOrder.images[0]}
                       alt="First slide"
                       style={{
                         height: 260,
                       }}
                     />
                   </div>
-                  {(dataProductOrder ?? productItem)?.images.map(
-                    (item, index) => {
-                      return (
-                        index > 0 && (
-                          <div key={index} className="carousel-item">
-                            <img
-                              src={item}
-                              style={{
-                                height: 260,
-                              }}
-                            />
-                          </div>
-                        )
-                      );
-                    }
-                  )}
+                  {dataProductOrder.images.map((item, index) => {
+                    return (
+                      index > 0 && (
+                        <div key={index} className="carousel-item">
+                          <img
+                            src={item}
+                            style={{
+                              height: 260,
+                            }}
+                          />
+                        </div>
+                      )
+                    );
+                  })}
                 </div>
                 <a
                   className="carousel-control-prev"
@@ -180,7 +178,7 @@ const ProductDetail = () => {
                     className="carousel-control-prev-icon"
                     aria-hidden="true"
                   ></span>
-                  <span className="sr-only">Previous</span>
+                  <span className="sr-only"> Previous</span>
                 </a>
                 <a
                   className="carousel-control-next"
@@ -195,6 +193,26 @@ const ProductDetail = () => {
                   <span className="sr-only">Next</span>
                 </a>
               </div>
+
+              {dataProductOrder.images.map((item, index) => {
+                return (
+                  <span key={index}>
+                    <a
+                      href="#carouselExampleControls"
+                      data-slide-to={parseInt(index)}
+                    >
+                      <img
+                        src={item}
+                        style={{
+                          width: 48,
+                          height: 48,
+                          margin: "5px 0px 5px 5px",
+                        }}
+                      />
+                    </a>
+                  </span>
+                );
+              })}
             </>
           )}
 

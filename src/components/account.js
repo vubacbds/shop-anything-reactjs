@@ -5,6 +5,7 @@ import {
   Input,
   InputNumber,
   Modal,
+  Popconfirm,
   Row,
   Upload,
 } from "antd";
@@ -17,6 +18,7 @@ import { get_user_one, update_user } from "../action/user";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import { PlusOutlined } from "@ant-design/icons";
+import Address from "./address";
 
 const Account = () => {
   const dispatch = useDispatch();
@@ -42,6 +44,9 @@ const Account = () => {
   };
 
   const onFinish = (values) => {
+    if (!isAddressDefault) {
+      values.address = `${values.numhome}, ${values.ward}, ${values.district}, ${values.province} `;
+    }
     UserAPI.update(accountData._id, values)
       .then(() => {
         UpdateSuccess();
@@ -145,6 +150,9 @@ const Account = () => {
     // if (file || file.status != "removed")   //Khi nào tồn tại
     handleUpload(); //upload ảnh lên firebase chạy luôn update user
   };
+
+  //Cài đặt địa chỉ default
+  const [isAddressDefault, setIsAddressDefault] = useState(true);
 
   return (
     accountData && (
@@ -285,9 +293,20 @@ const Account = () => {
                 <Input />
               </Form.Item>
 
-              <Form.Item label="Địa chỉ" name="address" rules={[]}>
-                <Input.TextArea style={{ width: 400 }} />
-              </Form.Item>
+              {isAddressDefault ? (
+                <div>
+                  <Popconfirm
+                    title="Bạn có muốn thay đổi địa chỉ không?"
+                    onConfirm={() => setIsAddressDefault(false)}
+                  >
+                    <Form.Item label="Địa chỉ" name="address">
+                      <Input.TextArea style={{ height: 94 }} disabled />
+                    </Form.Item>
+                  </Popconfirm>
+                </div>
+              ) : (
+                <Address />
+              )}
 
               <Form.Item
                 wrapperCol={{

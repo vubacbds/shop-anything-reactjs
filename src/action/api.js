@@ -112,6 +112,17 @@ const axiosEvaluation = (product_id, amount) => {
   });
 };
 
+const axiosAddress = () => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`https://provinces.open-api.vn/api/?depth=3`)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => reject(error));
+  });
+};
+
 export {
   axiosProduct,
   axiosCategory,
@@ -121,4 +132,5 @@ export {
   axiosUser,
   axiosOther,
   axiosEvaluation,
+  axiosAddress,
 };

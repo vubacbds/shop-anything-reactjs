@@ -6,6 +6,7 @@ import { otherReducer } from "./other";
 import { evaluationReducer } from "./evaluation";
 import { sizeReducer } from "./size";
 import { colorReducer } from "./color";
+import { addressReducer } from "./address";
 
 import { combineReducers } from "redux";
 
@@ -18,6 +19,7 @@ const RootReducer = combineReducers({
   evaluation: evaluationReducer,
   size: sizeReducer,
   color: colorReducer,
+  address: addressReducer,
 });
 
 export default RootReducer;
