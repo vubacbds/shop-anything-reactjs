@@ -141,7 +141,7 @@ const Address = () => {
             rules={[
               {
                 required: true,
-                message: "Bạn chưa chọn số nhà/tên đường/thôn..!",
+                message: "Bạn chưa nhập số nhà/tên đường/thôn..!",
               },
             ]}
           >

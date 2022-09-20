@@ -49,6 +49,9 @@ const ProductAdd = (props) => {
   //Reset Form
   const [form] = Form.useForm();
 
+  //Loading khi submit
+  const [submitting, setSubmitting] = useState(false);
+
   //Xử lý upload ảnh
   const [fileList, setFileList] = useState([]);
   const [progress, setProgress] = useState(0);
@@ -135,6 +138,7 @@ const ProductAdd = (props) => {
 
   //Khi submit Form
   const onFinish = (values) => {
+    setSubmitting(true);
     setNewProduct(values);
     handleUpload(); //upload ảnh lên firebase trước
   };
@@ -143,7 +147,7 @@ const ProductAdd = (props) => {
   const { Option } = Select;
   const prefixSelectorPrice = (
     <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 30 }} value={"vnd"}>
+      <Select style={{ width: 30 }} defaultValue={"vnd"}>
         <Option value="vnd">đ</Option>
       </Select>
     </Form.Item>
@@ -165,6 +169,7 @@ const ProductAdd = (props) => {
           setUrl([1]);
           setProgress(0);
           form.resetFields();
+          setSubmitting(false);
         })
         .catch(function (error) {
           console.log("Error on Authentication", error);
@@ -172,6 +177,32 @@ const ProductAdd = (props) => {
         });
     }
   }, [url]);
+
+  //Hàm xử lí chọn nhiều size
+  const [size, setSize] = useState("middle");
+  const handleChangeSize = (value) => {
+    // console.log(`Selected: ${value}`);
+    console.log(value);
+  };
+  //Lấy thuộc tính size
+  const dataSize = useSelector((state) => state.size.data);
+  let arraySize = [];
+  dataSize.map((item) => {
+    if (item.status == 0) arraySize.push(item.name);
+  });
+
+  //Hàm xử lí chọn nhiều color
+  const [color, setColor] = useState("middle");
+  const handleChangeColor = (value) => {
+    // console.log(`Selected: ${value}`);
+    console.log(value);
+  };
+  //Lấy thuộc tính color
+  const dataColor = useSelector((state) => state.color.data);
+  let arrayColor = [];
+  dataColor.map((item) => {
+    if (item.status == 0) arrayColor.push(item.name);
+  });
 
   return (
     <>
@@ -187,7 +218,8 @@ const ProductAdd = (props) => {
           md: 20,
         }}
         initialValues={{
-          remember: true,
+          sizes: arraySize,
+          colors: arrayColor,
         }}
         onFinish={onFinish}
         autoComplete="off"
@@ -202,7 +234,7 @@ const ProductAdd = (props) => {
             },
           ]}
         >
-          <Select>
+          <Select style={{ width: "50%" }}>
             {category.map((item) => {
               return (
                 <Select.Option value={item._id} key={item._id}>
@@ -252,7 +284,7 @@ const ProductAdd = (props) => {
           <InputNumber
             addonAfter={prefixSelectorPrice}
             min={0}
-            style={{ width: "60%" }}
+            style={{ width: "50%" }}
             formatter={(value) =>
               `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }
@@ -271,11 +303,58 @@ const ProductAdd = (props) => {
         >
           <InputNumber
             min={0}
-            style={{ width: "30%" }}
+            style={{ width: "50%" }}
             formatter={(value) =>
               `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }
           />
+        </Form.Item>
+        <Form.Item label="Các size" name="sizes">
+          <Select
+            mode="multiple"
+            size={size}
+            placeholder="Chọn các size"
+            onChange={handleChangeSize}
+            style={{
+              width: "100%",
+            }}
+          >
+            {dataSize.map((item) => {
+              return (
+                <Select.Option
+                  value={item.name}
+                  key={item._id}
+                  disabled={item.status == 1}
+                >
+                  {item.name}
+                </Select.Option>
+              );
+            })}
+          </Select>
+        </Form.Item>
+
+        <Form.Item label="Các màu" name="colors">
+          <Select
+            mode="multiple"
+            size={color}
+            placeholder="Chọn các màu"
+            onChange={handleChangeColor}
+            style={{
+              width: "100%",
+            }}
+          >
+            {dataColor.map((item) => {
+              return (
+                <Select.Option
+                  value={item.name}
+                  key={item._id}
+                  disabled={item.status == 1}
+                >
+                  {item.name}
+                </Select.Option>
+              );
+            })}
+          </Select>
         </Form.Item>
 
         <Form.Item
@@ -326,7 +405,7 @@ const ProductAdd = (props) => {
             span: 16,
           }}
         >
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={submitting}>
             Thêm
           </Button>
         </Form.Item>

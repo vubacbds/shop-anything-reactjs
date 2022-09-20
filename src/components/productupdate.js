@@ -12,7 +12,7 @@ import {
 } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { addproduct, updateproduct } from "../action/product";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ProductUpdate = (props) => {
   const navigate = useNavigate();
@@ -58,11 +58,29 @@ const ProductUpdate = (props) => {
   const { Option } = Select;
   const prefixSelectorPrice = (
     <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 30 }} value={"vnd"}>
+      <Select style={{ width: 30 }} defaultValue={"vnd"}>
         <Option value="vnd">đ</Option>
       </Select>
     </Form.Item>
   );
+
+  //Hàm xử lí chọn nhiều size
+  const [size, setSize] = useState("middle");
+  const handleChangeSize = (value) => {
+    // console.log(`Selected: ${value}`);
+    console.log(value);
+  };
+  //Lấy thuộc tính size
+  const dataSize = useSelector((state) => state.size.data);
+
+  //Hàm xử lí chọn nhiều color
+  const [color, setColor] = useState("middle");
+  const handleChangeColor = (value) => {
+    // console.log(`Selected: ${value}`);
+    console.log(value);
+  };
+  //Lấy thuộc tính color
+  const dataColor = useSelector((state) => state.color.data);
 
   return (
     <>
@@ -84,6 +102,8 @@ const ProductUpdate = (props) => {
           description: dataProductId.dataproductid?.description,
           price: dataProductId.dataproductid?.price,
           amount: dataProductId.dataproductid?.amount,
+          sizes: dataProductId.dataproductid?.sizes,
+          colors: dataProductId.dataproductid?.colors,
         }}
         onFinish={onFinish}
         autoComplete="off"
@@ -98,7 +118,7 @@ const ProductUpdate = (props) => {
             },
           ]}
         >
-          <Select style={{ width: "60%" }}>
+          <Select style={{ width: "50%" }}>
             {category.map((item) => {
               return (
                 <Select.Option value={item._id} key={item._id}>
@@ -148,7 +168,7 @@ const ProductUpdate = (props) => {
           <InputNumber
             addonAfter={prefixSelectorPrice}
             min={0}
-            style={{ width: "60%" }}
+            style={{ width: "50%" }}
             formatter={(value) =>
               `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }
@@ -167,11 +187,79 @@ const ProductUpdate = (props) => {
         >
           <InputNumber
             min={0}
-            style={{ width: "30%" }}
+            style={{ width: "50%" }}
             formatter={(value) =>
               `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }
           />
+        </Form.Item>
+
+        <Form.Item
+          label="Các size"
+          name="sizes"
+          rules={[
+            {
+              required: true,
+              message: "Bạn chưa chọn các size!",
+            },
+          ]}
+        >
+          <Select
+            mode="multiple"
+            size={size}
+            placeholder="Please select"
+            // defaultValue={dataProductId.dataproductid?.sizes}
+            onChange={handleChangeSize}
+            style={{
+              width: "100%",
+            }}
+          >
+            {dataSize.map((item) => {
+              return (
+                <Select.Option
+                  value={item.name}
+                  key={item._id}
+                  // disabled={item.status == 1}
+                >
+                  {item.name}
+                </Select.Option>
+              );
+            })}
+          </Select>
+        </Form.Item>
+
+        <Form.Item
+          label="Các màu"
+          name="colors"
+          rules={[
+            {
+              required: true,
+              message: "Bạn chưa chọn các màu!",
+            },
+          ]}
+        >
+          <Select
+            mode="multiple"
+            size={color}
+            placeholder="Please select"
+            // defaultValue={dataProductId.dataproductid?.colors}
+            onChange={handleChangeColor}
+            style={{
+              width: "100%",
+            }}
+          >
+            {dataColor.map((item) => {
+              return (
+                <Select.Option
+                  value={item.name}
+                  key={item._id}
+                  // disabled={item.status == 1}
+                >
+                  {item.name}
+                </Select.Option>
+              );
+            })}
+          </Select>
         </Form.Item>
 
         <Form.Item

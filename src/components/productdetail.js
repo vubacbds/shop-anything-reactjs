@@ -1,4 +1,13 @@
-import { Button, Col, Form, Input, InputNumber, Row } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  InputNumber,
+  Popconfirm,
+  Row,
+  Select,
+} from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import BillAPI from "../services/billAPI";
 import { GetCookie } from "../util/cookie";
@@ -12,6 +21,7 @@ import moment from "moment"; //Định dạng thời gian
 import { getproductid } from "../action/product";
 import { CopyOutlined } from "@ant-design/icons";
 import Evaluation from "./evaluation";
+import Address from "./address";
 //Trang này dùng cả data từ redux và lấy trực tiếp từ DB lên luôn, cái nào ko null thì chơi cái đó
 
 const ProductDetail = () => {
@@ -49,6 +59,9 @@ const ProductDetail = () => {
 
   const onFinish = (values) => {
     const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
+    if (!isAddressDefault) {
+      values.address = `${values.numhome}, ${values.ward}, ${values.district}, ${values.province} `;
+    }
     const newBill = {
       ...values,
       total_price: dataProductOrder.price * values.amount,
@@ -101,6 +114,9 @@ const ProductDetail = () => {
 
   const listInnerRef = useRef(); //Cái này là truyền tời component evaluation.js luôn, mục đích khi đóng modal set lại scroll ko thì nó tự load data
 
+  //Cài đặt địa chỉ default
+  const [isAddressDefault, setIsAddressDefault] = useState(true);
+
   return (
     <div style={{ marginBottom: 100, textAlign: "left" }}>
       <Row>
@@ -146,27 +162,29 @@ const ProductDetail = () => {
                 <div className="carousel-inner">
                   <div className="carousel-item active" key="0">
                     <img
-                      src={dataProductOrder.images[0]}
+                      src={(dataProductOrder ?? productItem)?.images[0]}
                       alt="First slide"
                       style={{
                         height: 260,
                       }}
                     />
                   </div>
-                  {dataProductOrder.images.map((item, index) => {
-                    return (
-                      index > 0 && (
-                        <div key={index} className="carousel-item">
-                          <img
-                            src={item}
-                            style={{
-                              height: 260,
-                            }}
-                          />
-                        </div>
-                      )
-                    );
-                  })}
+                  {(dataProductOrder ?? productItem)?.images.map(
+                    (item, index) => {
+                      return (
+                        index > 0 && (
+                          <div key={index} className="carousel-item">
+                            <img
+                              src={item}
+                              style={{
+                                height: 260,
+                              }}
+                            />
+                          </div>
+                        )
+                      );
+                    }
+                  )}
                 </div>
                 <a
                   className="carousel-control-prev"
@@ -251,6 +269,18 @@ const ProductDetail = () => {
               &ensp;
               <span>{copy ?? ""}</span>
             </div>
+            <div
+              className="card-text"
+              style={{ color: "red", fontWeight: "bold" }}
+            >
+              {(dataProductOrder ?? productItem)?.price.toLocaleString(
+                "vi-VN",
+                {
+                  style: "currency",
+                  currency: "VND",
+                }
+              )}
+            </div>
             <p>*Mô tả: {(dataProductOrder ?? productItem)?.description} </p>
           </div>
         </Col>
@@ -272,6 +302,8 @@ const ProductDetail = () => {
                 phone: dataUserRedux?.phone,
                 address: dataUserRedux?.address,
                 name: dataUserRedux?.name,
+                color: (dataProductOrder ?? productItem)?.colors[0],
+                size: (dataProductOrder ?? productItem)?.sizes[0],
               }}
               onFinish={onFinish}
               autoComplete="off"
@@ -301,6 +333,62 @@ const ProductDetail = () => {
                   max={(dataProductOrder ?? productItem)?.amount}
                 />
               </Form.Item>
+
+              {(dataProductOrder ?? productItem)?.sizes.length > 0 && (
+                <Form.Item
+                  label="Size "
+                  name="size"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Bạn chưa chọn size!",
+                    },
+                  ]}
+                >
+                  <Select>
+                    {(dataProductOrder ?? productItem)?.sizes.map(
+                      (item, index) => {
+                        return (
+                          <Select.Option
+                            value={item}
+                            key={index}
+                            // disabled={item.status == 1}
+                          >
+                            {item}
+                          </Select.Option>
+                        );
+                      }
+                    )}
+                  </Select>
+                </Form.Item>
+              )}
+
+              {(dataProductOrder ?? productItem)?.colors.length > 0 && (
+                <Form.Item
+                  label="Màu sắc "
+                  name="color"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Bạn chưa chọn màu sắc!",
+                    },
+                  ]}
+                >
+                  <Select>
+                    {(dataProductOrder ?? productItem)?.colors.map((item) => {
+                      return (
+                        <Select.Option
+                          value={item}
+                          key={item._id}
+                          // disabled={item.status == 1}
+                        >
+                          {item}
+                        </Select.Option>
+                      );
+                    })}
+                  </Select>
+                </Form.Item>
+              )}
 
               <Form.Item
                 label="Họ và tên"
@@ -332,18 +420,20 @@ const ProductDetail = () => {
                 <Input style={{ width: "70%" }} />
               </Form.Item>
 
-              <Form.Item
-                label="Địa chỉ"
-                name="address"
-                rules={[
-                  {
-                    required: true,
-                    message: "Bạn chưa nhập địa ch!",
-                  },
-                ]}
-              >
-                <Input.TextArea style={{ width: 400, height: 70 }} />
-              </Form.Item>
+              {isAddressDefault ? (
+                <div>
+                  <Popconfirm
+                    title="Bạn có muốn thay đổi địa chỉ không?"
+                    onConfirm={() => setIsAddressDefault(false)}
+                  >
+                    <Form.Item label="Địa chỉ" name="address">
+                      <Input.TextArea style={{ height: 100 }} disabled />
+                    </Form.Item>
+                  </Popconfirm>
+                </div>
+              ) : (
+                <Address />
+              )}
 
               <Form.Item
                 wrapperCol={{

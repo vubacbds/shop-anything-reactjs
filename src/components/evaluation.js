@@ -343,6 +343,7 @@ const Evaluation = ({ product_id, listInnerRef }) => {
   };
   const handleUpload = () => {
     if (file) {
+      setSubmitting(true);
       const uploadTask = firebase
         .storage()
         .ref(`images/${file.originFileObj.name}`)

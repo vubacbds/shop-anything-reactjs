@@ -94,6 +94,34 @@ const ProductList = () => {
       key: "price",
     },
     {
+      title: "Các size",
+      dataIndex: "sizes",
+      key: "sizes",
+      render: (_, record) => {
+        return (
+          <>
+            {record?.sizes?.map((item, index) => (
+              <span key="index">{item}, </span>
+            ))}
+          </>
+        );
+      },
+    },
+    {
+      title: "Các màu",
+      dataIndex: "colors",
+      key: "colors",
+      render: (_, record) => {
+        return (
+          <>
+            {record?.colors?.map((item, index) => (
+              <span key="index">{item}, </span>
+            ))}
+          </>
+        );
+      },
+    },
+    {
       title: "Thời gian",
       dataIndex: "createdAt",
       key: "createdAt",

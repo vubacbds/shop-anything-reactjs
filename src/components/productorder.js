@@ -103,13 +103,13 @@ const ProductOrder = ({
   const isMobile = viewPort.width <= 562;
 
   //Hàm kiểm tra nếu thuộc tính có các phần tử bị ẩn hết thì không hiện trường input đó
-  const handleCheckShow = (data) => {
-    const dataFilter = data.filter((item) => {
-      return item.status == 1;
-    });
-    if (data.length == dataFilter.length) return false;
-    return true;
-  };
+  // const handleCheckShow = (data) => {
+  //   const dataFilter = data.filter((item) => {
+  //     return item.status == 1;
+  //   });
+  //   if (data.length == dataFilter.length) return false;
+  //   return true;
+  // };
 
   //Cài đặt địa chỉ default
   const [isAddressDefault, setIsAddressDefault] = useState(true);
@@ -257,6 +257,15 @@ const ProductOrder = ({
               &ensp;
               <span>{copy ?? ""}</span>
             </div>
+            <div
+              className="card-text"
+              style={{ color: "red", fontWeight: "bold" }}
+            >
+              {dataProductOrder.price.toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              })}
+            </div>
             <p>*Mô tả: {dataProductOrder.description} </p>
           </div>
         </Col>
@@ -278,6 +287,8 @@ const ProductOrder = ({
                 phone: dataUserRedux?.phone,
                 address: dataUserRedux?.address,
                 name: dataUserRedux?.name,
+                color: dataProductOrder?.colors[0],
+                size: dataProductOrder?.sizes[0],
               }}
               onFinish={onFinish}
               autoComplete="off"
@@ -309,7 +320,7 @@ const ProductOrder = ({
                 />
               </Form.Item>
 
-              {handleCheckShow(dataSize) && (
+              {dataProductOrder.sizes.length > 0 && (
                 <Form.Item
                   label="Size "
                   name="size"
@@ -321,14 +332,14 @@ const ProductOrder = ({
                   ]}
                 >
                   <Select>
-                    {dataSize.map((item) => {
+                    {dataProductOrder.sizes.map((item, index) => {
                       return (
                         <Select.Option
-                          value={item.name}
-                          key={item._id}
-                          disabled={item.status == 1}
+                          value={item}
+                          key={index}
+                          // disabled={item.status == 1}
                         >
-                          {item.name}
+                          {item}
                         </Select.Option>
                       );
                     })}
@@ -336,7 +347,7 @@ const ProductOrder = ({
                 </Form.Item>
               )}
 
-              {handleCheckShow(dataColor) && (
+              {dataProductOrder.colors.length > 0 && (
                 <Form.Item
                   label="Màu sắc "
                   name="color"
@@ -348,14 +359,14 @@ const ProductOrder = ({
                   ]}
                 >
                   <Select>
-                    {dataColor.map((item) => {
+                    {dataProductOrder.colors.map((item) => {
                       return (
                         <Select.Option
-                          value={item.name}
+                          value={item}
                           key={item._id}
-                          disabled={item.status == 1}
+                          // disabled={item.status == 1}
                         >
-                          {item.name}
+                          {item}
                         </Select.Option>
                       );
                     })}
