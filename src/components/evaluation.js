@@ -30,7 +30,13 @@ import ReplyAPI from "../services/replyAPI";
 
 const { TextArea } = Input;
 
-const CommentList = ({ comments, evaluationTotalData }) => {
+const CommentList = ({
+  comments,
+  evaluationTotalData,
+  amountReply,
+  setAmountReply,
+  handleReply,
+}) => {
   return (
     <List
       dataSource={comments}
@@ -39,7 +45,47 @@ const CommentList = ({ comments, evaluationTotalData }) => {
       }`}
       itemLayout="horizontal"
       renderItem={(props) => (
-        <Comment {...props} style={{ marginBottom: -10 }} />
+        <Comment {...props} style={{ marginBottom: -10 }}>
+          <div
+            className="form-inline my-2 my-lg-0 mr-5 form-reply"
+            id={{ ...props }._id}
+          >
+            <input
+              className="form-control mr-sm-2 mr-2"
+              placeholder="Nhập trả lời..."
+              id={`${{ ...props }._id}_input`}
+              style={{ fontSize: 14, width: 130, margin: 20 }}
+            />
+            <Button
+              type="primary"
+              onClick={() => {
+                handleReply({ ...props }.cmt);
+              }}
+              style={{ fontSize: 14, width: 50 }}
+            >
+              Gửi
+            </Button>
+          </div>
+
+          {{ ...props }.lengthreply > 0 && (
+            <List
+              dataSource={{ ...props }.datareply}
+              itemLayout="horizontal"
+              renderItem={(props2) => (
+                <Comment {...props2} style={{ marginBottom: -10 }} />
+              )}
+            />
+          )}
+
+          {{ ...props }.lengthreply > amountReply && (
+            <Button
+              onClick={() => setAmountReply((pre) => pre + 2)}
+              style={{ height: 30 }}
+            >
+              Xem thêm
+            </Button>
+          )}
+        </Comment>
       )}
     />
   );
@@ -149,7 +195,6 @@ const Evaluation = ({ product_id, listInnerRef }) => {
   //Xử lý các state
   const [comments, setComments] = useState([]);
   const [submitting, setSubmitting] = useState(false);
-  const [submittingReply, setSubmittingReply] = useState(false);
   const [value, setValue] = useState("");
 
   //Submit bình luận gọi khi đã upload hình ảnh
@@ -244,7 +289,6 @@ const Evaluation = ({ product_id, listInnerRef }) => {
       users: userData?._id,
       evaluations: cmt._id,
     }).then((res) => {
-      setSubmittingReply(false);
       document.getElementById(`${cmt._id}_input`).value = "";
       let newReply = {
         ...res,
@@ -339,6 +383,9 @@ const Evaluation = ({ product_id, listInnerRef }) => {
     evaluationData.data?.forEach((item) => {
       const data = {
         _id: item._id,
+        datareply: handleReplyOld(item),
+        lengthreply: item.replies.length,
+        cmt: item,
         actions: [
           checkLike(item.likes) ? (
             <span
@@ -366,7 +413,10 @@ const Evaluation = ({ product_id, listInnerRef }) => {
           ) : null,
           <span
             onClick={() => {
-              document.getElementById(item._id).classList.remove("form-reply");
+              const inputReply = document.getElementById(item._id);
+              if (inputReply.classList.contains("form-reply"))
+                inputReply.classList.remove("form-reply");
+              else inputReply.classList.add("form-reply");
             }}
           >
             Phản hồi
@@ -381,7 +431,7 @@ const Evaluation = ({ product_id, listInnerRef }) => {
               <img src={item.image} style={{ width: 120, height: 120 }} />
             )}
 
-            {handleReplyOld(item).length > 0 && (
+            {/* {handleReplyOld(item).length > 0 && (
               <>
                 <List
                   dataSource={handleReplyOld(item)}
@@ -396,30 +446,7 @@ const Evaluation = ({ product_id, listInnerRef }) => {
                   </a>
                 )}
               </>
-            )}
-
-            <div
-              className="form-inline my-2 my-lg-0 mr-5 form-reply"
-              id={item._id}
-            >
-              <input
-                className="form-control mr-sm-2 mr-2"
-                placeholder="....."
-                id={`${item._id}_input`}
-                style={{ fontSize: 14, width: 130, margin: 20 }}
-              />
-              <Button
-                type="primary"
-                onClick={() => {
-                  setSubmittingReply(true);
-                  handleReply(item);
-                }}
-                style={{ fontSize: 14, width: 50 }}
-                loading={submittingReply}
-              >
-                Gửi
-              </Button>
-            </div>
+            )} */}
           </div>
         ),
         // datetime: moment(item?.createdAt).format("DD/MM/yyyy hh:mm:ss  A"),
@@ -570,15 +597,18 @@ const Evaluation = ({ product_id, listInnerRef }) => {
               <div
                 style={{
                   overflowY: "scroll",
-                  height: 300,
+                  height: 360,
                 }}
                 onScroll={onScroll}
                 ref={listInnerRef}
               >
-                <div style={{ height: 500 }}>
+                <div style={{ height: 800 }}>
                   <CommentList
                     comments={comments}
                     evaluationTotalData={evaluationTotalData}
+                    amountReply={amountReply}
+                    setAmountReply={setAmountReply}
+                    handleReply={handleReply}
                   />
                   {amount + 2 < evaluationTotalData && (
                     <div className="example">
