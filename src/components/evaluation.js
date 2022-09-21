@@ -12,7 +12,7 @@ import {
   Spin,
 } from "antd";
 import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import getevaluation, {
@@ -26,6 +26,7 @@ import EvaluationAPI from "../services/evaluationAPI";
 import { GetCookie } from "../util/cookie";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
+import ReplyAPI from "../services/replyAPI";
 
 const { TextArea } = Input;
 
@@ -148,6 +149,7 @@ const Evaluation = ({ product_id, listInnerRef }) => {
   //Xử lý các state
   const [comments, setComments] = useState([]);
   const [submitting, setSubmitting] = useState(false);
+  const [submittingReply, setSubmittingReply] = useState(false);
   const [value, setValue] = useState("");
 
   //Submit bình luận gọi khi đã upload hình ảnh
@@ -184,9 +186,15 @@ const Evaluation = ({ product_id, listInnerRef }) => {
   };
 
   //Hàm xử lí xóa bình luận
-  const handleDelete = (id) => {
-    EvaluationAPI.deleteevaluation(id).then(() => {
-      dispatch(delete_evaluation(id));
+  const handleDelete = (item) => {
+    //Xóa luôn các các reply trả lời của bình luận này
+    item.replies.forEach((i) => {
+      ReplyAPI.deletereply(i._id);
+    });
+
+    //Rồi Xóa bình luận
+    EvaluationAPI.deleteevaluation(item._id).then(() => {
+      dispatch(delete_evaluation(item._id));
       dispatch(update_totaldata(-1)); //Trừ đi 1 vào tổng số lượng data
     });
   };
@@ -221,9 +229,112 @@ const Evaluation = ({ product_id, listInnerRef }) => {
     });
   };
 
-  //Khi lấy được component cũ thì return lại hoặc khi dispatch thêm và xóa / login tài khoản khác cũng chạy lại để sửa chỗ like dislike
-  useEffect(() => {
-    //Xử lý comment cũ
+  const handleReply = (cmt) => {
+    const reply = document.getElementById(`${cmt._id}_input`).value;
+
+    //Giao diện sẽ tự cập nhật khi dispatch thêm dữ liệu vào state
+
+    //Lưu vào DB reply, sửa bên evaluation
+    let idreplylist = []; //Xử lý lấy ID vì khi gọi từ id đã biến thành data khi inner
+    if (cmt.replies.length > 0) {
+      cmt.replies.forEach((i) => idreplylist.push(i._id));
+    }
+    ReplyAPI.addreply({
+      body: reply,
+      users: userData?._id,
+      evaluations: cmt._id,
+    }).then((res) => {
+      setSubmittingReply(false);
+      document.getElementById(`${cmt._id}_input`).value = "";
+      let newReply = {
+        ...res,
+        users: {
+          email: userData?.email,
+          image: userData?.image,
+        },
+      };
+      dispatch(
+        update_evaluation({
+          _id: res.evaluations,
+          replies: [newReply, ...cmt.replies],
+        })
+      );
+      EvaluationAPI.updateevaluation(res.evaluations, {
+        replies: [res._id, ...idreplylist],
+      });
+    });
+  };
+
+  //Hàm xử lý xóa reply
+  const handleDeleteReply = (id, cmt) => {
+    ReplyAPI.deletereply(id).then(() => {
+      const idList = []; //Lọc chỉ lấy id
+      cmt.replies.forEach((i) => {
+        if (i._id != id) idList.push(i._id);
+      });
+      EvaluationAPI.updateevaluation(cmt._id, {
+        replies: idList,
+      });
+
+      const newEvaluation = cmt.replies.filter((i) => i._id != id);
+      dispatch(update_evaluation({ _id: cmt._id, replies: newEvaluation }));
+    });
+  };
+  //Hàm xử lý reply cũ
+  const handleReplyOld = (cmt) => {
+    let oldReplyList = []; //Danh sách reply cũ
+    cmt?.replies.forEach((item, index) => {
+      if (index < amountReply) {
+        const data = {
+          _id: item?._id,
+          actions: [
+            userData.email == item.users?.email || userData.email == "bac" ? (
+              <span
+                key="comment-list-reply-to-0"
+                onClick={() => handleDeleteReply(item?._id, cmt)}
+              >
+                Xóa
+              </span>
+            ) : null,
+          ],
+          author: item.users?.email,
+          avatar: item.users?.image,
+          content: (
+            <div>
+              <p>{item?.body}</p>
+            </div>
+          ),
+          // datetime: moment(item?.createdAt).format("DD/MM/yyyy hh:mm:ss  A"),
+          datetime: (
+            <span
+              onClick={() =>
+                toast.info(
+                  moment(item?.createdAt).format("DD/MM/yyyy hh:mm:ss  A"),
+                  {
+                    position: toast.POSITION.BOTTOM_LEFT,
+                  }
+                )
+              }
+            >
+              {moment(
+                moment(item?.createdAt)
+                  .format("yyyy-MM-DD hh:mm:ss  A")
+                  .toString()
+              ).fromNow()}
+            </span>
+          ),
+        };
+        oldReplyList.push(data);
+      }
+    });
+    return oldReplyList;
+  };
+
+  //Set số lượng reply hiển thị lần đầu
+  const [amountReply, setAmountReply] = useState(2);
+
+  //Hàm xử lý comment cũ
+  const handleCommentOld = () => {
     let oldCommentList = []; //Danh sách comment cũ
     evaluationData.data?.forEach((item) => {
       const data = {
@@ -248,11 +359,18 @@ const Evaluation = ({ product_id, listInnerRef }) => {
           userData.email == item.users?.email || userData.email == "bac" ? (
             <span
               key="comment-list-reply-to-0"
-              onClick={() => handleDelete(item._id)}
+              onClick={() => handleDelete(item)}
             >
               Xóa
             </span>
           ) : null,
+          <span
+            onClick={() => {
+              document.getElementById(item._id).classList.remove("form-reply");
+            }}
+          >
+            Phản hồi
+          </span>,
         ],
         author: item.users?.email,
         avatar: item.users?.image,
@@ -262,6 +380,46 @@ const Evaluation = ({ product_id, listInnerRef }) => {
             {item.image && item.image != " " && (
               <img src={item.image} style={{ width: 120, height: 120 }} />
             )}
+
+            {handleReplyOld(item).length > 0 && (
+              <>
+                <List
+                  dataSource={handleReplyOld(item)}
+                  itemLayout="horizontal"
+                  renderItem={(props) => (
+                    <Comment {...props} style={{ marginBottom: -10 }} />
+                  )}
+                />
+                {item.replies.length > amountReply && (
+                  <a onClick={() => setAmountReply((pre) => pre + 2)}>
+                    Xem thêm
+                  </a>
+                )}
+              </>
+            )}
+
+            <div
+              className="form-inline my-2 my-lg-0 mr-5 form-reply"
+              id={item._id}
+            >
+              <input
+                className="form-control mr-sm-2 mr-2"
+                placeholder="....."
+                id={`${item._id}_input`}
+                style={{ fontSize: 14, width: 130, margin: 20 }}
+              />
+              <Button
+                type="primary"
+                onClick={() => {
+                  setSubmittingReply(true);
+                  handleReply(item);
+                }}
+                style={{ fontSize: 14, width: 50 }}
+                loading={submittingReply}
+              >
+                Gửi
+              </Button>
+            </div>
           </div>
         ),
         // datetime: moment(item?.createdAt).format("DD/MM/yyyy hh:mm:ss  A"),
@@ -287,10 +445,15 @@ const Evaluation = ({ product_id, listInnerRef }) => {
       oldCommentList.push(data);
     });
     setComments(oldCommentList);
-  }, [evaluationData.data, userData._id]); //Đăng nhập tài khoản khác cũng phải chạy lại ko thì ko có avatar
+  };
+
+  //Khi lấy được component cũ thì return lại hoặc khi dispatch thêm và xóa / login tài khoản khác cũng chạy lại để sửa chỗ like dislike
+  useEffect(() => {
+    handleCommentOld();
+    // handleReplyOld();
+  }, [evaluationData.data, userData._id, amountReply]); //Đăng nhập tài khoản khác cũng phải chạy lại ko thì ko có avatar
 
   //Xử lý bắt sự kiện cuộn trang xuống cuối scroll (chú ý phải có scroll)
-
   const onScroll = () => {
     if (listInnerRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
