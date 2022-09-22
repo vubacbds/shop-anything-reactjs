@@ -212,7 +212,7 @@ const ProductDetail = () => {
                 </a>
               </div>
 
-              {(dataProductOrder ?? productItem).images.map((item, index) => {
+              {(dataProductOrder ?? productItem)?.images.map((item, index) => {
                 return (
                   <span key={index}>
                     <a
