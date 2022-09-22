@@ -290,8 +290,8 @@ const ProductDetail = () => {
               form={form}
               name="basic"
               labelCol={{
-                xs: 8,
-                md: 8,
+                xs: 12,
+                md: 12,
               }}
               wrapperCol={{
                 xs: 12,
@@ -435,12 +435,7 @@ const ProductDetail = () => {
                 <Address />
               )}
 
-              <Form.Item
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
-                }}
-              >
+              <Form.Item wrapperCol={{}}>
                 <Button
                   type="primary"
                   htmlType="submit"

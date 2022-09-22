@@ -131,13 +131,13 @@ function App() {
         </Routes>
 
         <ToastContainer />
+        <BackTop>
+          <div className="back-top">
+            <UpCircleOutlined />
+          </div>
+        </BackTop>
       </div>
       <Footer />
-      <BackTop>
-        <div className="back-top">
-          <UpCircleOutlined />
-        </div>
-      </BackTop>
     </>
   );
 }
