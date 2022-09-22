@@ -23,7 +23,9 @@ const ProductRandom = ({ data }) => {
     randomProduct && (
       <>
         <a
-          href={`${process.env.REACT_APP_DOMAIN}/products/${randomProduct?._id}`}
+          href={`${
+            process.env.REACT_APP_DOMAIN || "http://localhost:3000"
+          }/products/${randomProduct?._id}`}
           target="_blank"
         >
           <div className="product-hover">

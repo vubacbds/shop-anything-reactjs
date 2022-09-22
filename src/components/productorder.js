@@ -244,7 +244,9 @@ const ProductOrder = ({
                   onClick={() => {
                     const cb = navigator.clipboard;
                     cb.writeText(
-                      `${process.env.REACT_APP_DOMAIN}/products/${dataProductOrder._id}`
+                      `${
+                        process.env.REACT_APP_DOMAIN || "http://localhost:3000"
+                      }/products/${dataProductOrder._id}`
                     ).then(() => setCopy("Đã copy"));
                   }}
                   onMouseOut={() => {
