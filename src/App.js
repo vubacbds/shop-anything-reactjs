@@ -72,6 +72,7 @@ function App() {
   //Để ràng buộc router ko cho phép vào
   const userAdmin = useSelector((state) => state.user.dataOne)?.email == "bac";
   const userFormal = useSelector((state) => state.user.dataOne);
+  console.log(userFormal);
 
   return (
     <>
