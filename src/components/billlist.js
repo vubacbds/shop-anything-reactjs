@@ -91,7 +91,9 @@ const BillList = ({ numbertab }) => {
       render: (_, record) => {
         return (
           <a
-            href={`${process.env.REACT_APP_DOMAIN}/products/${record.products?._id}`}
+            href={`${
+              process.env.REACT_APP_DOMAIN || "http://localhost:3000"
+            }/products/${record.products?._id}`}
             target="_blank"
           >
             <img
