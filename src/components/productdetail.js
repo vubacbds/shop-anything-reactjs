@@ -254,7 +254,9 @@ const ProductDetail = () => {
                   onClick={() => {
                     const cb = navigator.clipboard;
                     cb.writeText(
-                      `http://localhost:3000/products/${
+                      `${
+                        process.env.REACT_APP_DOMAIN
+                      } || "http://localhost:3000"/products/${
                         (dataProductOrder ?? productItem)?._id
                       }`
                     ).then(() => setCopy("Đã copy"));
