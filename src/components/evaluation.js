@@ -61,7 +61,7 @@ const CommentList = ({
               onClick={() => {
                 handleReply({ ...props }.cmt);
               }}
-              style={{ fontSize: 14, width: 46 }}
+              style={{ fontSize: 14, width: 50 }}
             >
               Gửi
             </Button>
