@@ -103,10 +103,7 @@ const Account = () => {
     );
   };
   const handleUpload = () => {
-    const uploadTask = firebase
-      .storage()
-      .ref(`images/${file.originFileObj.name}`)
-      .put(file.originFileObj);
+    const uploadTask = firebase.storage().ref(`images/${file.name}`).put(file);
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -122,7 +119,7 @@ const Account = () => {
         firebase
           .storage()
           .ref("images")
-          .child(file.originFileObj.name)
+          .child(file.name)
           .getDownloadURL()
           .then((url) => {
             UserAPI.update(accountData._id, { image: url })

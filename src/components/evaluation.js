@@ -542,11 +542,12 @@ const Evaluation = ({ product_id, listInnerRef }) => {
   };
   const handleUpload = () => {
     if (file) {
+      console.log(file);
       setSubmitting(true);
       const uploadTask = firebase
         .storage()
-        .ref(`images/${file.originFileObj.name}`)
-        .put(file.originFileObj);
+        .ref(`images/${file.name}`)
+        .put(file);
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -562,7 +563,7 @@ const Evaluation = ({ product_id, listInnerRef }) => {
           firebase
             .storage()
             .ref("images")
-            .child(file.originFileObj.name)
+            .child(file.name)
             .getDownloadURL()
             .then((url) => {
               handleSubmit(url);
