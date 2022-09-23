@@ -47,14 +47,14 @@ const CommentList = ({
       renderItem={(props) => (
         <Comment {...props} style={{ marginBottom: -10 }}>
           <div
-            className="form-inline my-2 my-lg-0 mr-5 form-reply"
+            className="form-inline my-2 my-lg-0  form-reply"
             id={{ ...props }._id}
           >
             <input
               className="form-control mr-sm-2 mr-2"
               placeholder="Nhập trả lời..."
               id={`${{ ...props }._id}_input`}
-              style={{ fontSize: 14, width: 130, margin: 20 }}
+              style={{ fontSize: 14, width: 130 }}
             />
             <Button
               type="primary"
