@@ -469,7 +469,9 @@ const ProductDetail = () => {
                   Đặt mua
                 </button>
                 {!dataUserRedux?._id ? (
-                  <span style={{ color: "red" }}>
+                  <span
+                    style={{ color: "red", top: "-17px", position: "relative" }}
+                  >
                     * Bạn cần đăng nhập mới có thể đặt mua nhé{" "}
                   </span>
                 ) : (

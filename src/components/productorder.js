@@ -456,7 +456,9 @@ const ProductOrder = ({
                   Đặt mua
                 </button>
                 {!dataUserRedux?._id ? (
-                  <span style={{ color: "red" }}>
+                  <span
+                    style={{ color: "red", top: "-15px", position: "relative" }}
+                  >
                     * Bạn cần đăng nhập mới có thể đặt mua nhé{" "}
                   </span>
                 ) : (
