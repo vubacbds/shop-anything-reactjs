@@ -45,7 +45,7 @@ const CommentList = ({
       }`}
       itemLayout="horizontal"
       renderItem={(props) => (
-        <Comment {...props} style={{ marginBottom: -10 }}>
+        <Comment {...props} style={{ background: "#FFFFFA" }}>
           <div
             className="form-inline my-2 my-lg-0  form-reply"
             id={{ ...props }._id}
@@ -72,7 +72,7 @@ const CommentList = ({
               dataSource={{ ...props }.datareply}
               itemLayout="horizontal"
               renderItem={(props2) => (
-                <Comment {...props2} style={{ marginBottom: -10 }} />
+                <Comment {...props2} style={{ marginBottom: -20 }} />
               )}
             />
           )}

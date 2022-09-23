@@ -78,12 +78,9 @@
   box-shadow: 1px 1px 1px grey;
 }
 
-.borderText {
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px;
-    box-sizing: inherit;
-   margin-top: 20px;
-   padding: 15px;
-    line-height: 1.6em;
+.description-border {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  padding-left: 10px;
 }
 
 .contact {
@@ -124,10 +121,10 @@ footer {
 
 
 
-.Form-Add-Product {
+/* .Form-Add-Product {
   margin: 20px 20px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
-}
+} */
 
 .back-top {
      height: 40px;
@@ -151,6 +148,64 @@ footer {
 
 .form-reply {
   display: none;
+}
+
+.title-form-oder {
+  text-align: center;
+}
+
+.form-oder {
+  background: -webkit-linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
+  background: -moz-linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
+  background: linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
+  margin: auto;
+  position: relative;
+  /* width: 550px; */
+  /* height: 450px; */
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 24px;
+  font-weight: bold;
+  color: #09C;
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #999;
+  border: inset 1px solid #333;
+  -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  margin: 20px;
+}
+
+.input-oder {
+  width: 375px;
+  display: block;
+  border: 1px solid #999;
+  height: 25px;
+  -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+.button-order {
+  width: 100px;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  background: #09C;
+  color: #fff;
+  font-family: Tahoma, Geneva, sans-serif;
+  height: 30px;
+  border-radius: 15px;
+  border: 1p solid #999;
+  top: 10px;
+}
+
+.button-order:hover {
+  background: #fff;
+  color: #09C;
 }
 
 

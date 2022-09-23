@@ -234,7 +234,12 @@ const ProductDetail = () => {
             </>
           )}
 
-          <div className="borderText">
+          <div
+            className="description-border"
+            style={{
+              marginLeft: 10,
+            }}
+          >
             <div
               style={{
                 fontSize: 14,
@@ -285,17 +290,22 @@ const ProductDetail = () => {
           </div>
         </Col>
         <Col sm={24} xs={24} lg={12}>
-          <div className="Form-Add-Product">
+          <div className="form-oder">
+            <h3 className="title-form-oder">Thông tin đặt hàng</h3>
             <Form
               form={form}
               name="basic"
               labelCol={{
-                xs: 12,
-                md: 12,
+                xs: 24,
+                md: 8,
+                lg: 8,
+                xl: 8,
               }}
               wrapperCol={{
-                xs: 12,
-                md: 12,
+                xs: 24,
+                md: 16,
+                lg: 16,
+                xl: 16,
               }}
               initialValues={{
                 amount: 1,
@@ -308,8 +318,8 @@ const ProductDetail = () => {
               onFinish={onFinish}
               autoComplete="off"
               style={{
-                width: "90%",
-                height: "90%",
+                // width: "90%",
+                // height: "90%",
                 paddingTop: 10,
                 paddingBottom: "0.5px",
               }}
@@ -328,9 +338,11 @@ const ProductDetail = () => {
                   },
                 ]}
               >
-                <InputNumber
+                <Input
+                  style={{ width: "50%" }}
                   min={1}
                   max={(dataProductOrder ?? productItem)?.amount}
+                  className="input-oder"
                 />
               </Form.Item>
 
@@ -345,7 +357,7 @@ const ProductDetail = () => {
                     },
                   ]}
                 >
-                  <Select>
+                  <Select className="input-oder">
                     {(dataProductOrder ?? productItem)?.sizes.map(
                       (item, index) => {
                         return (
@@ -370,11 +382,11 @@ const ProductDetail = () => {
                   rules={[
                     {
                       required: true,
-                      message: "Bạn chưa chọn màu sắc!",
+                      message: "Bạn chưa chọn màu!",
                     },
                   ]}
                 >
-                  <Select>
+                  <Select className="input-oder">
                     {(dataProductOrder ?? productItem)?.colors.map((item) => {
                       return (
                         <Select.Option
@@ -400,7 +412,7 @@ const ProductDetail = () => {
                   },
                 ]}
               >
-                <Input style={{ width: "70%" }} />
+                <Input style={{}} className="input-oder" />
               </Form.Item>
 
               <Form.Item
@@ -409,7 +421,7 @@ const ProductDetail = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Vui lòng nhập số điện thoại của bạn",
+                    message: "Bạn chưa nhập số điện thoại!",
                   },
                   {
                     pattern: /^[\d]{10,10}$/,
@@ -417,7 +429,7 @@ const ProductDetail = () => {
                   },
                 ]}
               >
-                <Input style={{ width: "70%" }} />
+                <Input style={{}} className="input-oder" />
               </Form.Item>
 
               {isAddressDefault ? (
@@ -426,8 +438,21 @@ const ProductDetail = () => {
                     title="Bạn có muốn thay đổi địa chỉ không?"
                     onConfirm={() => setIsAddressDefault(false)}
                   >
-                    <Form.Item label="Địa chỉ" name="address">
-                      <Input.TextArea style={{ height: 100 }} disabled />
+                    <Form.Item
+                      label="Địa chỉ"
+                      name="address"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Bạn chưa nhập địa chỉ! ",
+                        },
+                      ]}
+                    >
+                      <Input.TextArea
+                        style={{ height: 100 }}
+                        className="input-oder"
+                        disabled
+                      />
                     </Form.Item>
                   </Popconfirm>
                 </div>
@@ -436,13 +461,13 @@ const ProductDetail = () => {
               )}
 
               <Form.Item wrapperCol={{}}>
-                <Button
-                  type="primary"
+                <button
                   htmlType="submit"
                   disabled={!dataUserRedux?._id}
+                  className="button-order"
                 >
                   Đặt mua
-                </Button>
+                </button>
                 {!dataUserRedux?._id ? (
                   <span style={{ color: "red" }}>
                     * Bạn cần đăng nhập mới có thể đặt mua nhé{" "}

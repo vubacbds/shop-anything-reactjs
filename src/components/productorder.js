@@ -227,7 +227,7 @@ const ProductOrder = ({
             </>
           )}
 
-          <div className="borderText">
+          <div className="description-border">
             <div
               style={{
                 fontSize: 14,
@@ -272,17 +272,22 @@ const ProductOrder = ({
           </div>
         </Col>
         <Col sm={24} xs={24} lg={10} md={24} xl={12}>
-          <div className="Form-Add-Product">
+          <div className="form-oder">
+            <h3 className="title-form-oder">Thông tin đặt hàng</h3>
             <Form
               form={form}
               name="basic"
               labelCol={{
-                xs: 12,
-                md: 12,
+                xs: 24,
+                md: 8,
+                lg: 8,
+                xl: 8,
               }}
               wrapperCol={{
-                xs: 12,
-                md: 12,
+                xs: 24,
+                md: 16,
+                lg: 16,
+                xl: 16,
               }}
               initialValues={{
                 amount: 1,
@@ -295,8 +300,8 @@ const ProductOrder = ({
               onFinish={onFinish}
               autoComplete="off"
               style={{
-                width: "90%",
-                height: "90%",
+                // width: "90%",
+                // height: "90%",
                 paddingTop: 10,
                 paddingBottom: "0.5px",
               }}
@@ -315,10 +320,11 @@ const ProductOrder = ({
                   },
                 ]}
               >
-                <InputNumber
+                <Input
                   min={1}
                   max={dataProductOrder?.amount}
                   style={{ width: "50%" }}
+                  className="input-oder"
                 />
               </Form.Item>
 
@@ -333,7 +339,7 @@ const ProductOrder = ({
                     },
                   ]}
                 >
-                  <Select>
+                  <Select className="input-oder">
                     {dataProductOrder.sizes.map((item, index) => {
                       return (
                         <Select.Option
@@ -356,11 +362,11 @@ const ProductOrder = ({
                   rules={[
                     {
                       required: true,
-                      message: "Bạn chưa chọn màu sắc!",
+                      message: "Bạn chưa chọn màu!",
                     },
                   ]}
                 >
-                  <Select>
+                  <Select className="input-oder">
                     {dataProductOrder.colors.map((item) => {
                       return (
                         <Select.Option
@@ -386,7 +392,7 @@ const ProductOrder = ({
                   },
                 ]}
               >
-                <Input style={{}} />
+                <Input style={{}} className="input-oder" />
               </Form.Item>
 
               <Form.Item
@@ -395,7 +401,7 @@ const ProductOrder = ({
                 rules={[
                   {
                     required: true,
-                    message: "Vui lòng nhập số điện thoại của bạn",
+                    message: "Bạn chưa nhập số điện thoại!",
                   },
                   {
                     pattern: /^[\d]{10,10}$/,
@@ -403,7 +409,7 @@ const ProductOrder = ({
                   },
                 ]}
               >
-                <Input style={{}} />
+                <Input style={{}} className="input-oder" />
               </Form.Item>
 
               {isAddressDefault ? (
@@ -418,11 +424,15 @@ const ProductOrder = ({
                       rules={[
                         {
                           required: true,
-                          message: "Vui lòng nhập địa chỉ của bạn",
+                          message: "Bạn chưa nhập địa chỉ! ",
                         },
                       ]}
                     >
-                      <Input.TextArea style={{ height: 100 }} disabled />
+                      <Input.TextArea
+                        style={{ height: 100 }}
+                        className="input-oder"
+                        disabled
+                      />
                     </Form.Item>
                   </Popconfirm>
                 </div>
@@ -431,18 +441,20 @@ const ProductOrder = ({
               )}
 
               <Form.Item
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
-                }}
+                wrapperCol={
+                  {
+                    // offset: 8,
+                    // span: 16,
+                  }
+                }
               >
-                <Button
-                  type="primary"
+                <button
                   htmlType="submit"
                   disabled={!dataUserRedux?._id}
+                  className="button-order"
                 >
                   Đặt mua
-                </Button>
+                </button>
                 {!dataUserRedux?._id ? (
                   <span style={{ color: "red" }}>
                     * Bạn cần đăng nhập mới có thể đặt mua nhé{" "}

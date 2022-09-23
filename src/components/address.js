@@ -60,6 +60,7 @@ const Address = () => {
             filterOption={(input, option) =>
               option.children.toLowerCase().includes(input.toLowerCase())
             }
+            className="input-oder"
           >
             {dataProvince?.map((item, index) => {
               return (
@@ -90,6 +91,7 @@ const Address = () => {
               filterOption={(input, option) =>
                 option.children.toLowerCase().includes(input.toLowerCase())
               }
+              className="input-oder"
             >
               {dataDistrict?.districts?.map((item, index) => {
                 return (
@@ -122,6 +124,7 @@ const Address = () => {
               filterOption={(input, option) =>
                 option.children.toLowerCase().includes(input.toLowerCase())
               }
+              className="input-oder"
             >
               {dataWard?.wards?.map((item, index) => {
                 return (
@@ -145,7 +148,10 @@ const Address = () => {
               },
             ]}
           >
-            <Input placeholder="Số nhà, đường, thôn,..." />
+            <Input
+              placeholder="Số nhà, đường, thôn,..."
+              className="input-oder"
+            />
           </Form.Item>
         )}
       </>
