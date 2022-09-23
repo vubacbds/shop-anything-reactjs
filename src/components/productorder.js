@@ -257,7 +257,7 @@ const ProductOrder = ({
                 </Button>
               </span>
               &ensp;
-              <span>{copy ?? ""}</span>
+              <span style={{ fontSize: 12 }}>{copy ?? ""}</span>
             </div>
             <div
               className="card-text"
