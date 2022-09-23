@@ -215,9 +215,9 @@ const ProductOrder = ({
                       <img
                         src={item}
                         style={{
-                          width: 48,
-                          height: 48,
-                          margin: "5px 0px 5px 5px",
+                          width: 46,
+                          height: 46,
+                          margin: "5px 5px 5px 0px",
                         }}
                       />
                     </a>
