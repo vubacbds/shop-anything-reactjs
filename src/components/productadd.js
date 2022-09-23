@@ -73,6 +73,13 @@ const ProductAdd = (props) => {
   const handleCancel = () => setPreviewVisible(false);
 
   const handleChange = (e) => {
+    //Xử lý file quá 6 ảnh
+    if (e.fileList.length > 6) {
+      alert("Chỉ được đăng 6 ảnh!");
+      e.preventDefault();
+    }
+
+    //Xử lý lỗi trùng ảnh
     const nameImage = e.fileList[e.fileList.length - 1]?.name;
     const fileListLength = e.fileList.filter((item) => {
       return item.name == nameImage;
@@ -375,7 +382,7 @@ const ProductAdd = (props) => {
               onPreview={handlePreview}
               onChange={handleChange}
               accept=".jpg, .png"
-              // multiple={true}
+              multiple={true}
             >
               {fileList.length >= 6 ? null : (
                 <div>
