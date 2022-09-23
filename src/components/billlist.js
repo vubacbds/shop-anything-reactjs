@@ -170,7 +170,7 @@ const BillList = ({ numbertab }) => {
       dataIndex: "operation",
       key: "operation",
       render: (_, record) => {
-        return numbertab == 1 && userData.email == "bac" ? (
+        return numbertab == 1 && userData?.isadmin ? (
           <>
             <span>
               <Popconfirm
@@ -201,7 +201,7 @@ const BillList = ({ numbertab }) => {
               <DeleteOutlined />
             </a>
           </Popconfirm>
-        ) : numbertab == 2 && userData.email == "bac" ? (
+        ) : numbertab == 2 && userData?.isadmin ? (
           <>
             <span>
               <Popconfirm
@@ -223,7 +223,7 @@ const BillList = ({ numbertab }) => {
               </Popconfirm>
             </span>
           </>
-        ) : numbertab == 3 && userData.email == "bac" ? (
+        ) : numbertab == 3 && userData?.isadmin ? (
           <Popconfirm
             title="Xác nhận xóa?"
             onConfirm={() => deleteBill(record)}

@@ -336,7 +336,7 @@ const Evaluation = ({ product_id, listInnerRef }) => {
         const data = {
           _id: item?._id,
           actions: [
-            userData.email == item.users?.email || userData.email == "bac" ? (
+            userData.email == item.users?.email || userData?.isadmin ? (
               <span
                 key="comment-list-reply-to-0"
                 onClick={() => handleDeleteReply(item?._id, cmt)}
@@ -407,7 +407,7 @@ const Evaluation = ({ product_id, listInnerRef }) => {
               Thích ({item.likes.length})
             </span>
           ),
-          userData.email == item.users?.email || userData.email == "bac" ? (
+          userData.email == item.users?.email || userData?.isadmin ? (
             <span
               key="comment-list-reply-to-0"
               onClick={() => handleDelete(item)}

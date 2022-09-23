@@ -160,7 +160,11 @@ const ProductDetail = () => {
                 data-ride="carousel"
               >
                 <div className="carousel-inner">
-                  <div className="carousel-item active" key="0">
+                  <div
+                    className="carousel-item active"
+                    key="0"
+                    style={{ marginLeft: 10 }}
+                  >
                     <img
                       src={(dataProductOrder ?? productItem)?.images[0]}
                       alt="First slide"
@@ -173,7 +177,11 @@ const ProductDetail = () => {
                     (item, index) => {
                       return (
                         index > 0 && (
-                          <div key={index} className="carousel-item">
+                          <div
+                            key={index}
+                            className="carousel-item"
+                            style={{ marginLeft: 10 }}
+                          >
                             <img
                               src={item}
                               style={{
@@ -212,25 +220,29 @@ const ProductDetail = () => {
                 </a>
               </div>
 
-              {(dataProductOrder ?? productItem)?.images.map((item, index) => {
-                return (
-                  <span key={index}>
-                    <a
-                      href="#carouselExampleControls"
-                      data-slide-to={parseInt(index)}
-                    >
-                      <img
-                        src={item}
-                        style={{
-                          width: 48,
-                          height: 48,
-                          margin: "5px 0px 5px 5px",
-                        }}
-                      />
-                    </a>
-                  </span>
-                );
-              })}
+              <div style={{ marginLeft: 5 }}>
+                {(dataProductOrder ?? productItem)?.images.map(
+                  (item, index) => {
+                    return (
+                      <span key={index}>
+                        <a
+                          href="#carouselExampleControls"
+                          data-slide-to={parseInt(index)}
+                        >
+                          <img
+                            src={item}
+                            style={{
+                              width: 48,
+                              height: 48,
+                              margin: "5px 0px 5px 5px",
+                            }}
+                          />
+                        </a>
+                      </span>
+                    );
+                  }
+                )}
+              </div>
             </>
           )}
 

@@ -69,7 +69,7 @@ const UsertList = () => {
       title: "",
       dataIndex: "operation",
       render: (_, record) => {
-        return record.email !== "bac" ? (
+        return !record?.isadmin ? (
           <Popconfirm
             title="Bạn chắc chắn xóa?"
             onConfirm={() => deleteUser(record._id)}
