@@ -192,21 +192,23 @@ const Product = (props) => {
             (Không có dữ liệu)
           </h3>
         ) : (
-          <Pagination
-            pageSize={pages.size}
-            current={pages.current}
-            total={product.data?.length}
-            onChange={handleChange}
-            style={{
-              textAlign: "center",
-              marginBottom: 30,
-              // margin: "20px 0px 20px 350px ",
-            }}
-            showSizeChanger={true}
-            pageSizeOptions={[3, 12, 24, 48]}
+          product && (
+            <Pagination
+              pageSize={pages.size}
+              current={pages.current}
+              total={product.data?.length}
+              onChange={handleChange}
+              style={{
+                textAlign: "center",
+                marginBottom: 30,
+                // margin: "20px 0px 20px 350px ",
+              }}
+              showSizeChanger={true}
+              pageSizeOptions={[3, 12, 24, 48]}
 
-            // onShowSizeChange={handleShowSizeChange}
-          />
+              // onShowSizeChange={handleShowSizeChange}
+            />
+          )
         )}
         {/* //Phân trang// */}
         <ModalOrderProduct

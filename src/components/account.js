@@ -199,6 +199,9 @@ const Account = () => {
                     onChange={handleChange}
                     accept=".jpg, .png"
                     // multiple={true}
+                    beforeUpload={() => {
+                      return false;
+                    }}
                   >
                     {(!file || file?.status == "removed") && (
                       // <div>

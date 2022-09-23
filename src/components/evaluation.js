@@ -10,6 +10,7 @@ import {
   Row,
   Upload,
   Spin,
+  Modal,
 } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -147,6 +148,9 @@ const Editor = ({
               accept=".jpg, .png"
               // multiple={true}
               style={{ width: "20%" }}
+              beforeUpload={() => {
+                return false;
+              }}
             >
               {(!file || file?.status == "removed") && (
                 <div>
@@ -155,6 +159,7 @@ const Editor = ({
                 </div>
               )}
             </Upload>
+
             <br />
             <progress value={progress} max="100" style={{ width: 100 }} />
           </div>
@@ -623,6 +628,15 @@ const Evaluation = ({ product_id, listInnerRef }) => {
               </div>
             )}
           </div>
+
+          <Modal //Để xem cái ảnh trước lúc bình luận
+            visible={previewVisible}
+            title={previewTitle}
+            footer={null}
+            onCancel={handleCancel}
+          >
+            <img alt="example" style={{ width: "100%" }} src={previewImage} />
+          </Modal>
         </Col>
       </Row>
       {/* <Button onClick={() => setAmount((pre) => pre + 3)}>Xem thêm</Button> */}

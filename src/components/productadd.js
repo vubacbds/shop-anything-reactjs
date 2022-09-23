@@ -383,6 +383,9 @@ const ProductAdd = (props) => {
               onChange={handleChange}
               accept=".jpg, .png"
               multiple={true}
+              beforeUpload={() => {
+                return false;
+              }}
             >
               {fileList.length >= 6 ? null : (
                 <div>
