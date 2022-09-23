@@ -133,6 +133,7 @@ const Account = () => {
                   "user",
                   JSON.stringify({ ...accountData, image: url })
                 ); //Thay đổi lại cookie vì cookie lưu ảnh chỉ có login lại ảnh mới hiện
+                setSubmitting(false);
               })
               .catch((error) => UpdateFail(error.response.data.message));
           })
@@ -153,6 +154,9 @@ const Account = () => {
 
   //Cài đặt địa chỉ default
   const [isAddressDefault, setIsAddressDefault] = useState(true);
+
+  //Set loading
+  const [submitting, setSubmitting] = useState(false);
 
   return (
     accountData && (
@@ -232,9 +236,11 @@ const Account = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
+                  loading={submitting}
                   disabled={
                     !(file && file?.status != "removed" && progress == 0)
                   } //Khi chưa chọn ảnh thì ẩn button đổi ảnh đi
+                  onClick={() => setSubmitting(true)}
                 >
                   Đổi ảnh
                 </Button>

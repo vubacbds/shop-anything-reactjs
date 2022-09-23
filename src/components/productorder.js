@@ -215,8 +215,8 @@ const ProductOrder = ({
                       <img
                         src={item}
                         style={{
-                          width: 46,
-                          height: 46,
+                          width: 44,
+                          height: 44,
                           margin: "4px 4px 4px 0px",
                         }}
                       />
@@ -412,7 +412,16 @@ const ProductOrder = ({
                     title="Bạn có muốn thay đổi địa chỉ không?"
                     onConfirm={() => setIsAddressDefault(false)}
                   >
-                    <Form.Item label="Địa chỉ" name="address">
+                    <Form.Item
+                      label="Địa chỉ"
+                      name="address"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Vui lòng nhập địa chỉ của bạn",
+                        },
+                      ]}
+                    >
                       <Input.TextArea style={{ height: 100 }} disabled />
                     </Form.Item>
                   </Popconfirm>

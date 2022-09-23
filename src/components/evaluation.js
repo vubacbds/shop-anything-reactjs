@@ -246,12 +246,14 @@ const Evaluation = ({ product_id, listInnerRef }) => {
 
   //Hàm xử lí like bình luận
   const handleLike = (item) => {
-    EvaluationAPI.updateevaluation(item._id, {
-      likes: [userData._id, ...item.likes],
-    }).then(() => {
-      const newData = { ...item, likes: [userData._id, ...item.likes] };
-      dispatch(update_evaluation(newData));
-    });
+    if (userData) {
+      EvaluationAPI.updateevaluation(item._id, {
+        likes: [userData._id, ...item.likes],
+      }).then(() => {
+        const newData = { ...item, likes: [userData._id, ...item.likes] };
+        dispatch(update_evaluation(newData));
+      });
+    }
   };
 
   //Hàm xử lí bỏ like bình luận
@@ -280,33 +282,35 @@ const Evaluation = ({ product_id, listInnerRef }) => {
     //Giao diện sẽ tự cập nhật khi dispatch thêm dữ liệu vào state
 
     //Lưu vào DB reply, sửa bên evaluation
-    let idreplylist = []; //Xử lý lấy ID vì khi gọi từ id đã biến thành data khi inner
-    if (cmt.replies.length > 0) {
-      cmt.replies.forEach((i) => idreplylist.push(i._id));
-    }
-    ReplyAPI.addreply({
-      body: reply,
-      users: userData?._id,
-      evaluations: cmt._id,
-    }).then((res) => {
-      document.getElementById(`${cmt._id}_input`).value = "";
-      let newReply = {
-        ...res,
-        users: {
-          email: userData?.email,
-          image: userData?.image,
-        },
-      };
-      dispatch(
-        update_evaluation({
-          _id: res.evaluations,
-          replies: [newReply, ...cmt.replies],
-        })
-      );
-      EvaluationAPI.updateevaluation(res.evaluations, {
-        replies: [res._id, ...idreplylist],
+    if (userData) {
+      let idreplylist = []; //Xử lý lấy ID vì khi gọi từ id đã biến thành data khi inner
+      if (cmt.replies.length > 0) {
+        cmt.replies.forEach((i) => idreplylist.push(i._id));
+      }
+      ReplyAPI.addreply({
+        body: reply,
+        users: userData?._id,
+        evaluations: cmt._id,
+      }).then((res) => {
+        document.getElementById(`${cmt._id}_input`).value = "";
+        let newReply = {
+          ...res,
+          users: {
+            email: userData?.email,
+            image: userData?.image,
+          },
+        };
+        dispatch(
+          update_evaluation({
+            _id: res.evaluations,
+            replies: [newReply, ...cmt.replies],
+          })
+        );
+        EvaluationAPI.updateevaluation(res.evaluations, {
+          replies: [res._id, ...idreplylist],
+        });
       });
-    });
+    }
   };
 
   //Hàm xử lý xóa reply
