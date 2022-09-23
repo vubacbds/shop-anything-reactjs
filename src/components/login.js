@@ -50,15 +50,15 @@ const Login = (props) => {
     UserAPI.login(values)
       .then(function (response) {
         dispatch(getbill());
-        if (checkPassword) {
-          SetCookie(
-            "userRemember",
-            JSON.stringify({ ...response.user, password: values.password }),
-            30
-          );
-        } else {
-          SetCookie("userRemember", "", -1);
-        }
+        // if (checkPassword) {
+        //   SetCookie(
+        //     "userRemember",
+        //     JSON.stringify({ ...response.user, password: values.password }),
+        //     30
+        //   );
+        // } else {
+        //   SetCookie("userRemember", "", -1);
+        // }
         SetCookie("user", JSON.stringify(response.user));
         SetCookie("accessToken", response.token);
         props.setVisible(false);
