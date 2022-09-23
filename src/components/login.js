@@ -62,11 +62,12 @@ const Login = (props) => {
         SetCookie("user", JSON.stringify(response.user));
         SetCookie("accessToken", response.token);
         props.setVisible(false);
-
+        alert("login thành công");
         // navigate("/");
         dispatch(get_user_one(response.user._id)); //Khi login cũng cần dispatch lại dữ liệu, nhưng được cái ko phải gọi lại API từ DB nên nhẹ
       })
       .catch(function (error) {
+        alert("login thất bại");
         console.log("Error on Authentication", error);
         loginFail(error.response.data.message);
       });
@@ -156,7 +157,7 @@ const Login = (props) => {
           md: 12,
         }}
         initialValues={{
-          remember: true,
+          remember: false,
           email: GetCookie("userRemember")
             ? JSON.parse(GetCookie("userRemember")).email
             : "",
