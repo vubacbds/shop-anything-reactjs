@@ -60,161 +60,163 @@ const Product = (props) => {
   const isMobile = viewPort.width <= 976;
 
   return (
-    <>
-      <Row>
-        <Col xs={0} sm={0} lg={6}>
-          {!isMobile && (
+    product && (
+      <>
+        <Row>
+          <Col xs={0} sm={0} lg={6}>
+            {!isMobile && (
+              <div
+                style={{
+                  position: "fixed",
+                  top: 100,
+                  height: 420,
+                  margin: "0px 20px",
+                }}
+              >
+                {product.data && <ProductRandom data={product.data} />}{" "}
+              </div>
+            )}
+          </Col>
+          <Col xs={24} sm={16} lg={12}>
+            {product?.data?.map((item, index) => {
+              return (
+                <div key={item._id}>
+                  {index >= pages.minIndex && index < pages.maxIndex && (
+                    <div>
+                      <a
+                        style={{ textAlign: "left" }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setDataProductOrder(item);
+                          setVisibleOrderProduct(true);
+                          An3gach();
+                        }}
+                      >
+                        <Row style={{}} className="product-hover">
+                          <Col xs={6} lg={6} sm={6} md={6}>
+                            <img
+                              className="card-img-left"
+                              src={item.images[0]}
+                              style={{ width: "100%", height: 130 }}
+                            />
+                          </Col>
+                          <Col xs={18} lg={18} sm={18} md={18}>
+                            <div className="card " style={{ height: 130 }}>
+                              <div
+                                className="card-body"
+                                style={{ padding: 10, position: "relative" }}
+                              >
+                                <span
+                                  className="card-title"
+                                  style={{
+                                    size: 20,
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  {item.title}
+                                </span>
+                                <div
+                                  className="card-text"
+                                  style={{ color: "red", fontWeight: "bold" }}
+                                >
+                                  {item.price.toLocaleString("vi-VN", {
+                                    style: "currency",
+                                    currency: "VND",
+                                  })}
+                                </div>
+
+                                <span
+                                  style={{
+                                    fontSize: 14,
+                                    marginTop: 10,
+                                    color: "#a4b4b4",
+                                    position: "absolute",
+                                    left: 10,
+                                    top: 96,
+                                  }}
+                                >
+                                  Còn lại: {item.amount} &ensp;
+                                  {item.ghim == 1 ? (
+                                    <span>
+                                      <DisconnectOutlined /> Đã ghim{" "}
+                                    </span>
+                                  ) : (
+                                    ""
+                                  )}
+                                </span>
+                                <span
+                                  style={{
+                                    position: "absolute",
+                                    top: 94,
+                                    left: "80%",
+                                  }}
+                                >
+                                  <Button>
+                                    <ShoppingCartOutlined />
+                                  </Button>
+                                </span>
+                              </div>
+                            </div>
+                          </Col>
+                        </Row>
+                      </a>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </Col>
+          <Col xs={0} sm={8} lg={6}>
             <div
               style={{
-                position: "fixed",
-                top: 100,
                 height: 420,
-                margin: "0px 20px",
+                margin: "50px 20px 0px 20px",
               }}
             >
-              {product.data && <ProductRandom data={product.data} />}{" "}
+              {dataOther?.web_imageads?.split(" ").join("") != "" && (
+                <a href={dataOther.web_linkads} target="_blank">
+                  <img
+                    style={{ height: 420, width: "100%" }}
+                    src={dataOther.web_imageads}
+                  />
+                </a>
+              )}
             </div>
-          )}
-        </Col>
-        <Col xs={24} sm={16} lg={12}>
-          {product?.data?.map((item, index) => {
-            return (
-              <div key={item._id}>
-                {index >= pages.minIndex && index < pages.maxIndex && (
-                  <div>
-                    <a
-                      style={{ textAlign: "left" }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setDataProductOrder(item);
-                        setVisibleOrderProduct(true);
-                        An3gach();
-                      }}
-                    >
-                      <Row style={{}} className="product-hover">
-                        <Col xs={6} lg={6} sm={6} md={6}>
-                          <img
-                            className="card-img-left"
-                            src={item.images[0]}
-                            style={{ width: "100%", height: 130 }}
-                          />
-                        </Col>
-                        <Col xs={18} lg={18} sm={18} md={18}>
-                          <div className="card " style={{ height: 130 }}>
-                            <div
-                              className="card-body"
-                              style={{ padding: 10, position: "relative" }}
-                            >
-                              <span
-                                className="card-title"
-                                style={{
-                                  size: 20,
-                                  fontWeight: "bold",
-                                }}
-                              >
-                                {item.title}
-                              </span>
-                              <div
-                                className="card-text"
-                                style={{ color: "red", fontWeight: "bold" }}
-                              >
-                                {item.price.toLocaleString("vi-VN", {
-                                  style: "currency",
-                                  currency: "VND",
-                                })}
-                              </div>
+          </Col>
+        </Row>
+        {/* //Phân trang// */}
 
-                              <span
-                                style={{
-                                  fontSize: 14,
-                                  marginTop: 10,
-                                  color: "#a4b4b4",
-                                  position: "absolute",
-                                  left: 10,
-                                  top: 96,
-                                }}
-                              >
-                                Còn lại: {item.amount} &ensp;
-                                {item.ghim == 1 ? (
-                                  <span>
-                                    <DisconnectOutlined /> Đã ghim{" "}
-                                  </span>
-                                ) : (
-                                  ""
-                                )}
-                              </span>
-                              <span
-                                style={{
-                                  position: "absolute",
-                                  top: 94,
-                                  left: "80%",
-                                }}
-                              >
-                                <Button>
-                                  <ShoppingCartOutlined />
-                                </Button>
-                              </span>
-                            </div>
-                          </div>
-                        </Col>
-                      </Row>
-                    </a>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </Col>
-        <Col xs={0} sm={8} lg={6}>
-          <div
+        <hr style={{ border: 2, color: "#BCADB0" }} />
+        {product.data?.length == 0 ? (
+          <h3 style={{ position: "absolute", top: 100, left: 460 }}>
+            (Không có dữ liệu)
+          </h3>
+        ) : (
+          <Pagination
+            pageSize={pages.size}
+            current={pages.current}
+            total={product.data?.length}
+            onChange={handleChange}
             style={{
-              height: 420,
-              margin: "50px 20px 0px 20px",
+              textAlign: "center",
+              marginBottom: 30,
+              // margin: "20px 0px 20px 350px ",
             }}
-          >
-            {dataOther?.web_imageads?.split(" ").join("") != "" && (
-              <a href={dataOther.web_linkads} target="_blank">
-                <img
-                  style={{ height: 420, width: "100%" }}
-                  src={dataOther.web_imageads}
-                />
-              </a>
-            )}
-          </div>
-        </Col>
-      </Row>
-      {/* //Phân trang// */}
+            showSizeChanger={true}
+            pageSizeOptions={[3, 12, 24, 48]}
 
-      <hr style={{ border: 2, color: "#BCADB0" }} />
-      {product.data?.length == 0 ? (
-        <h3 style={{ position: "absolute", top: 100, left: 460 }}>
-          (Không có dữ liệu)
-        </h3>
-      ) : (
-        <Pagination
-          pageSize={pages.size}
-          current={pages.current}
-          total={product.data?.length}
-          onChange={handleChange}
-          style={{
-            textAlign: "center",
-            marginBottom: 30,
-            // margin: "20px 0px 20px 350px ",
-          }}
-          showSizeChanger={true}
-          pageSizeOptions={[3, 12, 24, 48]}
-
-          // onShowSizeChange={handleShowSizeChange}
+            // onShowSizeChange={handleShowSizeChange}
+          />
+        )}
+        {/* //Phân trang// */}
+        <ModalOrderProduct
+          visible={visibleOrderProduct}
+          setVisible={setVisibleOrderProduct}
+          dataProductOrder={dataProductOrder}
         />
-      )}
-      {/* //Phân trang// */}
-      <ModalOrderProduct
-        visible={visibleOrderProduct}
-        setVisible={setVisibleOrderProduct}
-        dataProductOrder={dataProductOrder}
-      />
-      {/* <Link to="/products/631b1a98ba348d830455df28">Chi tiet</Link> */}
-    </>
+        {/* <Link to="/products/631b1a98ba348d830455df28">Chi tiet</Link> */}
+      </>
+    )
   );
 };
 
