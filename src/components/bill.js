@@ -13,7 +13,7 @@ const Bill = () => {
   const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
   const { TabPane } = Tabs;
   const onChange = (key) => {
-    if (userData.email === "bac") {
+    if (userData?.isadmin) {
       dispatch(get_bill_user_status(key - 1));
     } else {
       dispatch(get_bill_user_status(key - 1, userData?._id));

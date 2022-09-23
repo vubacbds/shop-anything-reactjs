@@ -8,7 +8,7 @@ import getbill from "./action/bill";
 import getuser, { add_user } from "./action/user";
 import getother from "./action/other";
 
-import Product from "./components/product";
+// import Product from "./components/product";
 import Navbar from "./components/navbar";
 import Notfound from "./components/notfound";
 import ProductDetail from "./components/productdetail";
@@ -25,7 +25,7 @@ import ProductProperties from "./components/productproperties";
 import LoginGmail from "./components/logingmail";
 import VerifyEmail from "./components/verifyemail";
 
-import { BackTop } from "antd";
+import { BackTop, Spin } from "antd";
 import { UpCircleOutlined } from "@ant-design/icons";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -41,19 +41,8 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import getaddress from "./action/address";
 
-const config = {
-  apiKey: "AIzaSyDbdEkMG0zt5YBRQlpPdT_gctip3pYfLpM",
-  authDomain: "product-anything.firebaseapp.com",
-  projectId: "product-anything",
-  storageBucket: "product-anything.appspot.com",
-  messagingSenderId: "553146405137",
-  appId: "1:553146405137:web:f234bde8921a619e31fcb0",
-  measurementId: "G-J7HK4D02SN",
-};
-firebase.initializeApp(config);
-//Close Configure Firebase.
-
 const LazyTestLazy = React.lazy(() => import("./components/testlazy"));
+const Product = React.lazy(() => import("./components/product"));
 
 function App() {
   //Khi load lại trang lấy dữ liệu từ Redux luôn
@@ -61,25 +50,55 @@ function App() {
   useEffect(() => {
     dispatch(getproduct());
     dispatch(getcategory());
-    dispatch(getsize());
-    dispatch(getcolor());
     dispatch(getbill());
     dispatch(getuser());
     dispatch(getother());
-    dispatch(getaddress());
+
+    // Configure Firebase.
+    const config = {
+      apiKey: "AIzaSyDbdEkMG0zt5YBRQlpPdT_gctip3pYfLpM",
+      authDomain: "product-anything.firebaseapp.com",
+      projectId: "product-anything",
+      storageBucket: "product-anything.appspot.com",
+      messagingSenderId: "553146405137",
+      appId: "1:553146405137:web:f234bde8921a619e31fcb0",
+      measurementId: "G-J7HK4D02SN",
+    };
+    firebase.initializeApp(config);
   }, []);
 
   //Để ràng buộc router ko cho phép vào
   const userAdmin = useSelector((state) => state.user.dataOne)?.isadmin;
   const userFormal = useSelector((state) => state.user.dataOne);
-  console.log(userFormal);
+  const cat = useSelector((state) => state.category);
+
+  //Chỉ dispacth những thứ cần cho admin quản lý
+  useEffect(() => {
+    if (userAdmin) {
+      dispatch(getsize());
+      dispatch(getcolor());
+    }
+  }, [userAdmin]);
 
   return (
     <>
       <div className="App">
         <Navbar />
         <Routes>
-          <Route path="/" element={<Product />} />
+          <Route
+            path="/"
+            element={
+              <React.Suspense
+                fallback={
+                  <div>
+                    <Spin /> Đang tải ...
+                  </div>
+                }
+              >
+                <Product />
+              </React.Suspense>
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/other/:cat" element={<OtherContext />} />
           <Route path="/products/:productId" element={<ProductDetail />} />

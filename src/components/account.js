@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import UserAPI from "../services/userAPI";
 import { get_user_one, update_user } from "../action/user";
+import getaddress from "../action/address";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import { PlusOutlined } from "@ant-design/icons";
@@ -154,6 +155,11 @@ const Account = () => {
 
   //Cài đặt địa chỉ default
   const [isAddressDefault, setIsAddressDefault] = useState(true);
+
+  //Khi giao diện tài khoản load lên mới gọi địa chỉ
+  useEffect(() => {
+    dispatch(getaddress());
+  }, []);
 
   //Set loading
   const [submitting, setSubmitting] = useState(false);

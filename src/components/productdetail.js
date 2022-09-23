@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import BillAPI from "../services/billAPI";
 import { GetCookie } from "../util/cookie";
 import { add_bill } from "../action/bill";
+import getaddress from "../action/address";
 import { toast } from "react-toastify";
 import ProductAPI from "../services/productAPI";
 import { useEffect, useRef, useState } from "react";
@@ -116,6 +117,11 @@ const ProductDetail = () => {
 
   //Cài đặt địa chỉ default
   const [isAddressDefault, setIsAddressDefault] = useState(true);
+
+  //Khi giao diện tài khoản load lên mới gọi địa chỉ
+  useEffect(() => {
+    dispatch(getaddress());
+  }, []);
 
   return (
     <div style={{ marginBottom: 100, textAlign: "left" }}>

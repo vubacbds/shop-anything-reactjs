@@ -32,8 +32,6 @@ const Address = () => {
     console.log("search:", value);
   };
 
-  console.log(dataDistrict);
-
   // useEffect(() => {
   //   form.resetFields();
   // }, [dataAddress]);

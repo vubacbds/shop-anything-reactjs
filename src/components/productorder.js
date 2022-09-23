@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import BillAPI from "../services/billAPI";
 import { GetCookie } from "../util/cookie";
 import { add_bill } from "../action/bill";
+import getaddress from "../action/address";
 import { toast } from "react-toastify";
 import ProductAPI from "../services/productAPI";
 import { useEffect, useState } from "react";
@@ -58,6 +59,7 @@ const ProductOrder = ({
   const navigate = useNavigate();
 
   const onFinish = (values) => {
+    //Xử lý khi đặt hàng
     const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
     if (!isAddressDefault) {
       values.address = `${values.numhome}, ${values.ward}, ${values.district}, ${values.province} `;
@@ -113,6 +115,11 @@ const ProductOrder = ({
 
   //Cài đặt địa chỉ default
   const [isAddressDefault, setIsAddressDefault] = useState(true);
+
+  //Khi form đặt hàng load lên mới gọi địa chỉ
+  useEffect(() => {
+    dispatch(getaddress());
+  }, []);
 
   return (
     <div id="cuon">
@@ -448,11 +455,7 @@ const ProductOrder = ({
                   }
                 }
               >
-                <button
-                  htmlType="submit"
-                  disabled={!dataUserRedux?._id}
-                  className="button-order"
-                >
+                <button disabled={!dataUserRedux?._id} className="button-order">
                   Đặt mua
                 </button>
                 {!dataUserRedux?._id ? (

@@ -72,7 +72,9 @@ const Navbar = () => {
           dispatch(getproductcategory());
         }}
       >
-        <h2 className="font-home">{dataOther?.web_title}</h2>
+        <h2 className="font-home">
+          {dataOther?.web_title || process.env.REACT_APP_WEB_NAME}
+        </h2>
       </NavLink>
 
       <Button
