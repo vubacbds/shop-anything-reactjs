@@ -167,7 +167,10 @@ const ProductDetail = () => {
                     style={{ marginLeft: 10 }}
                   >
                     <img
-                      src={(dataProductOrder ?? productItem)?.images[0]}
+                      src={
+                        (dataProductOrder ?? productItem)?.images[0] ||
+                        "http://via.placeholder.com/260x260"
+                      }
                       alt="First slide"
                       style={{
                         height: 260,

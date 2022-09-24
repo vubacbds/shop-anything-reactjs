@@ -159,7 +159,10 @@ const ProductOrder = ({
                 <div className="carousel-inner">
                   <div className="carousel-item active" key="0">
                     <img
-                      src={dataProductOrder?.images[0]}
+                      src={
+                        dataProductOrder?.images[0] ||
+                        "http://via.placeholder.com/260x260"
+                      }
                       alt="First slide"
                       style={{
                         height: 260,
