@@ -34,11 +34,13 @@ const Account = () => {
 
   //Thông báo
   const UpdateSuccess = () => {
+    setSubmittingProfile(false);
     toast.success("Lưu thông tin thành công !", {
       position: toast.POSITION.BOTTOM_RIGHT,
     });
   };
   const UpdateFail = (message) => {
+    setSubmittingProfile(false);
     toast.error(message, {
       position: toast.POSITION.BOTTOM_RIGHT,
     });
@@ -158,8 +160,11 @@ const Account = () => {
     dispatch(getaddress());
   }, []);
 
-  //Set loading
+  //Set loading sửa ảnh
   const [submitting, setSubmitting] = useState(false);
+
+  //Set loading sửa thông tin cá nhân
+  const [submittingProfile, setSubmittingProfile] = useState(false);
 
   return (
     accountData && (
@@ -169,12 +174,16 @@ const Account = () => {
             <Form
               onFinish={onFinishFormUpload}
               labelCol={{
-                xs: 8,
-                md: 8,
+                xs: 24,
+                md: 24,
+                lg: 24,
+                xl: 24,
               }}
               wrapperCol={{
-                xs: 16,
-                md: 16,
+                xs: 24,
+                md: 24,
+                lg: 24,
+                xl: 24,
               }}
             >
               <Form.Item
@@ -228,16 +237,18 @@ const Account = () => {
                   <progress
                     value={progress}
                     max="100"
-                    style={{ width: "70%" }}
+                    style={{ width: "50%" }}
                   />
                   <br />
                 </div>
               </Form.Item>
               <Form.Item
-                wrapperCol={{
-                  offset: 6,
-                  span: 18,
-                }}
+                wrapperCol={
+                  {
+                    // offset: 6,
+                    // span: 18,
+                  }
+                }
               >
                 <Button
                   type="primary"
@@ -326,7 +337,12 @@ const Account = () => {
                   span: 16,
                 }}
               >
-                <Button type="primary" htmlType="submit">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={submittingProfile}
+                  onClick={() => setSubmittingProfile(true)}
+                >
                   Lưu thông tin
                 </Button>
               </Form.Item>

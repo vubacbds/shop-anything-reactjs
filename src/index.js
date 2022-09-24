@@ -7,13 +7,16 @@ import { Provider } from "react-redux";
 import store from "./store";
 import "antd/dist/antd.css";
 import { BrowserRouter } from "react-router-dom";
+import DataProvider from "./util/datacontext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <BrowserRouter>
       {/* <React.StrictMode> */}
-      <App />
+      <DataProvider>
+        <App />
+      </DataProvider>
       {/* </React.StrictMode> */}
     </BrowserRouter>
   </Provider>

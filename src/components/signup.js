@@ -1,5 +1,5 @@
 import { Button, Checkbox, Col, Form, Input, Row } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import getDataUser, { add_user } from "../action/user";
 import UserAPI from "../services/userAPI";
@@ -13,6 +13,7 @@ const Signup = (props) => {
 
   //Thông báo
   const signupSuccess = () => {
+    setSubmitting(false);
     toast.success(
       "Đăng ký thành công! Bạn cần vào email xác minh để đăng nhập",
       {
@@ -21,6 +22,7 @@ const Signup = (props) => {
     );
   };
   const signupFail = (message) => {
+    setSubmitting(false);
     toast.error(message, {
       position: toast.POSITION.BOTTOM_RIGHT,
     });
@@ -54,6 +56,10 @@ const Signup = (props) => {
         signupFail(error.response.data.message);
       });
   };
+
+  //Set loading khi đăng ký
+  const [submitting, setSubmitting] = useState(false);
+
   return (
     <>
       <Form
@@ -130,7 +136,12 @@ const Signup = (props) => {
             span: 16,
           }}
         >
-          <Button type="primary" htmlType="submit">
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={submitting}
+            onClick={() => setSubmitting(true)}
+          >
             Đăng ký
           </Button>
         </Form.Item>

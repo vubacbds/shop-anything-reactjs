@@ -7,7 +7,7 @@ import {
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { Avatar, Button, Card, Modal, Pagination } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Col, Row } from "antd";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
@@ -16,6 +16,7 @@ import moment from "moment"; //Định dạng thời gian
 import An3gach from "../util/an3gach";
 import ProductRandom from "./productrandom";
 import { UseViewport } from "../util/customhook";
+import { DataContext } from "../util/datacontext";
 
 const { Meta } = Card;
 
@@ -30,7 +31,11 @@ const Product = (props) => {
   const [dataProductOrder, setDataProductOrder] = useState();
 
   //Hiện model đặt hàng
-  const [visibleOrderProduct, setVisibleOrderProduct] = useState(false);
+  // const [visibleOrderProduct, setVisibleOrderProduct] = useState(false);
+
+  //Set ẩn hiện modal đặt hàng
+  const visibleOrderProduct = useContext(DataContext).visibleOrderProduct;
+  const setVisibleOrderProduct = useContext(DataContext).setVisibleOrderProduct;
 
   //Phân trang
   const objPage = {

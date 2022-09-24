@@ -5,7 +5,7 @@ import Login from "./login";
 import ProductAdd from "./productadd";
 import Account from "./account";
 import { Button, Modal } from "antd";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { SetCookie, GetCookie } from "../util/cookie";
 import getproduct, {
   getproductcategory,
@@ -17,10 +17,15 @@ import { UseViewport } from "../util/customhook";
 import An3gach from "../util/an3gach";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
+import { DataContext } from "../util/datacontext";
 
 const Navbar = () => {
   //Lấy các thông tin của web
   const dataOther = useSelector((state) => state.other);
+
+  //Set ẩn hiện modal đặt hàng khi nhấn vào tên web
+  const visibleOrderProduct = useContext(DataContext).visibleOrderProduct;
+  const setVisibleOrderProduct = useContext(DataContext).setVisibleOrderProduct;
 
   //Thủ thuật cập nhật lại narbar khi login/logout
   const [loadPage, setLoadPage] = useState(false);
@@ -73,7 +78,13 @@ const Navbar = () => {
           dispatch(getproductcategory());
         }}
       >
-        <h2 className="font-home">
+        <h2
+          className="font-home"
+          onClick={() => {
+            setVisibleOrderProduct(false);
+            An3gach();
+          }}
+        >
           {dataOther?.web_title || process.env.REACT_APP_WEB_NAME}
         </h2>
       </NavLink>
@@ -232,6 +243,7 @@ const Navbar = () => {
               role="button"
               data-toggle="dropdown"
               aria-expanded="false"
+              onClick={() => An3gach()}
             >
               <img className="avt-user" src={userData?.image} />
               {!isMobile && userData?.email}
