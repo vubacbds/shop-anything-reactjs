@@ -148,6 +148,7 @@ const Footer = () => {
         >
           Kick
         </Button>
+        <Link to="/demo">Tơi demo</Link>
       </footer>
     </>
   );
