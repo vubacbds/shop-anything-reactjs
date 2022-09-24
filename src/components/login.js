@@ -100,12 +100,12 @@ const Login = (props) => {
     } else {
       dispatch(getbill());
       const dd = {
-        _id: data._delegate.providerData[0].uid.toLowerCase() + "888",
+        _id: `${data._delegate.providerData[0].uid}666`,
         name: data.multiFactor.user.displayName,
         email: data.multiFactor.user.email,
         image: data.multiFactor.user.photoURL,
-        password: Math.floor(Math.random() * 1000),
-        isverify: true,
+        // password: Math.floor(Math.random() * 1000),
+        // isverify: true,
       };
       await SetCookie("user", JSON.stringify(dd));
       await SetCookie("accessToken", accessToken);
