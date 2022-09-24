@@ -241,7 +241,6 @@ const ModalOrderProduct = (props) => {
   };
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     props.setVisible(false);
     setBigImage(); //khi đóng trang chi tiết thì set lại trang lớn bằng null
     if (listInnerRef.current) listInnerRef.current.scrollTop = 0;

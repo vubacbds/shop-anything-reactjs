@@ -155,11 +155,6 @@ const Account = () => {
   //Cài đặt địa chỉ default
   const [isAddressDefault, setIsAddressDefault] = useState(true);
 
-  //Khi giao diện tài khoản load lên mới gọi địa chỉ
-  useEffect(() => {
-    dispatch(getaddress());
-  }, []);
-
   //Set loading sửa ảnh
   const [submitting, setSubmitting] = useState(false);
 
@@ -316,7 +311,10 @@ const Account = () => {
                 <div>
                   <Popconfirm
                     title="Bạn có muốn thay đổi địa chỉ không?"
-                    onConfirm={() => setIsAddressDefault(false)}
+                    onConfirm={() => {
+                      setIsAddressDefault(false);
+                      dispatch(getaddress()); //Khi nhấn vào địa chi mới lấy dữ liệu
+                    }}
                   >
                     <Form.Item label="Địa chỉ" name="address">
                       <Input.TextArea style={{ height: 94 }} disabled />

@@ -116,11 +116,6 @@ const ProductOrder = ({
   //Cài đặt địa chỉ default
   const [isAddressDefault, setIsAddressDefault] = useState(true);
 
-  //Khi form đặt hàng load lên mới gọi địa chỉ
-  useEffect(() => {
-    dispatch(getaddress());
-  }, []);
-
   return (
     <div id="cuon">
       <Row>
@@ -164,7 +159,7 @@ const ProductOrder = ({
                 <div className="carousel-inner">
                   <div className="carousel-item active" key="0">
                     <img
-                      src={dataProductOrder.images[0]}
+                      src={dataProductOrder?.images[0]}
                       alt="First slide"
                       style={{
                         height: 260,
@@ -423,7 +418,10 @@ const ProductOrder = ({
                 <div>
                   <Popconfirm
                     title="Bạn có muốn thay đổi địa chỉ không?"
-                    onConfirm={() => setIsAddressDefault(false)}
+                    onConfirm={() => {
+                      setIsAddressDefault(false);
+                      dispatch(getaddress()); //Khi nhấn vào địa chi mới lấy dữ liệu
+                    }}
                   >
                     <Form.Item
                       label="Địa chỉ"
