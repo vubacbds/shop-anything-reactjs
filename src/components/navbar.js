@@ -243,7 +243,6 @@ const Navbar = () => {
               role="button"
               data-toggle="dropdown"
               aria-expanded="false"
-              onClick={() => An3gach()}
             >
               <img className="avt-user" src={userData?.image} />
               {!isMobile && userData?.email}

@@ -145,7 +145,7 @@ const Editor = ({
               listType="picture-card"
               onPreview={handlePreview}
               onChange={handleChangeUpload}
-              accept=".jpg, .png"
+              accept=".jpg, .png, .jpeg"
               // multiple={true}
               style={{ width: "20%" }}
               beforeUpload={() => {

@@ -384,7 +384,7 @@ const ProductAdd = (props) => {
               fileList={fileList}
               onPreview={handlePreview}
               onChange={handleChange}
-              accept=".jpg, .png"
+              accept=".jpg, .png, .jpeg"
               multiple={true}
               beforeUpload={() => {
                 return false;
