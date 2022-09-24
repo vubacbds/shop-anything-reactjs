@@ -98,9 +98,9 @@ const Login = (props) => {
         });
     } else {
       // dispatch(getbill());
-      SetCookie("user", JSON.stringify(data));
+      // SetCookie("user", JSON.stringify(data));
       // SetCookie("accessToken", accessToken);
-      // dispatch(get_user_one(data._id));
+      dispatch(get_user_one(data._id));
       alert("Login success");
     }
 
