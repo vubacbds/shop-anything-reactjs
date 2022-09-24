@@ -60,8 +60,7 @@ const ProductOrder = ({
 
   const onFinish = (values) => {
     //Xử lý khi đặt hàng
-    // const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : dataUserRedux;
-    const userData = dataUserRedux;
+    const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
     if (!isAddressDefault) {
       values.address = `${values.numhome}, ${values.ward}, ${values.district}, ${values.province} `;
     }
@@ -99,6 +98,7 @@ const ProductOrder = ({
   useEffect(() => {
     form.resetFields();
     setIsAddressDefault(true);
+    BillAddFail(`User là - ${GetCookie("user")}`);
   }, [dataUserRedux?._id, dataProductOrder._id]);
 
   //Sử dụng CostumHook kiểm tra kích thước màn hình để hiển thị cho đúng reponsive
