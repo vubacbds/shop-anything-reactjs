@@ -12,7 +12,7 @@ const initialState = {
 export const billReducer = (state = initialState, action) => {
   switch (action.type) {
     case "GET_BILL":
-      const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
+      const userData = JSON.parse(GetCookie("user")) ?? "";
       if (userData?.isadmin) {
         const databill = action.payload.filter((item) => {
           return item.status === 0;
