@@ -80,7 +80,7 @@ const Login = (props) => {
   const dataUserRedux = useSelector((state) => state.user.data);
 
   //Hàm kiểm tra xem tài khoản đăng nhập bằng gmail có tồn tại trong DB chưa, nếu chưa thì đăng ký luôn
-  const checkEmail = async (user, accessToken) => {
+  const checkEmail = async (data, accessToken) => {
     const isUser = dataUserRedux.find((item) => {
       return item.email === data.email;
     });
@@ -100,18 +100,18 @@ const Login = (props) => {
     } else {
       dispatch(getbill());
       const dd = {
-        _id: user._delegate.providerData[0].uid.toLowerCase() + "888",
-        name: user.multiFactor.user.displayName,
-        email: user.multiFactor.user.email,
-        image: user.multiFactor.user.photoURL,
+        _id: data._delegate.providerData[0].uid.toLowerCase() + "888",
+        name: data.multiFactor.user.displayName,
+        email: data.multiFactor.user.email,
+        image: data.multiFactor.user.photoURL,
         password: Math.floor(Math.random() * 1000),
         isverify: true,
       };
-      await SetCookie("user", dd);
+      await SetCookie("user", JSON.stringify(dd));
       await SetCookie("accessToken", accessToken);
-      dispatch(get_user_one(data._id));
+      dispatch(get_user_one(dd._id));
       alert("Đăng nhập thành công nhé bạn!!");
-      loginFail(`Thành công !! - ${JSON.stringify(data)} `);
+      loginFail(`Thành công !! - ${JSON.stringify(dd)} `);
     }
 
     //Khi thông tin gmail thay đổi thì dùng cái ẩn này/ tuy nhiên dùng lại ko hiện nút login gmail
