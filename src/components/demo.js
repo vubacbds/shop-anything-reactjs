@@ -1,8 +1,10 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { GetCookie } from "../util/cookie";
 
 const Demo = () => {
-  const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
+  // const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
+  const userData = useSelector((state) => state.user.dataOne);
   useEffect(() => {
     alert(`Email la: ${userData?.email?.toString() || "không có"}`);
   }, []);
