@@ -26,9 +26,6 @@ const Bill = () => {
   //Lấy ra số lượng hóa đơn
   const dataBill = useSelector((state) => state.bill);
 
-  useEffect(() => {
-    alert(`đã chạy + ${GetCookie("user").toString() || "ko co"}`);
-  }, []);
   return (
     <>
       <Tabs
