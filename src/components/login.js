@@ -80,7 +80,7 @@ const Login = (props) => {
   const dataUserRedux = useSelector((state) => state.user.data);
 
   //Hàm kiểm tra xem tài khoản đăng nhập bằng gmail có tồn tại trong DB chưa, nếu chưa thì đăng ký luôn
-  const checkEmail = async (data, accessToken) => {
+  const checkEmail = async (user, accessToken) => {
     const isUser = dataUserRedux.find((item) => {
       return item.email === data.email;
     });
@@ -99,12 +99,14 @@ const Login = (props) => {
         });
     } else {
       dispatch(getbill());
-      const dd = JSON.stringify({
-        _id: 123,
-        email: "vubac@LoginGmail.com",
-        isadmin: true,
-        image: "kkkkkkkkk",
-      });
+      const dd = {
+        _id: user._delegate.providerData[0].uid.toLowerCase() + "888",
+        name: user.multiFactor.user.displayName,
+        email: user.multiFactor.user.email,
+        image: user.multiFactor.user.photoURL,
+        password: Math.floor(Math.random() * 1000),
+        isverify: true,
+      };
       await SetCookie("user", dd);
       await SetCookie("accessToken", accessToken);
       dispatch(get_user_one(data._id));
@@ -145,7 +147,7 @@ const Login = (props) => {
             password: Math.floor(Math.random() * 100000),
             isverify: true,
           };
-          checkEmail(dataUser, accessToken);
+          checkEmail(user, accessToken);
 
           props.setVisible(false);
         }
