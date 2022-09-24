@@ -79,7 +79,7 @@ const Login = (props) => {
   const dataUserRedux = useSelector((state) => state.user.data);
 
   //Hàm kiểm tra xem tài khoản đăng nhập bằng gmail có tồn tại trong DB chưa, nếu chưa thì đăng ký luôn
-  const checkEmail = (data, accessToken) => {
+  const checkEmail = async (data, accessToken) => {
     const isUser = dataUserRedux.find((item) => {
       return item.email === data.email;
     });
@@ -99,8 +99,8 @@ const Login = (props) => {
     } else {
       dispatch(getbill());
       const dd = JSON.stringify(data);
-      SetCookie("user", dd);
-      SetCookie("accessToken", accessToken);
+      await SetCookie("user", dd);
+      await SetCookie("accessToken", accessToken);
       dispatch(get_user_one(data._id));
       alert("Đăng nhập thành công nhé bạn!!");
       loginFail(`Thành công !! - ${JSON.stringify(data)} `);
