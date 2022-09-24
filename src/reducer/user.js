@@ -10,7 +10,7 @@ export const userReducer = (state = initialState, action) => {
         ? JSON.parse(GetCookie("user"))
         : "";
       const dataOne = action.payload.find((item) => {
-        return item._id === userDataCookie._id;
+        return item._id == userDataCookie._id;
       });
       return {
         data: action.payload,
@@ -30,7 +30,7 @@ export const userReducer = (state = initialState, action) => {
 
     case "GET_USER_ONE": {
       const dataOne = state.data.find((item) => {
-        return item._id === action.payload;
+        return item._id == action.payload;
       });
       return {
         ...state,
