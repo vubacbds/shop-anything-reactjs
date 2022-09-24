@@ -60,7 +60,9 @@ const ProductOrder = ({
 
   const onFinish = (values) => {
     //Xử lý khi đặt hàng
-    const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
+    const userData = GetCookie("user")
+      ? JSON.parse(GetCookie("user"))
+      : dataUserRedux;
     if (!isAddressDefault) {
       values.address = `${values.numhome}, ${values.ward}, ${values.district}, ${values.province} `;
     }
