@@ -73,7 +73,7 @@ const Login = (props) => {
   };
 
   //Lấy thông tin user Cookie
-  const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
+  // const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
 
   //Lấy tất cả user ở Redux
   const dataUserRedux = useSelector((state) => state.user.data);
@@ -101,7 +101,7 @@ const Login = (props) => {
       SetCookie("user", JSON.stringify(data));
       SetCookie("accessToken", accessToken);
       dispatch(get_user_one(data._id));
-      alert("Login success nhé !!");
+      alert("Login success nhé bạn !!");
       console.log("Login success !!", data.email, JSON.stringify(data));
     }
 
@@ -122,11 +122,13 @@ const Login = (props) => {
   };
 
   //Đăng nhập gmail
+  const [isUserLoginMail, setIsUserLoginMail] = useState();
   useEffect(() => {
     const unregisterAuthObserver = firebase
       .auth()
       .onAuthStateChanged(async (user) => {
         if (user) {
+          setIsUserLoginMail(user);
           const accessToken = await user.getIdToken();
           const dataUser = {
             _id: user._delegate.providerData[0].uid.toLowerCase() + "888",
@@ -222,7 +224,7 @@ const Login = (props) => {
           </a>
         </Form.Item>
       </Form>
-      {!userData && (
+      {!isUserLoginMail && (
         <StyledFirebaseAuth
           uiConfig={uiConfig}
           firebaseAuth={firebase.auth()}
