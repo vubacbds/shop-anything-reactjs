@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { GetCookie } from "../util/cookie";
 
 const Demo = () => {
   const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
