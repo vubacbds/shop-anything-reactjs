@@ -23,13 +23,11 @@ import { CopyOutlined } from "@ant-design/icons";
 import Evaluation from "./evaluation";
 import Address from "./address";
 
-const ProductOrder = ({
-  dataProductOrder,
-  bigImage,
-  setBigImage,
-  listInnerRef,
-}) => {
+const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
   const dispatch = useDispatch();
+
+  //Lấy 1 sản phẩm từ redux
+  const dataProductOrder = useSelector((state) => state.product.dataproductid);
 
   //Lấy thông tin user đang đăng nhập
   const dataUserRedux = useSelector((state) => state.user.dataOne);

@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   DisconnectOutlined,
   EditOutlined,
@@ -17,18 +17,17 @@ import An3gach from "../util/an3gach";
 import ProductRandom from "./productrandom";
 import { UseViewport } from "../util/customhook";
 import { DataContext } from "../util/datacontext";
+import { getproductid } from "../action/product";
 
 const { Meta } = Card;
 
 const Product = (props) => {
+  const dispatch = useDispatch();
   //Lấy data sản phẩm từ redux
   const product = useSelector((state) => state.product);
 
   //Lấy các thông tin của web
   const dataOther = useSelector((state) => state.other);
-
-  //Lấy 1 product khi đặt hàng
-  const [dataProductOrder, setDataProductOrder] = useState();
 
   //Hiện model đặt hàng
   // const [visibleOrderProduct, setVisibleOrderProduct] = useState(false);
@@ -91,10 +90,10 @@ const Product = (props) => {
                       <a
                         style={{ textAlign: "left" }}
                         onClick={(e) => {
-                          e.preventDefault();
-                          setDataProductOrder(item);
                           setVisibleOrderProduct(true);
-                          An3gach();
+                          dispatch(getproductid(item._id));
+                          e.preventDefault();
+                          if (!isMobile) An3gach();
                         }}
                       >
                         <Row style={{}} className="product-hover">
@@ -219,7 +218,6 @@ const Product = (props) => {
         <ModalOrderProduct
           visible={visibleOrderProduct}
           setVisible={setVisibleOrderProduct}
-          dataProductOrder={dataProductOrder}
         />
         {/* <Link to="/products/631b1a98ba348d830455df28">Chi tiet</Link> */}
       </>
@@ -252,10 +250,13 @@ const ModalOrderProduct = (props) => {
   //Set ảnh lớn khi click vào ảnh nhỏ trong trang chi tiết (productOrder) truyền bigImage cho comonent
   const [bigImage, setBigImage] = useState();
 
+  //Lấy thông tin sản phẩm chi tiết
+  const dataProductOrder = useSelector((state) => state.product.dataproductid);
+
   return (
     <>
       <Modal
-        title={props.dataProductOrder?.title}
+        title={dataProductOrder?.title}
         visible={props.visible}
         onOk={handleOk}
         confirmLoading={confirmLoading}
@@ -265,7 +266,6 @@ const ModalOrderProduct = (props) => {
         // zIndex={2000} //Để model Login đè lên
       >
         <ProductOrder
-          dataProductOrder={props.dataProductOrder}
           bigImage={bigImage}
           setBigImage={setBigImage}
           listInnerRef={listInnerRef}
