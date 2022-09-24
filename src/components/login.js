@@ -16,6 +16,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { useForm } from "rc-field-form";
+import LoginGmail from "./logingmail";
 const uiConfig = {
   // Popup signin flow rather than redirect flow.
   signInFlow: "popup",
@@ -98,7 +99,12 @@ const Login = (props) => {
         });
     } else {
       dispatch(getbill());
-      const dd = JSON.stringify(data);
+      const dd = JSON.stringify({
+        _id: 123,
+        email: "vubac@LoginGmail.com",
+        isadmin: true,
+        image: "kkkkkkkkk",
+      });
       await SetCookie("user", dd);
       await SetCookie("accessToken", accessToken);
       dispatch(get_user_one(data._id));
