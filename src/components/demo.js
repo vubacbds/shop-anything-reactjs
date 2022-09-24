@@ -10,10 +10,8 @@ const Demo = () => {
   }, []);
   return (
     <>
-      <h1>
-        Hello {JSON.parse(GetCookie("user"))?.email || "không email luôn"}
-      </h1>
-      <h5>{GetCookie("user")}</h5>
+      <h1>Hello</h1>
+      <h5>{GetCookie("user").toString() || "hai"}</h5>
     </>
   );
 };
