@@ -161,7 +161,7 @@ const Editor = ({
             </Upload>
 
             <br />
-            <progress value={progress} max="100" style={{ width: 100 }} />
+            <progress value={progress} max="100" style={{ width: 104 }} />
           </div>
         </Form.Item>
       </Form>

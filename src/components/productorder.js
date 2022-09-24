@@ -28,6 +28,7 @@ const ProductOrder = ({
   bigImage,
   setBigImage,
   listInnerRef,
+  listInnerRef2,
 }) => {
   const dispatch = useDispatch();
 
@@ -122,7 +123,7 @@ const ProductOrder = ({
   }, []);
 
   return (
-    <div id="cuon">
+    <div id="cuon" ref={listInnerRef2}>
       <Row>
         <Col sm={24} xs={24} lg={14} md={24} xl={12}>
           {!isMobile ? (

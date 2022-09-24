@@ -231,6 +231,7 @@ const Product = (props) => {
 const ModalOrderProduct = (props) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const listInnerRef = useRef(); //Cái này là truyền tời component evaluation.js luôn, mục đích khi đóng modal set lại scroll ko thì nó tự load data
+  const listInnerRef2 = useRef();
 
   const handleOk = () => {
     setConfirmLoading(true);
@@ -245,6 +246,7 @@ const ModalOrderProduct = (props) => {
     props.setVisible(false);
     setBigImage(); //khi đóng trang chi tiết thì set lại trang lớn bằng null
     if (listInnerRef.current) listInnerRef.current.scrollTop = 0;
+    if (listInnerRef2.current) listInnerRef2.current.scrollTop = 0;
   };
 
   //Set ảnh lớn khi click vào ảnh nhỏ trong trang chi tiết (productOrder) truyền bigImage cho comonent
@@ -267,6 +269,7 @@ const ModalOrderProduct = (props) => {
           bigImage={bigImage}
           setBigImage={setBigImage}
           listInnerRef={listInnerRef}
+          listInnerRef2={listInnerRef2}
         />
       </Modal>
     </>

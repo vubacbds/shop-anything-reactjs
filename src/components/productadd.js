@@ -86,7 +86,10 @@ const ProductAdd = (props) => {
     }).length;
 
     if (fileListLength == 1 || fileListLength == 0) setFileList(e.fileList);
-    else alert("Lỗi trùng ảnh");
+    else {
+      alert("Lỗi trùng ảnh");
+      e.preventDefault();
+    }
   };
 
   const handlePreview = async (file) => {
@@ -404,7 +407,7 @@ const ProductAdd = (props) => {
             </Modal>
             {/* <button onClick={handleUpload}>Upload</button> */}
             <br />
-            <progress value={progress} max="100" />
+            <progress value={progress} max="100" style={{ width: 104 }} />
             <br />
           </div>
         </Form.Item>

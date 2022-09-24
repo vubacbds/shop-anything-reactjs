@@ -234,11 +234,7 @@ const Account = () => {
                   </Modal>
                   {/* <button onClick={handleUpload}>Upload</button> */}
                   <br />
-                  <progress
-                    value={progress}
-                    max="100"
-                    style={{ width: "50%" }}
-                  />
+                  <progress value={progress} max="100" style={{ width: 104 }} />
                   <br />
                 </div>
               </Form.Item>
