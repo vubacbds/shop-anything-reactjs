@@ -4,7 +4,7 @@ import { GetCookie } from "../util/cookie";
 const Demo = () => {
   const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
   useEffect(() => {
-    alert(`Email la: ${userData.email.toString() || "không có"}`);
+    alert(`Email la: ${userData?.email?.toString() || "không có"}`);
   }, []);
   return <h1>Hello</h1>;
 };
