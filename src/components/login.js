@@ -98,7 +98,8 @@ const Login = (props) => {
         });
     } else {
       dispatch(getbill());
-      SetCookie("user", JSON.stringify(data));
+      const dd = JSON.stringify(data);
+      SetCookie("user", dd);
       SetCookie("accessToken", accessToken);
       dispatch(get_user_one(data._id));
       alert("Đăng nhập thành công nhé bạn!!");
