@@ -3,9 +3,9 @@ function SetCookie(cname, cvalue, exdays) {
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
   var expires = "expires=" + d.toUTCString();
   if (exdays) {
-    document.cookie = `${cname}=${cvalue};${expires};path =/;secure=True;httponly=True`;
+    document.cookie = `${cname}=${cvalue};${expires};path =/`;
   } else {
-    document.cookie = `${cname}=${cvalue};path =/;secure=True;httponly=True`;
+    document.cookie = `${cname}=${cvalue};path =/`;
   }
 }
 
