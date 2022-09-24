@@ -242,7 +242,7 @@ const ModalOrderProduct = (props) => {
 
   const handleCancel = () => {
     props.setVisible(false);
-    setBigImage(); //khi đóng trang chi tiết thì set lại trang lớn bằng null
+    if (!isMobile) setBigImage(); //khi đóng trang chi tiết thì set lại trang lớn bằng null
     if (listInnerRef.current) listInnerRef.current.scrollTop = 0;
   };
 
