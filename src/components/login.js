@@ -74,7 +74,7 @@ const Login = (props) => {
   };
 
   //Lấy thông tin user Cookie
-  // const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
+  const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
 
   //Lấy tất cả user ở Redux
   const dataUserRedux = useSelector((state) => state.user.data);
@@ -92,7 +92,6 @@ const Login = (props) => {
           SetCookie("accessToken", accessToken);
           dispatch(getbill());
           setTimeout("location.reload(true)", 12);
-          alert("Signup success");
         })
         .catch(function (error) {
           alert("Error on Authentication", error);
@@ -107,8 +106,6 @@ const Login = (props) => {
       await SetCookie("user", JSON.stringify(dataLogin));
       await SetCookie("accessToken", accessToken);
       dispatch(get_user_one(dataLogin._id));
-      alert("Đăng nhập thành công nhé bạn!!");
-      loginFail(`Thành công !! - ${JSON.stringify(dataLogin)} `);
     }
 
     //Khi thông tin gmail thay đổi thì dùng cái ẩn này/ tuy nhiên dùng lại ko hiện nút login gmail
@@ -128,13 +125,11 @@ const Login = (props) => {
   };
 
   //Đăng nhập gmail
-  const [isUserLoginMail, setIsUserLoginMail] = useState();
   useEffect(() => {
     const unregisterAuthObserver = firebase
       .auth()
       .onAuthStateChanged(async (user) => {
         if (user) {
-          setIsUserLoginMail(user);
           const accessToken = await user.getIdToken();
           const dataUser = {
             _id: `${user._delegate.providerData[0].uid}888`,
@@ -229,7 +224,7 @@ const Login = (props) => {
           </a>
         </Form.Item>
       </Form>
-      {!isUserLoginMail && (
+      {!userData && (
         <StyledFirebaseAuth
           uiConfig={uiConfig}
           firebaseAuth={firebase.auth()}

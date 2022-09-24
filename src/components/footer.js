@@ -9,11 +9,10 @@ import {
   TwitterOutlined,
   YoutubeOutlined,
 } from "@ant-design/icons";
-import { Button, Col, Row } from "antd";
+import { Col, Row } from "antd";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import An3gach from "../util/an3gach";
-import { GetCookie } from "../util/cookie";
 
 const Footer = () => {
   //Lấy các thông tin của web
@@ -141,14 +140,6 @@ const Footer = () => {
             </Col>
           </Row>
         </div>
-        <Button
-          onClick={() =>
-            alert(`đã chạy + ${GetCookie("user").toString() || "ko co"}`)
-          }
-        >
-          Kick
-        </Button>
-        <Link to="/demo">Tơi demo</Link>
       </footer>
     </>
   );
