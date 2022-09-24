@@ -101,7 +101,7 @@ const Login = (props) => {
       SetCookie("user", JSON.stringify(data));
       SetCookie("accessToken", accessToken);
       dispatch(get_user_one(data._id));
-      alert("Login success");
+      alert("Login success !!", data.email, accessToken);
     }
 
     //Khi thông tin gmail thay đổi thì dùng cái ẩn này/ tuy nhiên dùng lại ko hiện nút login gmail
