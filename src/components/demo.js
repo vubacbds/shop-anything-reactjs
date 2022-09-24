@@ -8,7 +8,14 @@ const Demo = () => {
   useEffect(() => {
     alert(`Email la: ${userData?.email?.toString() || "không có"}`);
   }, []);
-  return <h1>Hello {GetCookie("user").email.toString()}</h1>;
+  return (
+    <>
+      <h1>
+        Hello {JSON.parse(GetCookie("user"))?.email || "không email luôn"}
+      </h1>
+      <h5>{GetCookie("user")}</h5>
+    </>
+  );
 };
 
 export default Demo;
