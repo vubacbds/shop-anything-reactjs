@@ -231,6 +231,9 @@ const Product = (props) => {
 const ModalOrderProduct = (props) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const listInnerRef = useRef(); //Cái này là truyền tời component evaluation.js luôn, mục đích khi đóng modal set lại scroll ko thì nó tự load data
+  //Sử dụng CostumHook kiểm tra kích thước màn hình để hiển thị cho đúng reponsive
+  const viewPort = UseViewport();
+  const isMobile = viewPort.width <= 976;
 
   const handleOk = () => {
     setConfirmLoading(true);
