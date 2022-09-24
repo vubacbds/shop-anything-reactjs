@@ -86,20 +86,20 @@ const Login = (props) => {
     if (!isUser) {
       UserAPI.signup(data)
         .then(function (response) {
-          // dispatch(add_user(response));
-          // SetCookie("user", JSON.stringify(response));
-          // SetCookie("accessToken", accessToken);
-          // dispatch(getbill());
-          // setTimeout("location.reload(true)", 12);
+          dispatch(add_user(response));
+          SetCookie("user", JSON.stringify(response));
+          SetCookie("accessToken", accessToken);
+          dispatch(getbill());
+          setTimeout("location.reload(true)", 12);
           alert("Signup success");
         })
         .catch(function (error) {
           alert("Error on Authentication", error);
         });
     } else {
-      // dispatch(getbill());
-      // SetCookie("user", JSON.stringify(data));
-      // SetCookie("accessToken", accessToken);
+      dispatch(getbill());
+      SetCookie("user", JSON.stringify(data));
+      SetCookie("accessToken", accessToken);
       dispatch(get_user_one(data._id));
       alert("Login success");
     }
