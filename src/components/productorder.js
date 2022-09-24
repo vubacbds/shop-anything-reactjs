@@ -167,7 +167,7 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
                       }}
                     />
                   </div>
-                  {dataProductOrder.images.map((item, index) => {
+                  {dataProductOrder?.images?.map((item, index) => {
                     return (
                       index > 0 && (
                         <div key={index} className="carousel-item">
@@ -208,7 +208,7 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
                 </a>
               </div>
 
-              {dataProductOrder.images.map((item, index) => {
+              {dataProductOrder?.images?.map((item, index) => {
                 return (
                   <span key={index}>
                     <a
@@ -237,9 +237,9 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
                 color: "#a4b4b4",
               }}
             >
-              <span>Còn lại: {dataProductOrder.amount}</span> &ensp; | &ensp;
+              <span>Còn lại: {dataProductOrder?.amount}</span> &ensp; | &ensp;
               <span>
-                {moment(dataProductOrder.createdAt).format("DD/MM/yyyy")}{" "}
+                {moment(dataProductOrder?.createdAt).format("DD/MM/yyyy")}{" "}
               </span>
               &ensp;
               <span>
@@ -249,7 +249,7 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
                     cb.writeText(
                       `${
                         process.env.REACT_APP_DOMAIN || "http://localhost:3000"
-                      }/products/${dataProductOrder._id}`
+                      }/products/${dataProductOrder?._id}`
                     ).then(() => setCopy("Đã copy"));
                   }}
                   onMouseOut={() => {
@@ -266,12 +266,12 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
               className="card-text"
               style={{ color: "red", fontWeight: "bold" }}
             >
-              {dataProductOrder.price.toLocaleString("vi-VN", {
+              {dataProductOrder?.price.toLocaleString("vi-VN", {
                 style: "currency",
                 currency: "VND",
               })}
             </div>
-            <p>*Mô tả: {dataProductOrder.description} </p>
+            <p>*Mô tả: {dataProductOrder?.description} </p>
           </div>
         </Col>
         <Col sm={24} xs={24} lg={10} md={24} xl={12}>
@@ -331,7 +331,7 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
                 />
               </Form.Item>
 
-              {dataProductOrder.sizes.length > 0 && (
+              {dataProductOrder?.sizes?.length > 0 && (
                 <Form.Item
                   label="Size "
                   name="size"
@@ -343,7 +343,7 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
                   ]}
                 >
                   <Select className="input-oder">
-                    {dataProductOrder.sizes.map((item, index) => {
+                    {dataProductOrder?.sizes?.map((item, index) => {
                       return (
                         <Select.Option
                           value={item}
@@ -358,7 +358,7 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
                 </Form.Item>
               )}
 
-              {dataProductOrder.colors.length > 0 && (
+              {dataProductOrder?.colors?.length > 0 && (
                 <Form.Item
                   label="Màu sắc "
                   name="color"
@@ -370,7 +370,7 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
                   ]}
                 >
                   <Select className="input-oder">
-                    {dataProductOrder.colors.map((item) => {
+                    {dataProductOrder?.colors?.map((item) => {
                       return (
                         <Select.Option
                           value={item}
@@ -472,7 +472,7 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
         </Col>
       </Row>
       <Evaluation
-        product_id={dataProductOrder._id}
+        product_id={dataProductOrder?._id}
         listInnerRef={listInnerRef}
       />
     </div>
