@@ -1,5 +1,4 @@
 import {
-  Alert,
   Button,
   Col,
   Form,
@@ -99,8 +98,6 @@ const ProductOrder = ({
   useEffect(() => {
     form.resetFields();
     setIsAddressDefault(true);
-    alert(`đã chạy + ${GetCookie("user").toString() || "ko co"}`);
-    BillAddFail(`User là - ${GetCookie("user") || "ko lay dc"}`);
   }, [dataUserRedux?._id, dataProductOrder._id]);
 
   //Sử dụng CostumHook kiểm tra kích thước màn hình để hiển thị cho đúng reponsive

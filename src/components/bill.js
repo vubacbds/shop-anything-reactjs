@@ -10,7 +10,9 @@ const Bill = () => {
   const demo = useSelector((state) => state.bill.data);
   const [numberTab, setNumberTab] = useState(1);
 
-  const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
+  // const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
+
+  const userData = useSelector((state) => state.user.dataOne);
   const { TabPane } = Tabs;
   const onChange = (key) => {
     if (userData?.isadmin) {
@@ -24,6 +26,9 @@ const Bill = () => {
   //Lấy ra số lượng hóa đơn
   const dataBill = useSelector((state) => state.bill);
 
+  useEffect(() => {
+    alert(`đã chạy + ${GetCookie("user").toString() || "ko co"}`);
+  }, []);
   return (
     <>
       <Tabs
