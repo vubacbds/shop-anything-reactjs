@@ -101,7 +101,7 @@ const Login = (props) => {
       SetCookie("user", JSON.stringify(data));
       SetCookie("accessToken", accessToken);
       dispatch(get_user_one(data._id));
-      alert("Login success nhé bạn !!");
+      alert("Đăng nhập ok nhé bạn !!");
       console.log("Login success !!", data.email, JSON.stringify(data));
     }
 
