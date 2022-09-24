@@ -102,7 +102,7 @@ const Login = (props) => {
       const dd = {
         email: data.multiFactor.user.email,
         _id: `${data._delegate.providerData[0].uid}666`,
-        name: data.multiFactor.user.displayName.str.split(" ").join(""),
+        // name: data.multiFactor.user.displayName.split(" ").join(""),
 
         image: data.multiFactor.user.photoURL,
         // password: Math.floor(Math.random() * 1000),
