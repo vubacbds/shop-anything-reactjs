@@ -35,11 +35,13 @@ import { GetCookie, SetCookie } from "./util/cookie";
 import Demo from "./components/demo";
 import getsize from "./action/size";
 import getcolor from "./action/color";
+import getaddress from "./action/address";
 
 // Configure Firebase.
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
-import getaddress from "./action/address";
+import "core-js/stable";
+// import "cross-fetch/polyfill";
 
 const LazyTestLazy = React.lazy(() => import("./components/testlazy"));
 const Product = React.lazy(() => import("./components/product"));

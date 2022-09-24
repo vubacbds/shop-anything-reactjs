@@ -122,24 +122,25 @@ const Login = (props) => {
 
   //Đăng nhập gmail
   useEffect(() => {
-    // const unregisterAuthObserver = firebase
-    //   .auth()
-    //   .onAuthStateChanged(async (user) => {
-    //     if (user) {
-    //       const accessToken = await user.getIdToken();
-    //       const dataUser = {
-    //         _id: user._delegate.providerData[0].uid.toLowerCase() + "888",
-    //         name: user.multiFactor.user.displayName,
-    //         email: user.multiFactor.user.email,
-    //         image: user.multiFactor.user.photoURL,
-    //         password: Math.floor(Math.random() * 100000),
-    //         isverify: true,
-    //       };
-    //       checkEmail(dataUser, accessToken);
-    //       props.setVisible(false);
-    //     }
-    //   });
-    // return () => unregisterAuthObserver();
+    const unregisterAuthObserver = firebase
+      .auth()
+      .onAuthStateChanged(async (user) => {
+        if (user) {
+          const accessToken = await user.getIdToken();
+          const dataUser = {
+            _id: user._delegate.providerData[0].uid.toLowerCase() + "888",
+            name: user.multiFactor.user.displayName,
+            email: user.multiFactor.user.email,
+            image: user.multiFactor.user.photoURL,
+            password: Math.floor(Math.random() * 100000),
+            isverify: true,
+          };
+          checkEmail(dataUser, accessToken);
+
+          props.setVisible(false);
+        }
+      });
+    return () => unregisterAuthObserver();
   }, []);
 
   return (
