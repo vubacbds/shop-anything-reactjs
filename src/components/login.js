@@ -100,12 +100,9 @@ const Login = (props) => {
     } else {
       dispatch(getbill());
       const dataLogin = {
-        email: data.multiFactor.user.email,
-        _id: `${data._delegate.providerData[0].uid}666`,
-        image: data.multiFactor.user.photoURL,
-        // name: data.multiFactor.user.displayName.split(" ").join(""),
-        // password: Math.floor(Math.random() * 1000),
-        // isverify: true,
+        email: data.email,
+        _id: data._id,
+        image: data.image,
       };
       await SetCookie("user", JSON.stringify(dataLogin));
       await SetCookie("accessToken", accessToken);
@@ -139,15 +136,14 @@ const Login = (props) => {
         if (user) {
           setIsUserLoginMail(user);
           const accessToken = await user.getIdToken();
-          // const dataUser = {
-          //   _id: user._delegate.providerData[0].uid.toLowerCase() + "888",
-          //   name: user.multiFactor.user.displayName,
-          //   email: user.multiFactor.user.email,
-          //   image: user.multiFactor.user.photoURL,
-          //   password: Math.floor(Math.random() * 100000),
-          //   isverify: true,
-          // };
-          checkEmail(user, accessToken);
+          const dataUser = {
+            _id: `${user._delegate.providerData[0].uid}888`,
+            email: user.multiFactor.user.email,
+            image: user.multiFactor.user.photoURL,
+            password: Math.floor(Math.random() * 1000),
+            isverify: true,
+          };
+          checkEmail(dataUser, accessToken);
 
           props.setVisible(false);
         }
