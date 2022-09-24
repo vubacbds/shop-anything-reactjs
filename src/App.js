@@ -40,8 +40,6 @@ import getaddress from "./action/address";
 // Configure Firebase.
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
-import "core-js/stable";
-// import "cross-fetch/polyfill";
 
 const LazyTestLazy = React.lazy(() => import("./components/testlazy"));
 const Product = React.lazy(() => import("./components/product"));

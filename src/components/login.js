@@ -94,14 +94,14 @@ const Login = (props) => {
           setTimeout("location.reload(true)", 12);
         })
         .catch(function (error) {
-          console.log("Error on Authentication", error);
+          alert("Error on Authentication", error);
         });
     } else {
-      dispatch(getbill());
-      SetCookie("user", JSON.stringify(data));
-      SetCookie("accessToken", accessToken);
-      dispatch(get_user_one(data._id));
-      console.log("Login success");
+      // dispatch(getbill());
+      // SetCookie("user", JSON.stringify(data));
+      // SetCookie("accessToken", accessToken);
+      // dispatch(get_user_one(data._id));
+      alert("Login success");
     }
 
     //Khi thông tin gmail thay đổi thì dùng cái ẩn này/ tuy nhiên dùng lại ko hiện nút login gmail
