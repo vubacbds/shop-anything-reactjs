@@ -99,20 +99,19 @@ const Login = (props) => {
         });
     } else {
       dispatch(getbill());
-      const dd = {
+      const dataLogin = {
         email: data.multiFactor.user.email,
         _id: `${data._delegate.providerData[0].uid}666`,
-        // name: data.multiFactor.user.displayName.split(" ").join(""),
-
         image: data.multiFactor.user.photoURL,
+        // name: data.multiFactor.user.displayName.split(" ").join(""),
         // password: Math.floor(Math.random() * 1000),
         // isverify: true,
       };
-      await SetCookie("user", JSON.stringify(dd));
+      await SetCookie("user", JSON.stringify(dataLogin));
       await SetCookie("accessToken", accessToken);
-      dispatch(get_user_one(dd._id));
+      dispatch(get_user_one(dataLogin._id));
       alert("Đăng nhập thành công nhé bạn!!");
-      loginFail(`Thành công !! - ${JSON.stringify(dd)} `);
+      loginFail(`Thành công !! - ${JSON.stringify(dataLogin)} `);
     }
 
     //Khi thông tin gmail thay đổi thì dùng cái ẩn này/ tuy nhiên dùng lại ko hiện nút login gmail
@@ -140,14 +139,14 @@ const Login = (props) => {
         if (user) {
           setIsUserLoginMail(user);
           const accessToken = await user.getIdToken();
-          const dataUser = {
-            _id: user._delegate.providerData[0].uid.toLowerCase() + "888",
-            name: user.multiFactor.user.displayName,
-            email: user.multiFactor.user.email,
-            image: user.multiFactor.user.photoURL,
-            password: Math.floor(Math.random() * 100000),
-            isverify: true,
-          };
+          // const dataUser = {
+          //   _id: user._delegate.providerData[0].uid.toLowerCase() + "888",
+          //   name: user.multiFactor.user.displayName,
+          //   email: user.multiFactor.user.email,
+          //   image: user.multiFactor.user.photoURL,
+          //   password: Math.floor(Math.random() * 100000),
+          //   isverify: true,
+          // };
           checkEmail(user, accessToken);
 
           props.setVisible(false);

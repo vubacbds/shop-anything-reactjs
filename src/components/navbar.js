@@ -26,8 +26,8 @@ const Navbar = () => {
   const [loadPage, setLoadPage] = useState(false);
 
   //Lấy dữ liệu user khi login từ cookie
-  // const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
-  const userData = useSelector((state) => state.user.dataOne) ?? "";
+  const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
+  // const userData = useSelector((state) => state.user.dataOne) ?? "";
   // console.log(userData);
 
   //Hiển thị Modal login và add product và tài khoản
