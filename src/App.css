@@ -209,4 +209,16 @@ footer {
 }
 
 
+.scroll-modal-order {
+  max-height: 396px;  
+
+  overflow: auto;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+}
+
+.scroll-modal-order::-webkit-scrollbar { 
+  width: 0 !important;
+  display: none; 
+}
 
