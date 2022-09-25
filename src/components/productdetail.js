@@ -190,6 +190,8 @@ const ProductDetail = () => {
                               src={item}
                               style={{
                                 height: 260,
+                                width: "auto",
+                                maxWidth: "100%",
                               }}
                             />
                           </div>

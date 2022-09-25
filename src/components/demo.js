@@ -1,58 +1,98 @@
-import Carousel from "react-bootstrap/Carousel";
-import { Button } from "react-bootstrap";
+import { PlusOutlined } from "@ant-design/icons";
+import { Modal, Upload } from "antd";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useState } from "react";
 
-function Demo() {
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = () => resolve(reader.result);
+
+    reader.onerror = (error) => reject(error);
+  });
+
+const Demo = () => {
   //Lấy data sản phẩm từ redux
   const product = useSelector((state) => state.product.data)[5];
+  console.log(product.images);
 
-  const [index, setIndex] = useState(0);
-  const handleSelect = (selectedIndex, e) => {
-    setIndex(selectedIndex);
-    console.log(selectedIndex);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [fileList, setFileList] = useState(() => {
+    const listImage = [];
+    product?.images?.forEach((item, index) => {
+      listImage.push({
+        uid: item,
+        name: `image_${item}`,
+        status: "done",
+        url: `${item}`,
+      });
+    });
+    return listImage;
+  });
+
+  const handleCancel = () => setPreviewOpen(false);
+
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
   };
+
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  );
   return (
     <>
-      {/* <Button>Ok</Button> */}
-
-      <Carousel
-        style={{ height: 300, width: 600 }}
-        slide={false}
-        onSelect={handleSelect}
-        activeIndex={index}
+      <Upload
+        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        listType="picture-card"
+        fileList={fileList}
+        onPreview={handlePreview}
+        onChange={handleChange}
+        beforeUpload={() => {
+          return false;
+        }}
       >
-        {product?.images?.map((item, index) => {
-          return (
-            <Carousel.Item key={index}>
-              <img
-                className="d-block w-100"
-                src={item}
-                alt="First slide"
-                style={{ height: 300, width: 600 }}
-              />
-              <Carousel.Caption>
-                <h3>First slide label</h3>
-                <p>
-                  Nulla vitae elit libero, a pharetra augue mollis interdum.
-                </p>
-              </Carousel.Caption>
-            </Carousel.Item>
-          );
-        })}
-      </Carousel>
-      {product?.images?.map((item, index) => {
-        return (
-          <span key={index}>
-            <a onClick={() => setIndex(index)}>
-              <img src={item} style={{ width: 80, height: 80, margin: 10 }} />
-            </a>
-          </span>
-        );
-      })}
+        {fileList?.length >= 8 ? null : uploadButton}
+      </Upload>
+      <Modal
+        open={previewOpen}
+        title={previewTitle}
+        footer={null}
+        onCancel={handleCancel}
+      >
+        <img
+          alt="example"
+          style={{
+            width: "100%",
+          }}
+          src={previewImage}
+        />
+      </Modal>
     </>
   );
-}
+};
 
 export default Demo;
 

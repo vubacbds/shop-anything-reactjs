@@ -91,7 +91,7 @@ const ProductList = () => {
     {
       title: "Số lượng",
       dataIndex: "amount",
-      key: "price",
+      key: "amount",
     },
     {
       title: "Các size",
@@ -101,7 +101,7 @@ const ProductList = () => {
         return (
           <>
             {record?.sizes?.map((item, index) => (
-              <span key="index">{item}, </span>
+              <span key={index}>{item}, </span>
             ))}
           </>
         );
@@ -115,7 +115,7 @@ const ProductList = () => {
         return (
           <>
             {record?.colors?.map((item, index) => (
-              <span key="index">{item}, </span>
+              <span key={index}>{item}, </span>
             ))}
           </>
         );

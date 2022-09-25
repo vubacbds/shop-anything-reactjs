@@ -99,14 +99,14 @@ const Product = (props) => {
                         }}
                       >
                         <Row style={{}} className="product-hover">
-                          <Col xs={6} lg={6} sm={6} md={6}>
+                          <Col xs={7} lg={6} sm={6} md={6}>
                             <img
                               className="card-img-left"
                               src={item.images[0]}
                               style={{ width: "100%", height: 130 }}
                             />
                           </Col>
-                          <Col xs={18} lg={18} sm={18} md={18}>
+                          <Col xs={17} lg={18} sm={18} md={18}>
                             <div className="card " style={{ height: 130 }}>
                               <div
                                 className="card-body"

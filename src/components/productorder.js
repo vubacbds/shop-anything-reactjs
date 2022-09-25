@@ -166,10 +166,10 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
                   return (
                     <Carousel.Item key={index}>
                       <img
-                        className="d-block w-100"
+                        className="d-block "
                         src={item}
                         alt="First slide"
-                        style={{ height: 260 }}
+                        style={{ height: 260, width: "auto", maxWidth: "100%" }}
                       />
                       {/* <Carousel.Caption>
                         <h3>First slide label</h3>
