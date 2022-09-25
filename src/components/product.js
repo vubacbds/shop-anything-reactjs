@@ -47,8 +47,9 @@ const Product = (props) => {
   const [pages, setPages] = useState(objPage);
   //Xử lý khi chọn trang
   const handleChange = (page, size) => {
+    document.body.scrollTop = 0; //Khi phân trang thì scroll lên top
+    document.documentElement.scrollTop = 0;
     setPages(() => {
-      An3gach();
       return {
         ...pages,
         current: page,
@@ -57,6 +58,7 @@ const Product = (props) => {
         size: size,
       };
     });
+    An3gach();
   };
 
   //Sử dụng CostumHook kiểm tra kích thước màn hình để hiển thị cho đúng reponsive

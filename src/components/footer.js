@@ -28,7 +28,7 @@ const Footer = () => {
               color: "gray",
             }}
           >
-            <Col lg={10} xs={12}>
+            <Col lg={10} xs={12} md={10} xl={10}>
               <div
                 style={{
                   color: "gray",
@@ -45,13 +45,17 @@ const Footer = () => {
                 </p>
               </div>
             </Col>
-            <Col lg={8} xs={12}>
+            <Col lg={8} xs={12} md={8} xl={8}>
               <ul style={{ textAlign: "left", marginTop: 10 }}>
                 <li>
                   <Link
                     to="/other/cs"
                     style={{ color: "black" }}
-                    onClick={() => An3gach()}
+                    onClick={() => {
+                      document.body.scrollTop = 0; //Khi phân trang thì scroll lên top
+                      document.documentElement.scrollTop = 0;
+                      An3gach();
+                    }}
                   >
                     {" "}
                     Chính sách mua hàng
@@ -61,7 +65,11 @@ const Footer = () => {
                   <Link
                     to="/other/bh"
                     style={{ color: "black" }}
-                    onClick={() => An3gach()}
+                    onClick={() => {
+                      document.body.scrollTop = 0; //Khi phân trang thì scroll lên top
+                      document.documentElement.scrollTop = 0;
+                      An3gach();
+                    }}
                   >
                     {" "}
                     Bảo hành
@@ -71,7 +79,11 @@ const Footer = () => {
                   <Link
                     to="/other/hd"
                     style={{ color: "black" }}
-                    onClick={() => An3gach()}
+                    onClick={() => {
+                      document.body.scrollTop = 0; //Khi phân trang thì scroll lên top
+                      document.documentElement.scrollTop = 0;
+                      An3gach();
+                    }}
                   >
                     {" "}
                     Hướng dẫn
@@ -83,6 +95,8 @@ const Footer = () => {
             <Col
               lg={6}
               xs={24}
+              md={6}
+              xl={6}
               style={{
                 textAlign: "justify",
               }}
@@ -140,7 +154,6 @@ const Footer = () => {
             </Col>
           </Row>
         </div>
-        <Link to="/demo">Demo</Link>
       </footer>
     </>
   );
