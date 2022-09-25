@@ -126,7 +126,7 @@ const ProductOrder = ({ bigImage, setBigImage }) => {
   const useRefModalOder = useContext(DataContext).useRefModalOder;
 
   return (
-    <div ref={useRefModalOder}>
+    <div style={{ overflow: "scroll", maxHeight: 600 }} ref={useRefModalOder}>
       <Row>
         <Col sm={24} xs={24} lg={14} md={24} xl={12}>
           {!isMobile ? (
