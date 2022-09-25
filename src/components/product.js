@@ -94,9 +94,8 @@ const Product = (props) => {
                         onClick={(e) => {
                           setVisibleOrderProduct(true);
                           dispatch(getproductid(item._id));
-                          document //khi vào modal thì lên top
-                            .getElementById("scroll-modal")[0]
-                            .scrollTo(0, 0);
+                          //khi vào modal thì lên top
+                          document.getElementById("scroll-modal").scrollTop = 0;
                           e.preventDefault();
                           if (!isMobile) An3gach();
                         }}
