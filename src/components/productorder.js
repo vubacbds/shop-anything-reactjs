@@ -190,7 +190,7 @@ const ProductOrder = ({ bigImage, setBigImage }) => {
               {dataProductOrder?.images?.map((item, index) => {
                 return (
                   <span key={item}>
-                    <a href="#" onClick={() => setIndex(index)}>
+                    <a onClick={() => setIndex(index)}>
                       <img
                         src={item}
                         style={{
