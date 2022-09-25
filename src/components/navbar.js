@@ -72,12 +72,11 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-light navbar-fixed-top sticky-top">
       <NavLink
-        className="navbar-brand"
+        className="navbar-brand ml-2"
         to="/"
         onClick={() => {
           dispatch(getproductcategory());
         }}
-        style={{ marginLeft: 10 }}
       >
         <h2
           className="font-home"
@@ -91,7 +90,7 @@ const Navbar = () => {
       </NavLink>
 
       <button
-        className="navbar-toggler"
+        className="navbar-toggler mr-2"
         type="button"
         data-toggle="collapse"
         data-target="#navbarSupportedContent"
@@ -120,7 +119,10 @@ const Navbar = () => {
             >
               Danh mục
             </a>
-            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+            <div
+              className="dropdown-menu mr-2"
+              aria-labelledby="navbarDropdown"
+            >
               {category?.map((item) => {
                 return (
                   <div key={item._id}>
@@ -152,7 +154,7 @@ const Navbar = () => {
             </div>
           </li>
           {userData?.isadmin && (
-            <li className="nav-item dropdown">
+            <li className="nav-item dropdown" style={{ marginRight: 10 }}>
               <a
                 className="nav-link dropdown-toggle"
                 href="#"
@@ -164,7 +166,10 @@ const Navbar = () => {
               >
                 Quản lý
               </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+              <div
+                className="dropdown-menu mr-2"
+                aria-labelledby="navbarDropdown"
+              >
                 <a
                   className="dropdown-item"
                   href="#"
@@ -220,12 +225,12 @@ const Navbar = () => {
             </li>
           )}
         </ul>
-        <div className="form-inline my-2 my-lg-0 mr-5">
+        <div className="form-inline my-2 my-lg-0 mr-5 ml-2">
           <input
             className="form-control mr-sm-2 mr-2"
             placeholder="Từ khóa..."
             ref={searchInput}
-            style={{ fontSize: 14, width: 130 }}
+            style={{ fontSize: 14, width: 150 }}
           />
           <button
             className="btn btn-outline-success "
