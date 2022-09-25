@@ -94,6 +94,9 @@ const Product = (props) => {
                         onClick={(e) => {
                           setVisibleOrderProduct(true);
                           dispatch(getproductid(item._id));
+                          document //khi vào modal thì lên top
+                            .getElementById("scroll-modal")[0]
+                            .scrollTo(0, 0);
                           e.preventDefault();
                           if (!isMobile) An3gach();
                         }}
@@ -256,7 +259,7 @@ const ModalOrderProduct = (props) => {
   const dataProductOrder = useSelector((state) => state.product.dataproductid);
 
   return (
-    <>
+    <div id="scroll-modal">
       <Modal
         title={dataProductOrder?.title}
         visible={props.visible}
@@ -265,8 +268,6 @@ const ModalOrderProduct = (props) => {
         onCancel={handleCancel}
         footer={null}
         width={1100}
-        bodyStyle={{ overflowY: "inherit" }}
-        autoFocusButton="null"
         // zIndex={2000} //Để model Login đè lên
       >
         <ProductOrder
@@ -275,7 +276,7 @@ const ModalOrderProduct = (props) => {
           listInnerRef={listInnerRef}
         />
       </Modal>
-    </>
+    </div>
   );
 };
 
