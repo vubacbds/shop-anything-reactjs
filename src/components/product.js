@@ -93,6 +93,7 @@ const Product = (props) => {
                         style={{ textAlign: "left" }}
                         onClick={(e) => {
                           setVisibleOrderProduct(true);
+                          window.scrollTo(0, 0);
                           dispatch(getproductid(item._id));
                           e.preventDefault();
                           if (!isMobile) An3gach();

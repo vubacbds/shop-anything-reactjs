@@ -257,7 +257,11 @@ const Navbar = () => {
               {!isMobile && userData?.email}
             </a>
           ) : (
-            <Button type="primary" onClick={() => setVisibleLogin(true)}>
+            <Button
+              className="mr-2"
+              type="primary"
+              onClick={() => setVisibleLogin(true)}
+            >
               Đăng nhập
             </Button>
           )}
