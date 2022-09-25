@@ -214,6 +214,13 @@ const ProductUpdate = (props) => {
 
   //Thủ thuật Khi số lượng url phải bằng số lượng ảnh upload lên  thì mới chạy update
   useEffect(() => {
+    //Phải có ít nhất 1 ảnh mới update
+    if (fileList?.length == 0 && arrayImageOld.length == 0) {
+      alert("Cần ít nhất 1 ảnh");
+      setSubmitting(false);
+      return;
+    }
+
     if (urlUpload.length == fileList?.length) {
       handleUpdate();
     }

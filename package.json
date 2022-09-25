@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^4.22.8",
     "axios": "^0.27.2",
+    "bootstrap": "^5.2.1",
     "firebase": "^9.9.4",
     "moment": "^2.29.4",
     "query-string": "^7.1.1",

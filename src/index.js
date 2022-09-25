@@ -8,8 +8,7 @@ import store from "./store";
 import "antd/dist/antd.css";
 import { BrowserRouter } from "react-router-dom";
 import DataProvider from "./util/datacontext";
-// import "bootstrap/dist/css/bootstrap.min.css"; //vì dùng link bootstrap 4 rồi nên ko cần cài nên bỏ cái này
-
+import "bootstrap/dist/css/bootstrap.min.css";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>

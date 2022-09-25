@@ -77,6 +77,7 @@ const Navbar = () => {
         onClick={() => {
           dispatch(getproductcategory());
         }}
+        style={{ marginLeft: 10 }}
       >
         <h2
           className="font-home"
@@ -89,7 +90,7 @@ const Navbar = () => {
         </h2>
       </NavLink>
 
-      <Button
+      <button
         className="navbar-toggler"
         type="button"
         data-toggle="collapse"
@@ -99,11 +100,14 @@ const Navbar = () => {
         aria-label="Toggle navigation"
       >
         <span className="navbar-toggler-icon"></span>
-      </Button>
+      </button>
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         {/* Để mấy cái trong 3 gạch khi thu nhỏ */}
-        <ul className="navbar-nav mr-auto" style={{ textAlign: "left" }}>
+        <ul
+          className="navbar-nav mr-auto"
+          style={{ textAlign: "left", marginLeft: 10 }}
+        >
           <li className="nav-item dropdown">
             <a
               className="nav-link dropdown-toggle"
