@@ -13,7 +13,7 @@ import {
   Modal,
 } from "antd";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import getevaluation, {
@@ -28,6 +28,7 @@ import { GetCookie } from "../util/cookie";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import ReplyAPI from "../services/replyAPI";
+import { DataContext } from "../util/datacontext";
 
 const { TextArea } = Input;
 
@@ -169,7 +170,7 @@ const Editor = ({
   );
 };
 
-const Evaluation = ({ product_id, listInnerRef }) => {
+const Evaluation = ({ product_id }) => {
   //Lấy thông tin user
   const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
 
@@ -187,7 +188,6 @@ const Evaluation = ({ product_id, listInnerRef }) => {
 
   //Khi  bắt đầu  component return hoặc product_id/userData._id thay đổi
   useEffect(() => {
-    if (listInnerRef.current) listInnerRef.current.scrollTop = 0;
     dispatch(getevaluation(product_id, amount));
     setAmount(1);
   }, [product_id, userData._id]);
@@ -491,8 +491,8 @@ const Evaluation = ({ product_id, listInnerRef }) => {
 
   //Xử lý bắt sự kiện cuộn trang xuống cuối scroll (chú ý phải có scroll)
   const onScroll = () => {
-    if (listInnerRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
+    if (useRefComment.current) {
+      const { scrollTop, scrollHeight, clientHeight } = useRefComment.current;
       if (scrollTop + clientHeight === scrollHeight) {
         setAmount((pre) => pre + 3);
       }
@@ -581,6 +581,9 @@ const Evaluation = ({ product_id, listInnerRef }) => {
   //Reset Form
   const [form] = Form.useForm();
 
+  //set on top modal comment khi nhấn vào tên web và dấu x
+  const useRefComment = useContext(DataContext).useRefComment;
+
   return (
     <div style={{ marginTop: 40, marginLeft: 10 }}>
       <hr />
@@ -610,7 +613,7 @@ const Evaluation = ({ product_id, listInnerRef }) => {
                   height: 360,
                 }}
                 onScroll={onScroll}
-                ref={listInnerRef}
+                ref={useRefComment}
               >
                 <div style={{ height: 800 }}>
                   <CommentList

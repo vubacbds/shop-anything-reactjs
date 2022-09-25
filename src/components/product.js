@@ -94,8 +94,7 @@ const Product = (props) => {
                         onClick={(e) => {
                           setVisibleOrderProduct(true);
                           dispatch(getproductid(item._id));
-                          //khi vào modal thì lên top
-                          document.getElementById("scroll-modal").scrollTop = 0;
+
                           e.preventDefault();
                           if (!isMobile) An3gach();
                         }}
@@ -232,10 +231,16 @@ const Product = (props) => {
 //Modal đặt hàng
 const ModalOrderProduct = (props) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const listInnerRef = useRef(); //Cái này là truyền tời component evaluation.js luôn, mục đích khi đóng modal set lại scroll ko thì nó tự load data
+
   //Sử dụng CostumHook kiểm tra kích thước màn hình để hiển thị cho đúng reponsive
   const viewPort = UseViewport();
   const isMobile = viewPort.width <= 976;
+
+  //set on top modal đặt hàng khi nhấn vào tên web và dấu x
+  const useRefModalOder = useContext(DataContext).useRefModalOder;
+
+  //set on top modal comment khi nhấn vào tên web và dấu x
+  const useRefComment = useContext(DataContext).useRefComment;
 
   const handleOk = () => {
     setConfirmLoading(true);
@@ -248,7 +253,9 @@ const ModalOrderProduct = (props) => {
   const handleCancel = () => {
     props.setVisible(false);
     if (!isMobile) setBigImage(); //khi đóng trang chi tiết thì set lại trang lớn bằng null
-    if (listInnerRef.current) listInnerRef.current.scrollTop = 0;
+
+    if (useRefComment.current) useRefComment.current.scrollTop = 0;
+    if (useRefModalOder.current) useRefModalOder.current.scrollTop = 0;
   };
 
   //Set ảnh lớn khi click vào ảnh nhỏ trong trang chi tiết (productOrder) truyền bigImage cho comonent
@@ -258,24 +265,18 @@ const ModalOrderProduct = (props) => {
   const dataProductOrder = useSelector((state) => state.product.dataproductid);
 
   return (
-    <div id="scroll-modal">
-      <Modal
-        title={dataProductOrder?.title}
-        visible={props.visible}
-        onOk={handleOk}
-        confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-        footer={null}
-        width={1100}
-        // zIndex={2000} //Để model Login đè lên
-      >
-        <ProductOrder
-          bigImage={bigImage}
-          setBigImage={setBigImage}
-          listInnerRef={listInnerRef}
-        />
-      </Modal>
-    </div>
+    <Modal
+      title={dataProductOrder?.title}
+      visible={props.visible}
+      onOk={handleOk}
+      confirmLoading={confirmLoading}
+      onCancel={handleCancel}
+      footer={null}
+      width={1100}
+      // zIndex={2000} //Để model Login đè lên
+    >
+      <ProductOrder bigImage={bigImage} setBigImage={setBigImage} />
+    </Modal>
   );
 };
 

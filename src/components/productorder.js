@@ -15,7 +15,7 @@ import { add_bill } from "../action/bill";
 import getaddress from "../action/address";
 import { toast } from "react-toastify";
 import ProductAPI from "../services/productAPI";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UseViewport } from "../util/customhook";
 import moment from "moment"; //Định dạng thời gian
@@ -23,8 +23,9 @@ import { CopyOutlined } from "@ant-design/icons";
 import Evaluation from "./evaluation";
 import Address from "./address";
 import Carousel from "react-bootstrap/Carousel";
+import { DataContext } from "../util/datacontext";
 
-const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
+const ProductOrder = ({ bigImage, setBigImage }) => {
   const dispatch = useDispatch();
 
   //Lấy 1 sản phẩm từ redux
@@ -121,8 +122,11 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
     setIndex(selectedIndex);
   };
 
+  //set on top modal đặt hàng khi nhấn vào tên web và dấu x
+  const useRefModalOder = useContext(DataContext).useRefModalOder;
+
   return (
-    <div id="cuon">
+    <div ref={useRefModalOder}>
       <Row>
         <Col sm={24} xs={24} lg={14} md={24} xl={12}>
           {!isMobile ? (
@@ -443,10 +447,7 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
           </div>
         </Col>
       </Row>
-      <Evaluation
-        product_id={dataProductOrder?._id}
-        listInnerRef={listInnerRef}
-      />
+      <Evaluation product_id={dataProductOrder?._id} />
     </div>
   );
 };

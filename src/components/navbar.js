@@ -27,6 +27,11 @@ const Navbar = () => {
   const visibleOrderProduct = useContext(DataContext).visibleOrderProduct;
   const setVisibleOrderProduct = useContext(DataContext).setVisibleOrderProduct;
 
+  //set on top modal đặt hàng khi nhấn vào tên web
+  const useRefModalOder = useContext(DataContext).useRefModalOder;
+  //set on top modal bình luận khi nhấn vào tên web
+  const useRefComment = useContext(DataContext).useRefComment;
+
   //Thủ thuật cập nhật lại narbar khi login/logout
   const [loadPage, setLoadPage] = useState(false);
 
@@ -82,6 +87,8 @@ const Navbar = () => {
           className="font-home"
           onClick={() => {
             setVisibleOrderProduct(false);
+            if (useRefModalOder.current) useRefModalOder.current.scrollTop = 0;
+            if (useRefComment.current) useRefComment.current.scrollTop = 0;
             An3gach();
           }}
         >
