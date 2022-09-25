@@ -22,6 +22,7 @@ import moment from "moment"; //Định dạng thời gian
 import { CopyOutlined } from "@ant-design/icons";
 import Evaluation from "./evaluation";
 import Address from "./address";
+import Carousel from "react-bootstrap/Carousel";
 
 const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
   const dispatch = useDispatch();
@@ -114,6 +115,12 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
   //Cài đặt địa chỉ default
   const [isAddressDefault, setIsAddressDefault] = useState(true);
 
+  //Set khi chọn ảnh nhỏ ra ảnh lớn
+  const [index, setIndex] = useState(0);
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
+
   return (
     <div id="cuon">
       <Row>
@@ -132,7 +139,7 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
               <div style={{ flexGrow: 1 }}>
                 {dataProductOrder.images.map((item, index) => {
                   return (
-                    <a key={index}>
+                    <a key={item}>
                       <img
                         src={item}
                         style={{
@@ -149,72 +156,37 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
             </div>
           ) : (
             <>
-              <div
-                id="carouselExampleControls"
-                className="carousel slide"
-                data-ride="carousel"
+              <Carousel
+                style={{ height: 260 }}
+                slide={false}
+                onSelect={handleSelect}
+                activeIndex={index}
               >
-                <div className="carousel-inner">
-                  <div className="carousel-item active" key="0">
-                    <img
-                      src={
-                        dataProductOrder?.images[0] ||
-                        "http://via.placeholder.com/260x260"
-                      }
-                      alt="First slide"
-                      style={{
-                        height: 260,
-                      }}
-                    />
-                  </div>
-                  {dataProductOrder?.images?.map((item, index) => {
-                    return (
-                      index > 0 && (
-                        <div key={index} className="carousel-item">
-                          <img
-                            src={item}
-                            style={{
-                              height: 260,
-                            }}
-                          />
-                        </div>
-                      )
-                    );
-                  })}
-                </div>
-                <a
-                  className="carousel-control-prev"
-                  href="#carouselExampleControls"
-                  role="button"
-                  data-slide="prev"
-                >
-                  <span
-                    className="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="sr-only"> Previous</span>
-                </a>
-                <a
-                  className="carousel-control-next"
-                  href="#carouselExampleControls"
-                  role="button"
-                  data-slide="next"
-                >
-                  <span
-                    className="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="sr-only">Next</span>
-                </a>
-              </div>
+                {dataProductOrder?.images?.map((item, index) => {
+                  return (
+                    <Carousel.Item key={index}>
+                      <img
+                        className="d-block w-100"
+                        src={item}
+                        alt="First slide"
+                        style={{ height: 260 }}
+                      />
+                      {/* <Carousel.Caption>
+                        <h3>First slide label</h3>
+                        <p>
+                          Nulla vitae elit libero, a pharetra augue mollis
+                          interdum.
+                        </p>
+                      </Carousel.Caption> */}
+                    </Carousel.Item>
+                  );
+                })}
+              </Carousel>
 
               {dataProductOrder?.images?.map((item, index) => {
                 return (
-                  <span key={index}>
-                    <a
-                      href="#carouselExampleControls"
-                      data-slide-to={parseInt(index)}
-                    >
+                  <span key={item}>
+                    <a href="#" onClick={() => setIndex(index)}>
                       <img
                         src={item}
                         style={{
@@ -370,11 +342,11 @@ const ProductOrder = ({ bigImage, setBigImage, listInnerRef }) => {
                   ]}
                 >
                   <Select className="input-oder">
-                    {dataProductOrder?.colors?.map((item) => {
+                    {dataProductOrder?.colors?.map((item, index) => {
                       return (
                         <Select.Option
                           value={item}
-                          key={item._id}
+                          key={index}
                           // disabled={item.status == 1}
                         >
                           {item}

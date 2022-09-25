@@ -140,6 +140,7 @@ const Footer = () => {
             </Col>
           </Row>
         </div>
+        <Link to="/demo">Demo</Link>
       </footer>
     </>
   );

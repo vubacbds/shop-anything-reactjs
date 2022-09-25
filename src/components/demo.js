@@ -1,20 +1,58 @@
-import { useEffect } from "react";
+import Carousel from "react-bootstrap/Carousel";
+import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { GetCookie } from "../util/cookie";
+import { useState } from "react";
 
-const Demo = () => {
-  // const userData = GetCookie("user") ? JSON.parse(GetCookie("user")) : "";
-  const userData = useSelector((state) => state.user.dataOne);
-  useEffect(() => {
-    alert(`Email la: ${userData?.email?.toString() || "không có"}`);
-  }, []);
+function Demo() {
+  //Lấy data sản phẩm từ redux
+  const product = useSelector((state) => state.product.data)[5];
+
+  const [index, setIndex] = useState(0);
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+    console.log(selectedIndex);
+  };
   return (
     <>
-      <h1>Hello</h1>
-      <h5>{GetCookie("user").toString() || "hai"}</h5>
+      {/* <Button>Ok</Button> */}
+
+      <Carousel
+        style={{ height: 300, width: 600 }}
+        slide={false}
+        onSelect={handleSelect}
+        activeIndex={index}
+      >
+        {product?.images?.map((item, index) => {
+          return (
+            <Carousel.Item key={index}>
+              <img
+                className="d-block w-100"
+                src={item}
+                alt="First slide"
+                style={{ height: 300, width: 600 }}
+              />
+              <Carousel.Caption>
+                <h3>First slide label</h3>
+                <p>
+                  Nulla vitae elit libero, a pharetra augue mollis interdum.
+                </p>
+              </Carousel.Caption>
+            </Carousel.Item>
+          );
+        })}
+      </Carousel>
+      {product?.images?.map((item, index) => {
+        return (
+          <span key={index}>
+            <a onClick={() => setIndex(index)}>
+              <img src={item} style={{ width: 80, height: 80, margin: 10 }} />
+            </a>
+          </span>
+        );
+      })}
     </>
   );
-};
+}
 
 export default Demo;
 
