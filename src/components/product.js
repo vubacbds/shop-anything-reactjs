@@ -93,7 +93,6 @@ const Product = (props) => {
                         style={{ textAlign: "left" }}
                         onClick={(e) => {
                           setVisibleOrderProduct(true);
-                          window.scrollTo(0, 0);
                           dispatch(getproductid(item._id));
                           e.preventDefault();
                           if (!isMobile) An3gach();
@@ -266,6 +265,8 @@ const ModalOrderProduct = (props) => {
         onCancel={handleCancel}
         footer={null}
         width={1100}
+        bodyStyle={{ overflowY: "inherit" }}
+        autoFocusButton="null"
         // zIndex={2000} //Để model Login đè lên
       >
         <ProductOrder
