@@ -220,7 +220,12 @@ const ProductOrder = ({ bigImage, setBigImage }) => {
                 color: "#a4b4b4",
               }}
             >
-              <span>Còn lại: {dataProductOrder?.amount}</span> &ensp; | &ensp;
+              {dataProductOrder.amount > 0 ? (
+                <span>Còn lại: {dataProductOrder.amount}</span>
+              ) : (
+                <span>Hết hàng</span>
+              )}{" "}
+              &ensp; | &ensp;
               <span>
                 {moment(dataProductOrder?.createdAt).format("DD/MM/yyyy")}{" "}
               </span>
@@ -469,7 +474,12 @@ const ProductOrder = ({ bigImage, setBigImage }) => {
                   }
                 }
               >
-                <button disabled={!dataUserRedux?._id} className="button-order">
+                <button
+                  disabled={
+                    !dataUserRedux?._id || dataProductOrder?.amount == 0
+                  }
+                  className="button-order"
+                >
                   Đặt mua
                 </button>
                 {!dataUserRedux?._id ? (
@@ -477,6 +487,12 @@ const ProductOrder = ({ bigImage, setBigImage }) => {
                     style={{ color: "red", top: "-15px", position: "relative" }}
                   >
                     * Bạn cần đăng nhập mới có thể đặt mua nhé{" "}
+                  </span>
+                ) : dataProductOrder?.amount == 0 ? (
+                  <span
+                    style={{ color: "red", top: "-15px", position: "relative" }}
+                  >
+                    * Sản phẩm đã hết, quay lại sau nhé bạn.{" "}
                   </span>
                 ) : (
                   ""

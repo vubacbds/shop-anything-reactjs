@@ -331,7 +331,13 @@ const ProductDetail = () => {
                 color: "#a4b4b4",
               }}
             >
-              <span>Còn lại: {(dataProductOrder ?? productItem)?.amount}</span>{" "}
+              {(dataProductOrder ?? productItem)?.amount > 0 ? (
+                <span>
+                  Còn lại: {(dataProductOrder ?? productItem)?.amount}
+                </span>
+              ) : (
+                <span>Hết hàng</span>
+              )}
               &ensp; | &ensp;
               <span>
                 {moment((dataProductOrder ?? productItem)?.createdAt).format(
@@ -590,7 +596,13 @@ const ProductDetail = () => {
               )}
 
               <Form.Item wrapperCol={{}}>
-                <button disabled={!dataUserRedux?._id} className="button-order">
+                <button
+                  disabled={
+                    !dataUserRedux?._id ||
+                    (dataProductOrder ?? productItem)?.amount == 0
+                  }
+                  className="button-order"
+                >
                   Đặt mua
                 </button>
                 {!dataUserRedux?._id ? (
@@ -598,6 +610,12 @@ const ProductDetail = () => {
                     style={{ color: "red", top: "-17px", position: "relative" }}
                   >
                     * Bạn cần đăng nhập mới có thể đặt mua nhé{" "}
+                  </span>
+                ) : (dataProductOrder ?? productItem)?.amount == 0 ? (
+                  <span
+                    style={{ color: "red", top: "-15px", position: "relative" }}
+                  >
+                    * Sản phẩm đã hết, quay lại sau nhé bạn.{" "}
                   </span>
                 ) : (
                   ""

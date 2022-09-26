@@ -200,7 +200,12 @@ const Product = (props) => {
                                     top: 96,
                                   }}
                                 >
-                                  Còn lại: {item.amount} &ensp;
+                                  {item.amount > 0 ? (
+                                    <span>Còn lại: {item.amount}</span>
+                                  ) : (
+                                    <span>Hết hàng</span>
+                                  )}{" "}
+                                  &ensp;
                                   {item.ghim == 1 ? (
                                     <span>
                                       <DisconnectOutlined /> Đã ghim{" "}

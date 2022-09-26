@@ -72,7 +72,12 @@ const ProductRandom = ({ data }) => {
                     top: 94,
                   }}
                 >
-                  Còn lại: {randomProduct.amount} &ensp;
+                  {randomProduct.amount > 0 ? (
+                    <span>Còn lại: {randomProduct.amount}</span>
+                  ) : (
+                    <span>Hết hàng</span>
+                  )}{" "}
+                  &ensp;
                 </span>
                 <span
                   style={{
