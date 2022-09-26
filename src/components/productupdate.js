@@ -284,7 +284,7 @@ const ProductUpdate = (props) => {
             },
           ]}
         >
-          <Input.TextArea showCount maxLength={100} />
+          <Input.TextArea showCount maxLength={50} />
         </Form.Item>
 
         <Form.Item

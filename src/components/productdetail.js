@@ -386,6 +386,7 @@ const ProductDetail = () => {
                   style={{
                     textDecoration: "line-through",
                     color: "gray",
+                    fontSize: 10,
                   }}
                 >
                   {(dataProductOrder ?? productItem)?.price.toLocaleString(

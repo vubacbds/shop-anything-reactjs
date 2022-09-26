@@ -267,6 +267,7 @@ const ProductOrder = ({ bigImage, setBigImage }) => {
                   style={{
                     textDecoration: "line-through",
                     color: "gray",
+                    fontSize: 10,
                   }}
                 >
                   {dataProductOrder.price.toLocaleString("vi-VN", {
