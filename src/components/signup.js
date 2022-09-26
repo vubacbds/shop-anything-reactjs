@@ -129,7 +129,7 @@ const Signup = (props) => {
         >
           <Input.Password />
         </Form.Item>
-        '
+
         <Form.Item
           wrapperCol={{
             offset: 8,
