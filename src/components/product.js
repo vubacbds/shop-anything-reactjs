@@ -18,6 +18,8 @@ import ProductRandom from "./productrandom";
 import { UseViewport } from "../util/customhook";
 import { DataContext } from "../util/datacontext";
 import { getproductid } from "../action/product";
+import ProductAPI from "../services/productAPI";
+import { updateproduct } from "../action/product";
 
 const { Meta } = Card;
 
@@ -64,6 +66,28 @@ const Product = (props) => {
   //Sử dụng CostumHook kiểm tra kích thước màn hình để hiển thị cho đúng reponsive
   const viewPort = UseViewport();
   const isMobile = viewPort.width <= 976;
+
+  //Sản phẩm nào có ngày hết khuyến mãi thì cập nhật lại khuyến mãi
+  useEffect(() => {
+    let today = new Date();
+    let todayTime = new Date(moment(today).format("yyyy-MM-DD"));
+
+    product?.data?.map((item, index) => {
+      let promotionTime = new Date(
+        moment(item.promotion_date).format("yyyy-MM-DD")
+      );
+      if (todayTime.getTime() > promotionTime.getTime()) {
+        ProductAPI.updateproduct(item._id, {
+          promotion: 0,
+          promotion_date: "",
+        }).then(function (response) {
+          dispatch(
+            updateproduct({ promotion: 0, promotion_date: "", _id: item._id })
+          );
+        });
+      }
+    });
+  }, []);
 
   return (
     product && (
@@ -126,11 +150,42 @@ const Product = (props) => {
                                   className="card-text"
                                   style={{ color: "red", fontWeight: "bold" }}
                                 >
-                                  {item.price.toLocaleString("vi-VN", {
-                                    style: "currency",
-                                    currency: "VND",
-                                  })}
+                                  {item.promotion == 0
+                                    ? item.price.toLocaleString("vi-VN", {
+                                        style: "currency",
+                                        currency: "VND",
+                                      })
+                                    : (
+                                        item.price -
+                                        (item.price * item.promotion) / 100
+                                      ).toLocaleString("vi-VN", {
+                                        style: "currency",
+                                        currency: "VND",
+                                      })}
+                                  &ensp;
+                                  {item.promotion != 0 && (
+                                    <span
+                                      style={{
+                                        textDecoration: "line-through",
+                                        color: "gray",
+                                      }}
+                                    >
+                                      {item.price.toLocaleString("vi-VN", {
+                                        style: "currency",
+                                        currency: "VND",
+                                      })}
+                                    </span>
+                                  )}
                                 </div>
+                                {item.promotion != 0 && (
+                                  <p className="tieu-de-km">
+                                    {`Khuyến mãi ${
+                                      item.promotion
+                                    }% đến hết ${moment(
+                                      item.promotion_date
+                                    ).format("DD-MM-yyyy")}`}
+                                  </p>
+                                )}
 
                                 <span
                                   style={{

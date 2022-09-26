@@ -89,6 +89,18 @@ export const productReducer = (state = initialState, action) => {
         data: newProductList,
       };
     }
+
+    case "GET_PRODUCT_PROMOTION": {
+      const newState = { ...state };
+      const newProductList = newState.olddata.filter(
+        (item) => item.promotion != 0
+      );
+      return {
+        ...state,
+        data: newProductList,
+      };
+    }
+
     case "GET_PRODUCT_SEARCH": {
       const newState = { ...state };
       const newProductList = newState.olddata.filter(

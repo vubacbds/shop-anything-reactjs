@@ -9,6 +9,7 @@ import React, { useContext, useRef, useState } from "react";
 import { SetCookie, GetCookie } from "../util/cookie";
 import getproduct, {
   getproductcategory,
+  getproductpromotion,
   getproductsearch,
 } from "../action/product";
 import { useDispatch, useSelector } from "react-redux";
@@ -160,6 +161,7 @@ const Navbar = () => {
               </Link>
             </div>
           </li>
+
           {userData?.isadmin && (
             <li className="nav-item dropdown" style={{ marginRight: 10 }}>
               <a
@@ -250,6 +252,19 @@ const Navbar = () => {
           </button>
         </div>
       </div>
+      <a
+        onClick={() => {
+          An3gach();
+          dispatch(getproductpromotion());
+        }}
+      >
+        <img
+          src="https://shoptam113.com/upload-usr/tam113/qua-tang.gif"
+          style={{ width: 50, height: 50 }}
+          className="ml-2"
+          title="Sản phẩm bán chạy"
+        />
+      </a>
       <ul className="navbar-nav ml-auto ">
         <li className="nav-item dropdown">
           {userData ? (

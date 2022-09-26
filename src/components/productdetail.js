@@ -23,6 +23,7 @@ import { getproductid } from "../action/product";
 import { CopyOutlined } from "@ant-design/icons";
 import Evaluation from "./evaluation";
 import Address from "./address";
+import Carousel from "react-bootstrap/Carousel";
 //Trang này dùng cả data từ redux và lấy trực tiếp từ DB lên luôn, cái nào ko null thì chơi cái đó
 
 const ProductDetail = () => {
@@ -118,6 +119,12 @@ const ProductDetail = () => {
   //Cài đặt địa chỉ default
   const [isAddressDefault, setIsAddressDefault] = useState(true);
 
+  //Set khi chọn ảnh nhỏ ra ảnh lớn
+  const [index, setIndex] = useState(0);
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
+
   return (
     <div style={{ marginBottom: 100, textAlign: "left" }}>
       <Row>
@@ -155,101 +162,153 @@ const ProductDetail = () => {
             </div>
           ) : (
             <>
-              <div
-                id="carouselExampleControls"
-                className="carousel slide"
-                data-ride="carousel"
+              <Carousel
+                style={{ height: 260 }}
+                slide={false}
+                onSelect={handleSelect}
+                activeIndex={index}
               >
-                <div className="carousel-inner">
-                  <div
-                    className="carousel-item active"
-                    key="0"
-                    style={{ marginLeft: 10 }}
-                  >
-                    <img
-                      src={
-                        (dataProductOrder ?? productItem)?.images[0] ||
-                        "http://via.placeholder.com/260x260"
-                      }
-                      alt="First slide"
-                      style={{
-                        height: 260,
-                      }}
-                    />
-                  </div>
-                  {(dataProductOrder ?? productItem)?.images.map(
-                    (item, index) => {
-                      return (
-                        index > 0 && (
-                          <div
-                            key={index}
-                            className="carousel-item"
-                            style={{ marginLeft: 10 }}
-                          >
-                            <img
-                              src={item}
-                              style={{
-                                height: 260,
-                                width: "auto",
-                                maxWidth: "100%",
-                              }}
-                            />
-                          </div>
-                        )
-                      );
-                    }
-                  )}
-                </div>
-                <a
-                  className="carousel-control-prev"
-                  href="#carouselExampleControls"
-                  role="button"
-                  data-slide="prev"
-                >
-                  <span
-                    className="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="sr-only"> Previous</span>
-                </a>
-                <a
-                  className="carousel-control-next"
-                  href="#carouselExampleControls"
-                  role="button"
-                  data-slide="next"
-                >
-                  <span
-                    className="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="sr-only">Next</span>
-                </a>
-              </div>
-
-              <div style={{ marginLeft: 5 }}>
-                {(dataProductOrder ?? productItem)?.images.map(
+                {(dataProductOrder ?? productItem)?.images?.map(
                   (item, index) => {
                     return (
-                      <span key={index}>
-                        <a
-                          href="#carouselExampleControls"
-                          data-slide-to={parseInt(index)}
-                        >
-                          <img
-                            src={item}
-                            style={{
-                              width: 48,
-                              height: 48,
-                              margin: "5px 0px 5px 5px",
-                            }}
-                          />
-                        </a>
-                      </span>
+                      <Carousel.Item key={index}>
+                        <img
+                          className="d-block "
+                          src={item}
+                          alt="First slide"
+                          style={{
+                            height: 260,
+                            width: "auto",
+                            maxWidth: "100%",
+                          }}
+                        />
+                        {/* <Carousel.Caption>
+                        <h3>First slide label</h3>
+                        <p>
+                          Nulla vitae elit libero, a pharetra augue mollis
+                          interdum.
+                        </p>
+                      </Carousel.Caption> */}
+                      </Carousel.Item>
                     );
                   }
                 )}
-              </div>
+              </Carousel>
+
+              {(dataProductOrder ?? productItem)?.images?.map((item, index) => {
+                return (
+                  <span key={item}>
+                    <a onClick={() => setIndex(index)}>
+                      <img
+                        src={item}
+                        style={{
+                          width: 48,
+                          height: 48,
+                          margin: "5px 0px 5px 5px",
+                        }}
+                      />
+                    </a>
+                  </span>
+                );
+              })}
             </>
+            // <>
+            //   <div
+            //     id="carouselExampleControls"
+            //     className="carousel slide"
+            //     data-ride="carousel"
+
+            //   >
+            //     <div className="carousel-inner">
+            //       <div
+            //         className="carousel-item active"
+            //         key="0"
+            //         style={{ marginLeft: 10 }}
+            //       >
+            //         <img
+            //           src={
+            //             (dataProductOrder ?? productItem)?.images[0] ||
+            //             "http://via.placeholder.com/260x260"
+            //           }
+            //           alt="First slide"
+            //           style={{
+            //             height: 260,
+            //           }}
+            //         />
+            //       </div>
+            //       {(dataProductOrder ?? productItem)?.images.map(
+            //         (item, index) => {
+            //           return (
+            //             index > 0 && (
+            //               <div
+            //                 key={index}
+            //                 className="carousel-item"
+            //                 style={{ marginLeft: 10 }}
+            //               >
+            //                 <img
+            //                   src={item}
+            //                   style={{
+            //                     height: 260,
+            //                     width: "auto",
+            //                     maxWidth: "100%",
+            //                   }}
+            //                 />
+            //               </div>
+            //             )
+            //           );
+            //         }
+            //       )}
+            //     </div>
+            //     <a
+            //       className="carousel-control-prev"
+            //       href="#carouselExampleControls"
+            //       role="button"
+            //       data-slide="prev"
+            //     >
+            //       <span
+            //         className="carousel-control-prev-icon"
+            //         aria-hidden="true"
+            //       ></span>
+            //       <span className="sr-only"> Previous</span>
+            //     </a>
+            //     <a
+            //       className="carousel-control-next"
+            //       href="#carouselExampleControls"
+            //       role="button"
+            //       data-slide="next"
+            //     >
+            //       <span
+            //         className="carousel-control-next-icon"
+            //         aria-hidden="true"
+            //       ></span>
+            //       <span className="sr-only">Next</span>
+            //     </a>
+            //   </div>
+
+            //   <div style={{ marginLeft: 5 }}>
+            //     {(dataProductOrder ?? productItem)?.images.map(
+            //       (item, index) => {
+            //         return (
+            //           <span key={index}>
+            //             <a
+            //               href="#carouselExampleControls"
+            //               data-slide-to={parseInt(index)}
+            //             >
+            //               <img
+            //                 src={item}
+            //                 style={{
+            //                   width: 48,
+            //                   height: 48,
+            //                   margin: "5px 0px 5px 5px",
+            //                 }}
+            //               />
+            //             </a>
+            //           </span>
+            //         );
+            //       }
+            //     )}
+            //   </div>
+            // </>
           )}
 
           <div

@@ -11,6 +11,7 @@ import ProductAPI from "../services/productAPI";
 import { deleteproduct, getproductid } from "../action/product";
 import ProductUpdate from "./productupdate";
 import { DeleteOutlined, FormOutlined } from "@ant-design/icons";
+import Promotion from "./promotion";
 import moment from "moment"; //Định dạng thời gian
 
 const ProductList = () => {
@@ -19,6 +20,9 @@ const ProductList = () => {
 
   //Xuất hiện Modal sửa sản phẩm
   const [visibleProductUpdate, setVisibleProductUpdate] = useState(false);
+
+  //Xuất hiện Modal thêm khuyến mãi
+  const [visiblePromotion, setVisiblePromotion] = useState(false);
 
   //Khi commponent bắt đầu render
   useEffect(() => {
@@ -138,6 +142,16 @@ const ProductList = () => {
       render: (_, record) => {
         return (
           <>
+            <a
+              onClick={() => {
+                dispatch(getproductid(record._id));
+                setVisiblePromotion(true);
+              }}
+              href="#"
+            >
+              Khuyến mãi
+            </a>
+            &nbsp; &nbsp;
             <a
               onClick={() => {
                 //dispatch(getproductid(record._id));
@@ -332,6 +346,11 @@ const ProductList = () => {
         visible={visibleProductUpdate}
         setVisible={setVisibleProductUpdate}
       />
+
+      <ModalPromotion
+        visible={visiblePromotion}
+        setVisible={setVisiblePromotion}
+      />
     </div>
   );
 };
@@ -363,6 +382,33 @@ const ModalProductUpdate = (props) => {
         footer={null}
       >
         <ProductUpdate setVisible={props.setVisible} />
+      </Modal>
+    </>
+  );
+};
+
+//Modal Promotion
+const ModalPromotion = (props) => {
+  const handleOk = () => {
+    setTimeout(() => {
+      props.setVisible(false);
+    }, 500);
+  };
+
+  const handleCancel = () => {
+    props.setVisible(false);
+  };
+
+  return (
+    <>
+      <Modal
+        title="Thêm khuyến mãi"
+        visible={props.visible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <Promotion setVisible={props.setVisible} />
       </Modal>
     </>
   );

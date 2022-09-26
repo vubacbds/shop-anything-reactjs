@@ -61,6 +61,10 @@ const getproductsearch = (key) => ({
   payload: key,
 });
 
+const getproductpromotion = () => ({
+  type: "GET_PRODUCT_PROMOTION",
+});
+
 export default getproduct;
 export {
   addproduct,
@@ -69,4 +73,5 @@ export {
   getproductid,
   getproductcategory,
   getproductsearch,
+  getproductpromotion,
 };
