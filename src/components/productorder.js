@@ -343,7 +343,7 @@ const ProductOrder = ({ bigImage, setBigImage }) => {
                   },
                 ]}
               >
-                <Input
+                <InputNumber
                   min={1}
                   max={dataProductOrder?.amount}
                   style={{ width: "50%" }}

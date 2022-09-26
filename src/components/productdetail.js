@@ -468,7 +468,7 @@ const ProductDetail = () => {
                   },
                 ]}
               >
-                <Input
+                <InputNumber
                   style={{ width: "50%" }}
                   min={1}
                   max={(dataProductOrder ?? productItem)?.amount}
