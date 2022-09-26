@@ -148,7 +148,11 @@ const Product = (props) => {
                                 </span>
                                 <div
                                   className="card-text"
-                                  style={{ color: "red", fontWeight: "bold" }}
+                                  style={{
+                                    color: "red",
+                                    fontWeight: "bold",
+                                    fontSize: 14,
+                                  }}
                                 >
                                   {item.promotion == 0
                                     ? item.price.toLocaleString("vi-VN", {
@@ -179,9 +183,7 @@ const Product = (props) => {
                                 </div>
                                 {item.promotion != 0 && (
                                   <p className="tieu-de-km">
-                                    {`Khuyến mãi ${
-                                      item.promotion
-                                    }% đến hết ${moment(
+                                    {`Giảm ${item.promotion}% đến hết ${moment(
                                       item.promotion_date
                                     ).format("DD-MM-yyyy")}`}
                                   </p>

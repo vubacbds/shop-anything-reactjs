@@ -400,7 +400,7 @@ const ProductDetail = () => {
               <span>
                 {(dataProductOrder ?? productItem)?.promotion != 0 && (
                   <span className="tieu-de-km">
-                    {`Khuyến mãi ${
+                    {`Giảm ${
                       (dataProductOrder ?? productItem)?.promotion
                     }% đến hết ${moment(
                       (dataProductOrder ?? productItem)?.promotion_date

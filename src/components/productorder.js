@@ -278,11 +278,9 @@ const ProductOrder = ({ bigImage, setBigImage }) => {
               <span>
                 {dataProductOrder.promotion != 0 && (
                   <span className="tieu-de-km">
-                    {`Khuyến mãi ${
-                      dataProductOrder.promotion
-                    }% đến hết ${moment(dataProductOrder.promotion_date).format(
-                      "DD-MM-yyyy"
-                    )}`}
+                    {`Giảm ${dataProductOrder.promotion}% đến hết ${moment(
+                      dataProductOrder.promotion_date
+                    ).format("DD-MM-yyyy")}`}
                   </span>
                 )}
               </span>
