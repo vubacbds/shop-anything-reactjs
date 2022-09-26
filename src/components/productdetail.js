@@ -64,10 +64,18 @@ const ProductDetail = () => {
     if (!isAddressDefault) {
       values.address = `${values.numhome}, ${values.ward}, ${values.district}, ${values.province} `;
     }
+    const tonggia =
+      (dataProductOrder ?? productItem)?.promotion == 0
+        ? (dataProductOrder ?? productItem)?.price * values.amount
+        : ((dataProductOrder ?? productItem)?.price -
+            ((dataProductOrder ?? productItem)?.price *
+              (dataProductOrder ?? productItem)?.promotion) /
+              100) *
+          values.amount;
     const newBill = {
       ...values,
-      total_price: dataProductOrder.price * values.amount,
-      products: dataProductOrder._id,
+      total_price: tonggia,
+      products: (dataProductOrder ?? productItem)?._id,
       users: userData._id,
       status: 0,
     };
@@ -75,7 +83,7 @@ const ProductDetail = () => {
 
     Promise.all([
       //Để lấy hình ảnh sản phẩm khi dispatch || vì nối mảng thì được nhưng mà cần phải dispatch cho ko phải load lại trang
-      ProductAPI.getproductId(dataProductOrder._id),
+      ProductAPI.getproductId((dataProductOrder ?? productItem)?._id),
       BillAPI.addbill(newBill),
     ]).then((item) => {
       BillAddSuccess();
@@ -355,13 +363,51 @@ const ProductDetail = () => {
               className="card-text"
               style={{ color: "red", fontWeight: "bold" }}
             >
-              {(dataProductOrder ?? productItem)?.price.toLocaleString(
-                "vi-VN",
-                {
-                  style: "currency",
-                  currency: "VND",
-                }
+              {(dataProductOrder ?? productItem)?.promotion == 0
+                ? (dataProductOrder ?? productItem)?.price.toLocaleString(
+                    "vi-VN",
+                    {
+                      style: "currency",
+                      currency: "VND",
+                    }
+                  )
+                : (
+                    (dataProductOrder ?? productItem)?.price -
+                    ((dataProductOrder ?? productItem)?.price *
+                      (dataProductOrder ?? productItem)?.promotion) /
+                      100
+                  ).toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+              &ensp;
+              {(dataProductOrder ?? productItem)?.promotion != 0 && (
+                <span
+                  style={{
+                    textDecoration: "line-through",
+                    color: "gray",
+                  }}
+                >
+                  {(dataProductOrder ?? productItem)?.price.toLocaleString(
+                    "vi-VN",
+                    {
+                      style: "currency",
+                      currency: "VND",
+                    }
+                  )}
+                </span>
               )}
+              <span>
+                {(dataProductOrder ?? productItem)?.promotion != 0 && (
+                  <span className="tieu-de-km">
+                    {`Khuyến mãi ${
+                      (dataProductOrder ?? productItem)?.promotion
+                    }% đến hết ${moment(
+                      (dataProductOrder ?? productItem)?.promotion_date
+                    ).format("DD-MM-yyyy")}`}
+                  </span>
+                )}
+              </span>
             </div>
             <p>*Mô tả: {(dataProductOrder ?? productItem)?.description} </p>
           </div>
@@ -464,17 +510,19 @@ const ProductDetail = () => {
                   ]}
                 >
                   <Select className="input-oder">
-                    {(dataProductOrder ?? productItem)?.colors.map((item) => {
-                      return (
-                        <Select.Option
-                          value={item}
-                          key={item._id}
-                          // disabled={item.status == 1}
-                        >
-                          {item}
-                        </Select.Option>
-                      );
-                    })}
+                    {(dataProductOrder ?? productItem)?.colors.map(
+                      (item, index) => {
+                        return (
+                          <Select.Option
+                            value={item}
+                            key={index}
+                            // disabled={item.status == 1}
+                          >
+                            {item}
+                          </Select.Option>
+                        );
+                      }
+                    )}
                   </Select>
                 </Form.Item>
               )}
@@ -541,11 +589,7 @@ const ProductDetail = () => {
               )}
 
               <Form.Item wrapperCol={{}}>
-                <button
-                  htmlType="submit"
-                  disabled={!dataUserRedux?._id}
-                  className="button-order"
-                >
+                <button disabled={!dataUserRedux?._id} className="button-order">
                   Đặt mua
                 </button>
                 {!dataUserRedux?._id ? (

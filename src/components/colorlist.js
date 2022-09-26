@@ -70,13 +70,13 @@ const ColortList = () => {
       render: (_, record) => {
         return (
           <>
-            <a href="#">
+            <Button type="link">
               {record.status == 0 ? (
                 <span onClick={() => handleShow(record, 1)}>Ẩn</span>
               ) : (
                 <span onClick={() => handleShow(record, 0)}>Bỏ ẩn</span>
               )}
-            </a>
+            </Button>
           </>
         );
       },
@@ -91,20 +91,20 @@ const ColortList = () => {
               title="Bạn chắc chắn xóa?"
               onConfirm={() => deleteColorList(record._id)}
             >
-              <a href="#">
+              <Button type="link">
                 <DeleteOutlined />
-              </a>
+              </Button>
             </Popconfirm>{" "}
             &nbsp; &nbsp;
-            <a
+            <Button
               onClick={() => {
                 dispatch(get_color_id(record._id));
                 setVisibleColorUpdate(true);
               }}
-              href="#"
+              type="link"
             >
               <FormOutlined />
-            </a>
+            </Button>
           </>
         );
       },

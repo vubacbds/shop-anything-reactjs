@@ -54,20 +54,20 @@ const CategorytList = () => {
               title="Bạn chắc chắn xóa?"
               onConfirm={() => deleteCategoryList(record._id)}
             >
-              <a href="#">
+              <Button type="link">
                 <DeleteOutlined />
-              </a>
+              </Button>
             </Popconfirm>{" "}
             &nbsp; &nbsp;
-            <a
+            <Button
               onClick={() => {
                 dispatch(getcategory_id(record._id));
                 setVisibleCategoryUpdate(true);
               }}
-              href="#"
+              type="link"
             >
               <FormOutlined />
-            </a>
+            </Button>
           </>
         );
       },

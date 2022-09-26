@@ -64,9 +64,16 @@ const ProductOrder = ({ bigImage, setBigImage }) => {
     if (!isAddressDefault) {
       values.address = `${values.numhome}, ${values.ward}, ${values.district}, ${values.province} `;
     }
+
+    const tonggia =
+      dataProductOrder.promotion == 0
+        ? dataProductOrder.price * values.amount
+        : (dataProductOrder.price -
+            (dataProductOrder.price * dataProductOrder.promotion) / 100) *
+          values.amount;
     const newBill = {
       ...values,
-      total_price: dataProductOrder.price * values.amount,
+      total_price: tonggia,
       products: dataProductOrder._id,
       users: userData._id,
       status: 0,
@@ -242,10 +249,43 @@ const ProductOrder = ({ bigImage, setBigImage }) => {
               className="card-text"
               style={{ color: "red", fontWeight: "bold" }}
             >
-              {dataProductOrder?.price.toLocaleString("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              })}
+              {dataProductOrder.promotion == 0
+                ? dataProductOrder.price.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })
+                : (
+                    dataProductOrder.price -
+                    (dataProductOrder.price * dataProductOrder.promotion) / 100
+                  ).toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+              &ensp;
+              {dataProductOrder.promotion != 0 && (
+                <span
+                  style={{
+                    textDecoration: "line-through",
+                    color: "gray",
+                  }}
+                >
+                  {dataProductOrder.price.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </span>
+              )}
+              <span>
+                {dataProductOrder.promotion != 0 && (
+                  <span className="tieu-de-km">
+                    {`Khuyến mãi ${
+                      dataProductOrder.promotion
+                    }% đến hết ${moment(dataProductOrder.promotion_date).format(
+                      "DD-MM-yyyy"
+                    )}`}
+                  </span>
+                )}
+              </span>
             </div>
             <p>*Mô tả: {dataProductOrder?.description} </p>
           </div>

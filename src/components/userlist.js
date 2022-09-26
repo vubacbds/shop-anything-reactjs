@@ -74,9 +74,9 @@ const UsertList = () => {
             title="Bạn chắc chắn xóa?"
             onConfirm={() => deleteUser(record._id)}
           >
-            <a href="#">
+            <Button type="link">
               <DeleteOutlined />
-            </a>
+            </Button>
           </Popconfirm>
         ) : (
           ""

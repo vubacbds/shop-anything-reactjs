@@ -69,13 +69,13 @@ const SizetList = () => {
       render: (_, record) => {
         return (
           <>
-            <a href="#">
+            <Button type="link">
               {record.status == 0 ? (
                 <span onClick={() => handleShow(record, 1)}>Ẩn</span>
               ) : (
                 <span onClick={() => handleShow(record, 0)}>Bỏ ẩn</span>
               )}
-            </a>
+            </Button>
           </>
         );
       },
@@ -91,20 +91,20 @@ const SizetList = () => {
               title="Bạn chắc chắn xóa?"
               onConfirm={() => deleteSizeList(record._id)}
             >
-              <a href="#">
+              <Button type="link">
                 <DeleteOutlined />
-              </a>
+              </Button>
             </Popconfirm>{" "}
             &nbsp; &nbsp;
-            <a
+            <Button
               onClick={() => {
                 dispatch(get_size_id(record._id));
                 setVisibleSizeUpdate(true);
               }}
-              href="#"
+              type="link"
             >
               <FormOutlined />
-            </a>
+            </Button>
           </>
         );
       },

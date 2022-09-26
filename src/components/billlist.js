@@ -177,9 +177,9 @@ const BillList = ({ numbertab }) => {
                 title="Xác nhận xóa?"
                 onConfirm={() => deleteBill(record)}
               >
-                <a href="#">
+                <Button type="link">
                   <DeleteOutlined />
-                </a>
+                </Button>
               </Popconfirm>
             </span>
             &emsp;
@@ -188,7 +188,7 @@ const BillList = ({ numbertab }) => {
                 title="Xác nhận duyệt?"
                 onConfirm={() => updateBill(record, 1)}
               >
-                <a href="#">Duyệt</a>
+                <Button type="link">Duyệt</Button>
               </Popconfirm>
             </span>
           </>
@@ -197,9 +197,9 @@ const BillList = ({ numbertab }) => {
             title="Xác nhận xóa?"
             onConfirm={() => deleteBill(record)}
           >
-            <a href="#">
+            <Button type="link">
               <DeleteOutlined />
-            </a>
+            </Button>
           </Popconfirm>
         ) : numbertab == 2 && userData?.isadmin ? (
           <>
@@ -208,9 +208,9 @@ const BillList = ({ numbertab }) => {
                 title="Xác nhận xóa?"
                 onConfirm={() => deleteBill(record)}
               >
-                <a href="#">
+                <Button type="link">
                   <DeleteOutlined />
-                </a>
+                </Button>
               </Popconfirm>
             </span>
             &emsp;
@@ -219,7 +219,7 @@ const BillList = ({ numbertab }) => {
                 title="Xác nhận duyệt?"
                 onConfirm={() => updateBill(record, 2)}
               >
-                <a href="#">Đã giao</a>
+                <Button type="link">Đã giao</Button>
               </Popconfirm>
             </span>
           </>
@@ -228,9 +228,9 @@ const BillList = ({ numbertab }) => {
             title="Xác nhận xóa?"
             onConfirm={() => deleteBill(record)}
           >
-            <a href="#">
+            <Button type="link">
               <DeleteOutlined />
-            </a>
+            </Button>
           </Popconfirm>
         ) : (
           ""
@@ -254,8 +254,20 @@ const BillList = ({ numbertab }) => {
               <p>Chi tiết: </p>
               <p>- Tên sản phẩm: {record.products.title}</p>
               {record.size && <p>- Kích thước: {record.size}</p>}
-              {record.color && <p>- Màu sắc:: {record.color}</p>}
+              {record.color && <p>- Màu sắc: {record.color}</p>}
+              <p>
+                - Giá:{" "}
+                {record.products.price.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })}
+              </p>
               <p>- Số lượng: {record.amount}</p>
+              {record.products.promotion != 0 && (
+                <p style={{ color: "red" }}>
+                  - Khuyến mãi: {record.products.promotion}%
+                </p>
+              )}
               <p>
                 - Thành tiền:{" "}
                 {record.total_price.toLocaleString("vi-VN", {

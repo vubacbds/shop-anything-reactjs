@@ -142,45 +142,45 @@ const ProductList = () => {
       render: (_, record) => {
         return (
           <>
-            <a
+            <Button
+              type="link"
               onClick={() => {
                 dispatch(getproductid(record._id));
                 setVisiblePromotion(true);
               }}
-              href="#"
             >
-              Khuyến mãi
-            </a>
+              {record.promotion != 0 ? "Đang khuyến mãi" : "Khuyến mãi"}
+            </Button>
             &nbsp; &nbsp;
-            <a
+            <Button
+              type="link"
               onClick={() => {
                 //dispatch(getproductid(record._id));
                 //setVisibleProductUpdate(true);
                 handleGhim(record);
               }}
-              href="#"
             >
               {record.ghim == 0 ? "Ghim" : "Bỏ ghim"}
-            </a>
+            </Button>
             &nbsp; &nbsp;
             <Popconfirm
               title="Bạn chắc chắn xóa?"
               onConfirm={() => deleteProductList(record._id)}
             >
-              <a href="#">
+              <Button type="link">
                 <DeleteOutlined />
-              </a>
+              </Button>
             </Popconfirm>{" "}
             &nbsp; &nbsp;
-            <a
+            <Button
+              type="link"
               onClick={() => {
                 dispatch(getproductid(record._id));
                 setVisibleProductUpdate(true);
               }}
-              href="#"
             >
               <FormOutlined />
-            </a>
+            </Button>
           </>
         );
       },
