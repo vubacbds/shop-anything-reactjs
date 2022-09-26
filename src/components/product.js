@@ -172,6 +172,7 @@ const Product = (props) => {
                                       style={{
                                         textDecoration: "line-through",
                                         color: "gray",
+                                        fontSize: 10,
                                       }}
                                     >
                                       {item.price.toLocaleString("vi-VN", {
