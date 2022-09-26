@@ -246,13 +246,31 @@ const BillList = ({ numbertab }) => {
         columns={columns}
         expandable={{
           expandedRowRender: (record) => (
-            <p
+            <div
               style={{
                 margin: 0,
               }}
             >
-              {record.products.description}
-            </p>
+              <p>Chi tiết: </p>
+              <p>- Tên sản phẩm: {record.products.title}</p>
+              {record.size && <p>- Kích thước: {record.size}</p>}
+              {record.color && <p>- Màu sắc:: {record.color}</p>}
+              <p>- Số lượng: {record.amount}</p>
+              <p>
+                - Thành tiền:{" "}
+                {record.total_price.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })}
+              </p>
+              <p>- Tên khách: {record.name}</p>
+              <p>- SĐT: {record.phone}</p>
+              <p>- Địa chỉ: {record.address}</p>
+              <p>
+                - Thời gian:{" "}
+                {moment(record.updatedAt).format("DD/MM/yyyy hh:mm:ss  A")}
+              </p>
+            </div>
           ),
         }}
         rowKey={(record) => record._id}
