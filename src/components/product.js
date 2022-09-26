@@ -185,7 +185,7 @@ const Product = (props) => {
                                   <p className="tieu-de-km">
                                     {`Giảm ${item.promotion}% đến hết ${moment(
                                       item.promotion_date
-                                    ).format("DD-MM-yyyy")}`}
+                                    ).format("DD/MM/yyyy")}`}
                                   </p>
                                 )}
 

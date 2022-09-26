@@ -223,6 +223,7 @@ footer {
 }
 
 .tieu-de-km {
+  text-align: center;
 	background:#e31616;
 	padding:2px 8px;
 	/* margin-top:-24px; */
