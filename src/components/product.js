@@ -87,7 +87,7 @@ const Product = (props) => {
         });
       }
     });
-  }, []);
+  }, [product.data]);
 
   return (
     product && (
