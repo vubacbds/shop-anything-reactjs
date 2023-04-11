@@ -27,6 +27,9 @@ const ProductRandom = ({ data }) => {
             process.env.REACT_APP_DOMAIN || "http://localhost:3000"
           }/products/${randomProduct?._id}`}
           target="_blank"
+          style={{
+            textDecoration: "none",
+          }}
         >
           <div className="product-hover">
             <img
@@ -45,7 +48,6 @@ const ProductRandom = ({ data }) => {
                 <span
                   className="card-title"
                   style={{
-                    size: 20,
                     fontWeight: "bold",
                   }}
                 >
